@@ -4,49 +4,46 @@
  */
 'use strict';
 import React, {
-  AppRegistry,
-  Component,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+    AppRegistry,
+    Component,
+    StyleSheet,
+    Text,
+    TouchableHighlight,
+    TextInput,
+    ListView,
+    View,
+    StatusBarIOS,
+    NavigatorIOS,
+    AlertIOS
+    } from 'react-native';
+
+var styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#111111'
+    },
+    textStyle: {
+        flex:2,
+        fontSize: 20,
+        margin: 20
+    }
+});
+
+var Main = require('./app/components/main');
 
 class AirMsgProject extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
+    render() {
+        return (
+            <NavigatorIOS
+                style={styles.container}
+                initialRoute = {{
+                    title: "Welcome",
+                    component: Main
+                }}
+            />
+        );
+    }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('AirMsgProject', () => AirMsgProject);
