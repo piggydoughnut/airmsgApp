@@ -34,12 +34,8 @@ class mapView extends React.Component {
     }
 
     _getMessages(position) {
-        fetch("http://private-34b14-dariam89.apiary-mock.com/messages?" +
-            "lat=" + position.latitude +
-            "&lng=" + position.longitude +
-            "&radius=20&page=1",
-            {method: "GET"}
-        )
+        fetch("http://localhost:3000/messages",
+            {method: "GET"})
             .then((response) => response.json())
             .then((responseData) => {
                 this.messages = responseData;
@@ -54,14 +50,21 @@ class mapView extends React.Component {
         }
 
         for (var i = 0; i < messages.length; i++) {
+            var lng = 0;
+            var lat = 0;
+            if(typeof messages[i].location.lng != 'undefined' && !(messages[i].location.lng ).isInteger){
+                lng = parseFloat(messages[i].location.lng);
+            }
+            if(typeof messages[i].location.lat != 'undefined' && !(messages[i].location.lat ).isInteger){
+                lat = parseFloat(messages[i].location.lat);
+            }
             this.markers.push({
-                "longitude": messages[i].location.lng,
-                "latitude": messages[i].location.lat,
+                "longitude": lng,
+                "latitude": lat,
                 "title": 'Message ' + (i + 1),
                 "subTitle": messages[i].text
             });
         }
-        console.log(this.markers);
     }
 
     _getMarkers() {
@@ -69,7 +72,6 @@ class mapView extends React.Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.position = position.coords;
-                console.log(this.position);
                 if (!this.position) {
                     return;
                 }

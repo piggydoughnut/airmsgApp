@@ -6,14 +6,16 @@ var {
     StyleSheet,
     TouchableHighlight,
     TextInput,
-    SliderIOS
+    SliderIOS,
+    NSLocationWhenInUseUsageDescription
     } = React;
 
 class createMsg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            location: "",
+            position: "",
+            loc: "",
             message: "",
             value: 0
         };
@@ -26,21 +28,33 @@ class createMsg extends React.Component {
     }
 
     _postMessage() {
-        console.log(this.state.value);
-        console.log(this.state.message);
-
-        fetch("http://private-34b14-dariam89.apiary-mock.com/messages", {
-            method: "POST",
-            body: JSON.stringify({
-                validity: this.state.value,
-                text: this.state.message
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                alert(JSON.stringify(responseData));
-            })
-            .done();
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.position = position;
+                if (!this.position) {
+                    return;
+                }
+                var data = {
+                    validity: this.state.value,
+                    text: this.state.message,
+                    location: {
+                        lat: this.position.coords.latitude,
+                        lng: this.position.coords.longitude
+                    }
+                };
+                fetch("http://localhost:3000/messages", {
+                    method: "POST",
+                    body: JSON.stringify(data)
+                })
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        alert(JSON.stringify(responseData));
+                    })
+                    .done();
+            },
+            (error) => alert(error.message),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+        );
     }
 
     render() {
@@ -49,9 +63,9 @@ class createMsg extends React.Component {
                 <Text> Your message: </Text>
                 <TextInput
                     placeholder="Location: current"
-                    onChange={(event) => this.setState({location: event.nativeEvent.text})}
+                    onChange={(event) => this.setState({loc: event.nativeEvent.text})}
                     style={styles.formInput}
-                    value={this.state.location} />
+                    value={this.state.loc} />
                 <TextInput
                     placeholder="Message"
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
