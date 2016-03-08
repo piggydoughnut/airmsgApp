@@ -13,6 +13,36 @@ var {
     NSLocationWhenInUseUsageDescription
     } = React;
 
+var styles = StyleSheet.create({
+    container: {
+        padding: 30,
+        marginTop: 35,
+        alignItems: 'stretch'
+    },
+    map: {
+        height: 600
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    textInput: {
+        width: 150,
+        height: 20,
+        borderWidth: 0.5,
+        borderColor: '#aaaaaa',
+        fontSize: 13,
+        padding: 4
+    },
+    changeButton: {
+        alignSelf: 'center',
+        marginTop: 5,
+        padding: 3,
+        borderWidth: 0.5,
+        borderColor: '#777777'
+    }
+});
+
 class mapView extends React.Component {
     messages;
     position;
@@ -82,6 +112,22 @@ class mapView extends React.Component {
         );
     }
 
+    _onRegionChange(region) {
+        this.setState({
+            mapRegionInput: region
+        });
+    }
+
+    _onRegionChangeComplete(region) {
+        if (this.state.isFirstLoad) {
+            this.setState({
+                mapRegionInput: region,
+                annotations: this._getMarkers(),
+                isFirstLoad: false
+            });
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -101,52 +147,6 @@ class mapView extends React.Component {
             </View>
         );
     }
-
-    _onRegionChange(region) {
-        this.setState({
-            mapRegionInput: region
-        });
-    }
-
-    _onRegionChangeComplete(region) {
-        if (this.state.isFirstLoad) {
-            this.setState({
-                mapRegionInput: region,
-                annotations: this._getMarkers(),
-                isFirstLoad: false
-            });
-        }
-    }
 }
-
-var styles = StyleSheet.create({
-    container: {
-        padding: 30,
-        marginTop: 35,
-        alignItems: 'stretch'
-    },
-    map: {
-        height: 600
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    textInput: {
-        width: 150,
-        height: 20,
-        borderWidth: 0.5,
-        borderColor: '#aaaaaa',
-        fontSize: 13,
-        padding: 4
-    },
-    changeButton: {
-        alignSelf: 'center',
-        marginTop: 5,
-        padding: 3,
-        borderWidth: 0.5,
-        borderColor: '#777777'
-    }
-});
 
 module.exports = mapView;
