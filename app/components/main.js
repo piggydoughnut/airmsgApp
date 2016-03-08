@@ -8,55 +8,11 @@ var {
     TextInput
     } = React;
 
+//var ARViewDelegate = require('NativeModules');
+var ARViewDelegate = require('NativeModules').ARViewDelegate;
+
 var mapView = require('./mapView');
 var createMsg = require('./createMsg');
-
-class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: "",
-            password: ""
-        };
-    }
-
-    render() {
-        return (
-            <View style={styles.mainContainer}>
-                <TextInput
-                    placeholder="Username"
-                    onChange={(event) => this.setState({username: event.nativeEvent.text})}
-                    style={styles.formInput}
-                    value={this.state.username} />
-                <TextInput
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    onChange={(event) => this.setState({password: event.nativeEvent.text})}
-                    style={styles.formInput}
-                    value={this.state.password} />
-                <TouchableHighlight onPress={(this.onSubmitPressed.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableHighlight>
-            </View>
-        );
-    }
-
-    onSubmitPressed() {
-        this.props.navigator.push({
-            title: 'Map view',
-            component: mapView,
-            rightButtonTitle: '+',
-            onRightButtonPress: () => this._handleRightButtonPress()
-        })
-    }
-
-    _handleRightButtonPress() {
-        this.props.navigator.push({
-            component: createMsg,
-            title: 'Create a message'
-        })
-    }
-}
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -99,5 +55,61 @@ var styles = StyleSheet.create({
         justifyContent: "center"
     }
 });
+
+class Main extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: ""
+        };
+    }
+
+    _onSubmitPressed() {
+        this.props.navigator.push({
+            title: 'Map view',
+            component: mapView,
+            rightButtonTitle: '+',
+            onRightButtonPress: () => this._handleRightButtonPress()
+        })
+    }
+
+    _onStartAR(){
+        console.log(ARViewDelegate);
+        ARViewDelegate.startAR(true);
+
+    }
+
+    _handleRightButtonPress() {
+        this.props.navigator.push({
+            component: createMsg,
+            title: 'Create a message'
+        })
+    }
+    render() {
+        return (
+            <View style={styles.mainContainer}>
+                <TextInput
+                    placeholder="Username"
+                    onChange={(event) => this.setState({username: event.nativeEvent.text})}
+                    style={styles.formInput}
+                    value={this.state.username} />
+                <TextInput
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    onChange={(event) => this.setState({password: event.nativeEvent.text})}
+                    style={styles.formInput}
+                    value={this.state.password} />
+                <TouchableHighlight onPress={(this._onSubmitPressed.bind(this))} style={styles.button}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight onPress={(this._onStartAR.bind(this))} style={styles.button}>
+                    <Text style={styles.buttonText}>Start AR</Text>
+                </TouchableHighlight>
+            </View>
+        );
+    }
+}
 
 module.exports = Main;
