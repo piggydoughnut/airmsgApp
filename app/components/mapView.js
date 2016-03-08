@@ -34,7 +34,7 @@ class mapView extends React.Component {
     }
 
     _getMessages(position) {
-        fetch("http://localhost:3000/messages",
+        fetch("http://10.1.14.226:3000/messages",
             {method: "GET"})
             .then((response) => response.json())
             .then((responseData) => {
@@ -52,10 +52,10 @@ class mapView extends React.Component {
         for (var i = 0; i < messages.length; i++) {
             var lng = 0;
             var lat = 0;
-            if(typeof messages[i].location.lng != 'undefined' && !(messages[i].location.lng ).isInteger){
+            if(typeof messages[i].location != 'undefined' && !(messages[i].location.lng.isInteger)){
                 lng = parseFloat(messages[i].location.lng);
             }
-            if(typeof messages[i].location.lat != 'undefined' && !(messages[i].location.lat ).isInteger){
+            if(typeof messages[i].location != 'undefined' && !(messages[i].location.lat.isInteger)){
                 lat = parseFloat(messages[i].location.lat);
             }
             this.markers.push({
