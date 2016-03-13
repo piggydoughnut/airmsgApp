@@ -92,10 +92,10 @@ class MessageMap extends React.Component {
                 lat = parseFloat(messages[i].location.lat);
             }
             this.markers.push({
-                "longitude": lng,
-                "latitude": lat,
-                "title": 'Message ' + (i + 1),
-                "subTitle": messages[i].text
+                longitude: lng,
+                latitude: lat,
+                title: 'Message ' + (i + 1),
+                subTitle: messages[i].text
             });
         }
     }

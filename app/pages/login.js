@@ -52,6 +52,13 @@ var styles = StyleSheet.create({
     }
 });
 
+var CustomSceneConfig = Object.assign({},
+    Navigator.SceneConfigs.PushFromRight, {
+      gestures: {
+          pop: null
+      }
+    });
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -63,7 +70,9 @@ class Login extends React.Component {
 
     _onSubmitPressed() {
         this.props.navigator.push({
-            id: 'MessageMap'
+            id: 'MessageMap',
+            title: 'Message Map',
+            sceneConfig: CustomSceneConfig
         })
     }
 
