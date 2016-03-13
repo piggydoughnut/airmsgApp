@@ -13,7 +13,7 @@ import React, {
     ListView,
     View,
     StatusBarIOS,
-    NavigatorIOS,
+    Navigator,
     AlertIOS
     } from 'react-native';
 
@@ -23,22 +23,66 @@ var styles = StyleSheet.create({
         backgroundColor: '#111111'
     },
     textStyle: {
-        flex:2,
+        flex: 2,
         fontSize: 20,
         margin: 20
     }
 });
 
-var Main = require('./app/components/main');
+/** Pages for navigation **/
+var Login = require('./app/components/login');
+var CreateMsg = require('./app/components/createMsg');
+var MessageMap = require('./app/components/messageMap');
 
 class AirMsgProject extends Component {
+
+    renderScene(route, navigator) {
+        var routeId = route.id;
+        console.log(routeId);
+        switch (routeId) {
+            case 'LoginPage':
+                return (
+                    <Login
+                        navigator={navigator}
+                    />
+                );
+            case 'CreateMsg':
+                return (
+                    <CreateMsg
+                        navigator={navigator}
+                    />
+                );
+            case 'MessageMap':
+                return (
+                    <MessageMap
+                        navigator={navigator}
+                    />
+                );
+        }
+        return this.noRoute(navigator);
+    }
+
+    noRoute(navigator) {
+        return (
+            <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
+                <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+                    onPress={() => navigator.pop()}>
+                    <Text style={{color: 'red', fontWeight: 'bold'}}>请在 index.js 的 renderScene 中配置这个页面的路由</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
     render() {
         return (
-            <NavigatorIOS
-                style={styles.container}
-                initialRoute = {{
-                    title: "Welcome",
-                    component: Main
+            <Navigator
+                initialRoute={{id: 'LoginPage', name: 'Login'}}
+                renderScene={this.renderScene.bind(this)}
+                configureScene={(route) => {
+                    if (route.sceneConfig) {
+                        return route.sceneConfig;
+                    }
+                    return Navigator.SceneConfigs.PushFromRight;
                 }}
             />
         );

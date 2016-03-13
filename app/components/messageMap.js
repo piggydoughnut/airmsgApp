@@ -5,12 +5,13 @@ var {
     Text,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
     MapView,
     PropTypes,
     TextInput,
     MapRegionInput,
     AlertIOS,
-    NSLocationWhenInUseUsageDescription
+    Navigator,
     } = React;
 
 var styles = StyleSheet.create({
@@ -43,7 +44,7 @@ var styles = StyleSheet.create({
     }
 });
 
-class mapView extends React.Component {
+class MessageMap extends React.Component {
     messages;
     position;
     markers = [];
@@ -82,10 +83,10 @@ class mapView extends React.Component {
         for (var i = 0; i < messages.length; i++) {
             var lng = 0;
             var lat = 0;
-            if(typeof messages[i].location != 'undefined' && !(messages[i].location.lng.isInteger)){
+            if (typeof messages[i].location != 'undefined' && !(messages[i].location.lng.isInteger)) {
                 lng = parseFloat(messages[i].location.lng);
             }
-            if(typeof messages[i].location != 'undefined' && !(messages[i].location.lat.isInteger)){
+            if (typeof messages[i].location != 'undefined' && !(messages[i].location.lat.isInteger)) {
                 lat = parseFloat(messages[i].location.lat);
             }
             this.markers.push({
@@ -130,6 +131,18 @@ class mapView extends React.Component {
 
     render() {
         return (
+            <Navigator
+                renderScene={this.renderScene.bind(this)}
+                navigator={this.props.navigator}
+                navigationBar={
+                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5', alignItems: 'center'}}
+                        routeMapper={NavigationBarRouteMapper} />
+                    } />
+        );
+    }
+
+    renderScene(route, navigator) {
+        return (
             <View style={styles.container}>
 
                 <MapView
@@ -149,4 +162,23 @@ class mapView extends React.Component {
     }
 }
 
-module.exports = mapView;
+var NavigationBarRouteMapper = {
+    LeftButton(route, navigator, index, navState) {
+        return null;
+    },
+    RightButton(route, navigator, index, navState) {
+        return (
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+                onPress={() => navigator.parentNavigator.push({id: 'CreateMsg', name: 'Create a msg'})}>
+                <Text style={{color: 'white', margin: 10}}>
+                    + msg
+                </Text>
+            </TouchableOpacity>
+        );
+    },
+    Title(route, navigator, index, navState) {
+        return null;
+    }
+};
+
+module.exports = MessageMap;

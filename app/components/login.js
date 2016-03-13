@@ -5,14 +5,10 @@ var {
     Text,
     StyleSheet,
     TouchableHighlight,
-    TextInput
+    TextInput,
+    Navigator,
+    TouchableOpacity
     } = React;
-
-//var ARViewDelegate = require('NativeModules');
-var ARViewDelegate = require('NativeModules').ARViewDelegate;
-
-var mapView = require('./mapView');
-var createMsg = require('./createMsg');
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -56,7 +52,7 @@ var styles = StyleSheet.create({
     }
 });
 
-class Main extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -67,26 +63,24 @@ class Main extends React.Component {
 
     _onSubmitPressed() {
         this.props.navigator.push({
-            title: 'Map view',
-            component: mapView,
-            rightButtonTitle: '+',
-            onRightButtonPress: () => this._handleRightButtonPress()
+            id: 'MessageMap'
         })
     }
 
-    _onStartAR(){
-        console.log(ARViewDelegate);
-        ARViewDelegate.startAR(true);
-
-    }
-
-    _handleRightButtonPress() {
-        this.props.navigator.push({
-            component: createMsg,
-            title: 'Create a message'
-        })
-    }
     render() {
+        return (
+            <Navigator
+                renderScene={this.renderScene.bind(this)}
+                navigator={this.props.navigator}
+                navigationBar={
+                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                        routeMapper={NavigationBarRouteMapper} />
+                    }
+            />
+
+        );
+    }
+    renderScene(route, navigator) {
         return (
             <View style={styles.mainContainer}>
                 <TextInput
@@ -103,13 +97,35 @@ class Main extends React.Component {
                 <TouchableHighlight onPress={(this._onSubmitPressed.bind(this))} style={styles.button}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableHighlight>
-
-                <TouchableHighlight onPress={(this._onStartAR.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Start AR</Text>
-                </TouchableHighlight>
             </View>
         );
     }
 }
 
-module.exports = Main;
+var NavigationBarRouteMapper = {
+    LeftButton(route, navigator, index, navState) {
+        return null;
+        //return (
+        //    <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+        //        onPress={() => navigator.parentNavigator.pop()}>
+        //        <Text style={{color: 'white', margin: 10,}}>
+        //            LeftButton
+        //        </Text>
+        //    </TouchableOpacity>
+        //);
+    },
+    RightButton(route, navigator, index, navState) {
+        return null;
+    },
+    Title(route, navigator, index, navState) {
+        return (
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+                    Login to start viewing
+                </Text>
+            </TouchableOpacity>
+        );
+    }
+};
+
+module.exports = Login;

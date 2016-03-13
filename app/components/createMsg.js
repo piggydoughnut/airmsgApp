@@ -47,7 +47,7 @@ var styles = StyleSheet.create({
     }
 });
 
-class createMsg extends React.Component {
+class CreateMsg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -125,4 +125,4 @@ class createMsg extends React.Component {
     }
 }
 
-module.exports = createMsg;
+module.exports = CreateMsg;
