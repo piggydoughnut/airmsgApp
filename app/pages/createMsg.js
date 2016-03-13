@@ -79,7 +79,7 @@ class CreateMsg extends React.Component {
                         lng: this.position.coords.longitude
                     }
                 };
-                fetch("http://10.1.14.226:3000/messages", {
+                fetch("http://localhost:3000/messages", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'

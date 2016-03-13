@@ -1,4 +1,6 @@
 var React = require('react-native');
+var SideMenu = require('react-native-side-menu');
+var Menu = require('../components/menu');
 
 var {
     View,
@@ -65,7 +67,7 @@ class MessageMap extends React.Component {
     }
 
     _getMessages(position) {
-        fetch("http://10.1.14.226:3000/messages",
+        fetch("http://localhost:3000/messages",
             {method: "GET"})
             .then((response) => response.json())
             .then((responseData) => {
@@ -142,22 +144,25 @@ class MessageMap extends React.Component {
     }
 
     renderScene(route, navigator) {
+        const menu = <Menu navigator={navigator}/>;
         return (
-            <View style={styles.container}>
 
-                <MapView
-                    style={styles.map}
-                    onRegionChange={this._onRegionChange}
-                    onRegionChangeComplete={this._onRegionChangeComplete}
-                    region={this.state.mapRegion}
-                    annotations={this.markers}
-                    showsUserLocation={true}
-                    followUserLocation={true}
-                />
-                <Text style={styles.title}>Initial position:
-                    {this.state.initialPosition}
-                </Text>
-            </View>
+            <SideMenu menu={menu}>
+                <View style={styles.container}>
+                    <MapView
+                        style={styles.map}
+                        onRegionChange={this._onRegionChange}
+                        onRegionChangeComplete={this._onRegionChangeComplete}
+                        region={this.state.mapRegion}
+                        annotations={this.markers}
+                        showsUserLocation={true}
+                        followUserLocation={true}
+                    />
+                    <Text style={styles.title}>Initial position:
+                        {this.state.initialPosition}
+                    </Text>
+                </View>
+            </SideMenu>
         );
     }
 }

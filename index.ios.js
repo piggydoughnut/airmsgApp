@@ -30,9 +30,9 @@ var styles = StyleSheet.create({
 });
 
 /** Pages for navigation **/
-var Login = require('./app/components/login');
-var CreateMsg = require('./app/components/createMsg');
-var MessageMap = require('./app/components/messageMap');
+var Login = require('./app/pages/login');
+var CreateMsg = require('./app/pages/createMsg');
+var MessageMap = require('./app/pages/messageMap');
 
 class AirMsgProject extends Component {
 
