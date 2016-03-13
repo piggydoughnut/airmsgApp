@@ -14,7 +14,8 @@ import React, {
     View,
     StatusBarIOS,
     Navigator,
-    AlertIOS
+    AlertIOS,
+    TouchableOpacity
     } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -33,6 +34,7 @@ var styles = StyleSheet.create({
 var Login = require('./app/pages/login');
 var CreateMsg = require('./app/pages/createMsg');
 var MessageMap = require('./app/pages/messageMap');
+var Main = require('./app/pages/main');
 
 class AirMsgProject extends Component {
 
@@ -40,24 +42,14 @@ class AirMsgProject extends Component {
         var routeId = route.id;
         console.log(routeId);
         switch (routeId) {
+            case 'Main':
+                return (<Main navigator={navigator}/>);
             case 'LoginPage':
-                return (
-                    <Login
-                        navigator={navigator}
-                    />
-                );
+                return (<Login navigator={navigator}/>);
             case 'CreateMsg':
-                return (
-                    <CreateMsg
-                        navigator={navigator}
-                    />
-                );
+                return (<CreateMsg navigator={navigator}/>);
             case 'MessageMap':
-                return (
-                    <MessageMap
-                        navigator={navigator}
-                    />
-                );
+                return (<MessageMap navigator={navigator}/>);
         }
         return this.noRoute(navigator);
     }
@@ -76,7 +68,7 @@ class AirMsgProject extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{id: 'LoginPage', name: 'Login'}}
+                initialRoute={{id: 'Main', name: 'Main'}}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                     if (route.sceneConfig) {

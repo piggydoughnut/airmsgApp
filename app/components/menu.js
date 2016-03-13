@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
     menu_item: {
         color: 'red',
         fontWeight: '300',
-        fontSize: 18
+        fontSize: 24
     }
 });
 
