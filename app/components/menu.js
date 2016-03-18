@@ -30,17 +30,17 @@ class Menu extends React.Component {
             <ScrollView style={styles.container}>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'LoginPage'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'MyMessages'})}>
                     My messages
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'LoginPage'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'Profile'})}>
                     Profile
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'LoginPage'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'Settings'})}>
                     Settings
                 </Text>
                 <Text

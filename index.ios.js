@@ -34,6 +34,8 @@ var styles = StyleSheet.create({
 var Login = require('./app/pages/login');
 var CreateMsg = require('./app/pages/createMsg');
 var MessageMap = require('./app/pages/messageMap');
+var Profile = require('./app/pages/profile');
+var MyMessages = require('./app/pages/myMessages');
 var Main = require('./app/pages/main');
 
 class AirMsgProject extends Component {
@@ -50,6 +52,10 @@ class AirMsgProject extends Component {
                 return (<CreateMsg navigator={navigator}/>);
             case 'MessageMap':
                 return (<MessageMap navigator={navigator}/>);
+            case 'Profile':
+                return (<Profile navigator={navigator}/>);
+            case 'Messages':
+                return (<MyMessages navigator={navigator}/>);
         }
         return this.noRoute(navigator);
     }
