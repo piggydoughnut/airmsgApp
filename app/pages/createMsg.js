@@ -87,7 +87,9 @@ class CreateMsg extends React.Component {
                 alert(JSON.stringify(responseData));
             })
             .done();
-        this.props.navigator.pop();
+        this.props.navigator.push({
+            id: "MessageMap"
+        });
     }
 
     render() {
@@ -148,11 +150,7 @@ var NavigationBarRouteMapper = {
         );
     },
     RightButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
-            </TouchableOpacity>
-        );
+        return null;
     },
     Title(route, navigator, index, navState) {
         return null;
