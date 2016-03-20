@@ -5,9 +5,11 @@ var {
     Text,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
     TextInput,
     SliderIOS,
-    NSLocationWhenInUseUsageDescription
+    Navigator,
+    Picker
     } = React;
 
 var styles = StyleSheet.create({
@@ -23,7 +25,7 @@ var styles = StyleSheet.create({
         marginRight: 5,
         marginBottom: 5,
         marginTop: 5,
-        flex: 2,
+        flex: 1,
         fontSize: 18,
         borderWidth: 1,
         borderColor: "#555555",
@@ -37,24 +39,23 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        flex: 1,
         backgroundColor: "#555555",
         borderColor: "#555555",
         borderWidth: 1,
         borderRadius: 8,
         marginTop: 10,
         justifyContent: "center"
-    }
+    },
 });
 
 class CreateMsg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: "",
             loc: "",
             message: "",
-            value: 0
+            value: 0,
+            message_type: 0
         };
         this._onPress = this._onPress.bind(this);
         this._postMessage = this._postMessage.bind(this);
@@ -62,51 +63,61 @@ class CreateMsg extends React.Component {
 
     _onPress() {
         this._postMessage();
+
     }
 
     _postMessage() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.position = position;
-                if (!this.position) {
-                    return;
-                }
-                var data = {
-                    validity: this.state.value,
-                    text: this.state.message,
-                    location: {
-                        lat: this.position.coords.latitude,
-                        lng: this.position.coords.longitude
-                    }
-                };
-                fetch("http://localhost:3000/messages", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        alert(JSON.stringify(responseData));
-                    })
-                    .done();
+        var data = {
+            validity: this.state.value,
+            text: this.state.message,
+            location: {
+                lat: this.props.route.props.position.lat,
+                lng: this.props.route.props.position.lng
+            }
+        };
+        fetch("http://localhost:3000/messages", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
             },
-            (error) => alert(error.message),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-        );
+            body: JSON.stringify(data)
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                alert(JSON.stringify(responseData));
+            })
+            .done();
+        this.props.navigator.pop();
     }
 
     render() {
         return (
+            <Navigator
+                renderScene={this.renderScene.bind(this)}
+                navigator={this.props.navigator}
+                navigationBar={
+                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                        routeMapper={NavigationBarRouteMapper} />
+                    }
+            />
+
+        );
+    }
+
+    renderScene(route, navigator) {
+        return (
             <View style={styles.container}>
+                <Text> Message type: </Text>
+                <Picker
+                    selectedValue={this.state.message_type}
+                    onValueChange={(type) => this.setState({message_type: type})}>
+                    <Picker.Item label="Text message" value="1" />
+                    <Picker.Item label="Chat" value="2" />
+                    <Picker.Item label="3D object" value="3" />
+                </Picker>
                 <Text> Your message: </Text>
                 <TextInput
-                    placeholder="Location: current"
-                    onChange={(event) => this.setState({loc: event.nativeEvent.text})}
-                    style={styles.formInput}
-                    value={this.state.loc} />
-                <TextInput
+                    required={true}
                     placeholder="Message"
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
@@ -124,5 +135,28 @@ class CreateMsg extends React.Component {
         );
     }
 }
+
+var NavigationBarRouteMapper = {
+    LeftButton(route, navigator, index, navState) {
+        return (
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+                onPress={() => navigator.parentNavigator.pop()}>
+                <Text style={{color: 'white', margin: 10}}>
+                    Cancel
+                </Text>
+            </TouchableOpacity>
+        );
+    },
+    RightButton(route, navigator, index, navState) {
+        return (
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+                onPress={() => navigator.parentNavigator.pop()}>
+            </TouchableOpacity>
+        );
+    },
+    Title(route, navigator, index, navState) {
+        return null;
+    }
+};
 
 module.exports = CreateMsg;

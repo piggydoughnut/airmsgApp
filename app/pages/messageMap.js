@@ -48,7 +48,6 @@ var styles = StyleSheet.create({
 
 class MessageMap extends React.Component {
     messages;
-    position;
     markers = [];
 
     constructor(props) {
@@ -57,7 +56,8 @@ class MessageMap extends React.Component {
             isFirstLoad: true,
             mapRegion: undefined,
             mapRegionInput: '',
-            annotations: []
+            annotations: [],
+            position: {}
         };
         // the functions need to be bound to the component instance before being passed as prop
         // otherwise this variable in the body of the funciton will not refer to the component instance but to window
@@ -104,11 +104,11 @@ class MessageMap extends React.Component {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                this.position = position.coords;
-                if (!this.position) {
+                this.state.position = position.coords;
+                if (!this.state.position) {
                     return;
                 }
-                this._getMessages(this.position);
+                this._getMessages(this.state.position);
             },
             (error) => alert(error.message),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -137,9 +137,18 @@ class MessageMap extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5', alignItems: 'center'}}
-                        routeMapper={NavigationBarRouteMapper} />
-                    } />
+                    <Navigator.NavigationBar
+                        style={{backgroundColor: '#246dd5', alignItems: 'center'}}
+                        routeMapper={NavigationBarRouteMapper({
+                                position: {
+                                    lat: this.state.position.latitude,
+                                    lng: this.state.position.longitude
+                                }
+                            }
+                        )}
+                    />
+                    }
+            />
         );
     }
 
@@ -167,16 +176,22 @@ class MessageMap extends React.Component {
     }
 }
 
-var NavigationBarRouteMapper = {
+var NavigationBarRouteMapper = props => ({
     LeftButton(route, navigator, index, navState) {
         return null;
     },
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.push({id: 'CreateMsg', name: 'Create a msg'})}>
+                onPress={() => {
+                    navigator.parentNavigator.push({
+                            id: 'CreateMsg',
+                            props: props
+                        }
+                    );
+                }}>
                 <Text style={{color: 'white', margin: 10}}>
-                    + msg
+                    Add Message
                 </Text>
             </TouchableOpacity>
         );
@@ -184,6 +199,6 @@ var NavigationBarRouteMapper = {
     Title(route, navigator, index, navState) {
         return null;
     }
-};
+});
 
 module.exports = MessageMap;

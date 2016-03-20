@@ -45,14 +45,13 @@ class AirMsgProject extends Component {
 
     renderScene(route, navigator) {
         var routeId = route.id;
-        console.log(routeId);
         switch (routeId) {
             case 'Main':
                 return (<Main navigator={navigator}/>);
             case 'LoginPage':
                 return (<Login navigator={navigator}/>);
             case 'CreateMsg':
-                return (<CreateMsg navigator={navigator}/>);
+                return (<CreateMsg navigator={navigator} route={route}/>);
             case 'MessageMap':
                 return (<MessageMap navigator={navigator}/>);
             case 'Profile':
