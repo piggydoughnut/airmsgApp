@@ -33,6 +33,31 @@ var styles = StyleSheet.create({
 });
 
 class Profile extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this._getUser = this._getUser.bind(this);
+        this.state = {
+            user: null
+        };
+    }
+
+    componentDidMount() {
+        this._getUser();
+    }
+
+    _getUser() {
+        fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc",
+            {method: "GET"})
+            .then((response) => response.json())
+            .then((responseData) => {
+                this.setState({
+                    user: responseData.user
+                });
+            })
+            .done();
+    }
+
     render() {
         return (
             <Navigator
@@ -48,19 +73,34 @@ class Profile extends React.Component {
     }
 
     renderScene(route, navigator) {
+        if (!this.state.user) {
+            return this.renderLoadingView();
+        }
+        user = this.state.user;
+
         return (
             <View style={styles.mainContainer}>
                 <Image
                     style={styles.picture}
                     source={require('../../public/img/profile.jpg')}
                 />
-                <Icon name="male" size={30} color="#4f8ef7" style={styles.info} >
-                    <Text style={styles.info}> Michael </Text>
+
+                <Icon name={this.state.user.gender} size={30} color="#4f8ef7" style={styles.info} >
+                    <Text style={styles.info}> { this.state.user.username } </Text>
                 </Icon>
-                <Text style={styles.info}> France </Text>
 
-                <Text style={styles.info}> 20.5.2000 </Text>
+                <Text style={styles.info}> { this.state.user.birthday } </Text>
 
+            </View>
+        );
+    }
+
+    renderLoadingView() {
+        return (
+            <View style={styles.mainContainer}>
+                <Text>
+                    Loading user...
+                </Text>
             </View>
         );
     }
@@ -80,7 +120,7 @@ var NavigationBarRouteMapper = {
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
+                onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
                 <Icon name="edit" color="white" size={20} style={styles.rightIcon}/>
             </TouchableOpacity>
         );
