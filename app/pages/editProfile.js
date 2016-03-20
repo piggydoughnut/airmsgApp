@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
     mainContainer: {
         padding: 30,
         marginTop: 65,
-        alignItems: 'center'
+        alignItems: 'stretch'
     },
     picture: {
         width: 250,
@@ -43,6 +43,21 @@ var styles = StyleSheet.create({
         borderColor: "#555555",
         borderRadius: 8,
         color: "#555555"
+    },
+    buttonText: {
+        fontSize: 18,
+        color: "#ffffff",
+        alignSelf: "center"
+    },
+    button: {
+        height: 36,
+        flex: 1,
+        backgroundColor: "#555555",
+        borderColor: "#555555",
+        borderWidth: 1,
+        borderRadius: 8,
+        marginTop: 10,
+        justifyContent: "center"
     }
 });
 
@@ -54,25 +69,28 @@ class EditProfile extends React.Component {
             username: '',
             birthday: '2000-11-11'
         };
-        this._saveUser = this._saveUser.bind(this);
     }
 
     _saveUser() {
-        fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc", {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData.user);
-                this.setState({
-                    user: responseData.user
-                });
+        try {
+            fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc", {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: this.state.username
+                })
             })
-            .done();
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log(responseData);
+                })
+                .done();
+            this.props.navigator.pop();
+        } catch (e) {
+            console.error(e.message);
+        }
     }
 
     render() {
@@ -102,6 +120,9 @@ class EditProfile extends React.Component {
                     placeholder="Michelle"
                     onChange={(event) => this.setState({username: event.nativeEvent.text})}
                 />
+                <TouchableHighlight onPress={(this._saveUser.bind(this))} style={styles.button}>
+                    <Text style={styles.buttonText}>Save</Text>
+                </TouchableHighlight>
             </View>
         );
     }
