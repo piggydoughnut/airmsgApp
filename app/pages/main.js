@@ -60,8 +60,8 @@ class Main extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image
-                    style={styles.logo}
-                    source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
+                    style={styles.picture}
+                    source={require('../../public/img/bottle-message.png')}
                 />
 
                 <TouchableHighlight onPress={(this._onSubmitPressed.bind(this))} style={styles.button}>
