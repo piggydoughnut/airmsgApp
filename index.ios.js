@@ -34,7 +34,10 @@ var styles = StyleSheet.create({
 var Login = require('./app/pages/login');
 var CreateMsg = require('./app/pages/createMsg');
 var MessageMap = require('./app/pages/messageMap');
+
 var Profile = require('./app/pages/profile');
+var EditProfile = require('./app/pages/editProfile');
+
 var MyMessages = require('./app/pages/myMessages');
 var Main = require('./app/pages/main');
 
@@ -54,6 +57,8 @@ class AirMsgProject extends Component {
                 return (<MessageMap navigator={navigator}/>);
             case 'Profile':
                 return (<Profile navigator={navigator}/>);
+            case 'EditProfile':
+                return (<EditProfile navigator={navigator}/>);
             case 'Messages':
                 return (<MyMessages navigator={navigator}/>);
         }
@@ -65,7 +70,7 @@ class AirMsgProject extends Component {
             <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
                 <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
                     onPress={() => navigator.pop()}>
-                    <Text style={{color: 'red', fontWeight: 'bold'}}>请在 index.js 的 renderScene 中配置这个页面的路由</Text>
+                    <Text style={{color: 'red', fontWeight: 'bold'}}>No such route</Text>
                 </TouchableOpacity>
             </View>
         );
