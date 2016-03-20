@@ -10,6 +10,7 @@ var {
     TouchableOpacity,
     TouchableHighlight,
     Image,
+    TextInput,
     } = React;
 
 var styles = StyleSheet.create({
@@ -29,41 +30,49 @@ var styles = StyleSheet.create({
     },
     rightIcon: {
         paddingRight: 10
+    },
+    formInput: {
+        height: 36,
+        padding: 10,
+        marginRight: 5,
+        marginBottom: 5,
+        marginTop: 5,
+        flex: 1,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: "#555555",
+        borderRadius: 8,
+        color: "#555555"
     }
 });
 
-class Profile extends React.Component {
+class EditProfile extends React.Component {
 
     constructor(props) {
         super(props);
-        this._getUser = this._getUser.bind(this);
-        this._getFormattedBirthday = this._getFormattedBirthday.bind(this);
         this.state = {
-            user: null
+            username: '',
+            birthday: '2000-11-11'
         };
+        this._saveUser = this._saveUser.bind(this);
     }
 
-    componentDidMount() {
-        this._getUser();
-    }
-
-    _getUser() {
-        fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc",
-            {method: "GET"})
+    _saveUser() {
+        fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
             .then((response) => response.json())
             .then((responseData) => {
+                console.log(responseData.user);
                 this.setState({
                     user: responseData.user
                 });
             })
             .done();
-    }
-
-    _getFormattedBirthday() {
-        if (this.state.user.birthday) {
-            var bd = new Date(this.state.user.birthday);
-            return bd.getFullYear() + '/' + bd.getMonth() + '/' + bd.getDay();
-        }
     }
 
     render() {
@@ -81,33 +90,18 @@ class Profile extends React.Component {
     }
 
     renderScene(route, navigator) {
-        if (!this.state.user) {
-            return this.renderLoadingView();
-        }
-
         return (
             <View style={styles.mainContainer}>
                 <Image
                     style={styles.picture}
-                    source={require('../../public/img/profile.jpg')}
+                    source={require('../../public/img/profile.jpg')}sdfds
                 />
 
-                <Icon name={this.state.user.gender} size={30} color="#4f8ef7" style={styles.info} >
-                    <Text style={styles.info}> { this.state.user.username } </Text>
-                </Icon>
-
-                <Text style={styles.info}> { this._getFormattedBirthday() } </Text>
-
-            </View>
-        );
-    }
-
-    renderLoadingView() {
-        return (
-            <View style={styles.mainContainer}>
-                <Text>
-                    Loading user...
-                </Text>
+                <TextInput
+                    style={styles.formInput}
+                    placeholder="Michelle"
+                    onChange={(event) => this.setState({username: event.nativeEvent.text})}
+                />
             </View>
         );
     }
@@ -119,7 +113,7 @@ var NavigationBarRouteMapper = {
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
                 onPress={() => navigator.parentNavigator.pop()}>
                 <Text style={{color: 'white', margin: 10}}>
-                    Back
+                    Cancel
                 </Text>
             </TouchableOpacity>
         );
@@ -127,8 +121,7 @@ var NavigationBarRouteMapper = {
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
-                <Icon name="edit" color="white" size={20} style={styles.rightIcon}/>
+                onPress={() => navigator.parentNavigator.pop()}>
             </TouchableOpacity>
         );
     },
@@ -137,4 +130,4 @@ var NavigationBarRouteMapper = {
     }
 };
 
-module.exports = Profile;
+module.exports = EditProfile;
