@@ -14,12 +14,19 @@ var {
     MapRegionInput,
     AlertIOS,
     Navigator,
+    Image
     } = React;
 
 var styles = StyleSheet.create({
     container: {
         padding: 30,
         marginTop: 35,
+        alignItems: 'stretch'
+    },
+    messageContainer: {
+        padding: 20,
+        marginTop: 15,
+        marginRight: 15,
         alignItems: 'stretch'
     },
     map: {
@@ -43,12 +50,14 @@ var styles = StyleSheet.create({
         padding: 3,
         borderWidth: 0.5,
         borderColor: '#777777'
+    },
+    picture: {
+        width: 20,
+        height: 50
     }
 });
 
 class MessageMap extends React.Component {
-    messages;
-    markers = [];
 
     constructor(props) {
         super(props);
@@ -57,7 +66,9 @@ class MessageMap extends React.Component {
             mapRegion: undefined,
             mapRegionInput: '',
             annotations: [],
-            position: {}
+            position: {},
+            markers: [],
+            messages: [],
         };
         // the functions need to be bound to the component instance before being passed as prop
         // otherwise this variable in the body of the funciton will not refer to the component instance but to window
@@ -71,31 +82,64 @@ class MessageMap extends React.Component {
             {method: "GET"})
             .then((response) => response.json())
             .then((responseData) => {
-                this.messages = responseData;
-                this._createMarkers(this.messages);
+                this.state.messages = responseData;
+                this._createMarkers();
+                console.log(this.state.markers);
             })
             .done();
     }
 
-    _createMarkers(messages) {
-        if (!messages) {
+    _createMarkers() {
+        if (!this.state.messages) {
             return;
         }
 
-        for (var i = 0; i < messages.length; i++) {
+        for (var i = 0; i < this.state.messages.length; i++) {
             var lng = 0;
             var lat = 0;
-            if (typeof messages[i].location != 'undefined' && !(messages[i].location.lng.isInteger)) {
-                lng = parseFloat(messages[i].location.lng);
+            if (typeof this.state.messages[i].location != 'undefined' && !(this.state.messages[i].location.lng.isInteger)) {
+                lng = parseFloat(this.state.messages[i].location.lng);
             }
-            if (typeof messages[i].location != 'undefined' && !(messages[i].location.lat.isInteger)) {
-                lat = parseFloat(messages[i].location.lat);
+            if (typeof this.state.messages[i].location != 'undefined' && !(this.state.messages[i].location.lat.isInteger)) {
+                lat = parseFloat(this.state.messages[i].location.lat);
             }
-            this.markers.push({
+            var img='';
+            var title='';
+            switch(this.state.messages[i].type){
+                case 1: {
+                    title = 'Message';
+                    img = require('../../public/img/msg.png');
+                    break;
+                }
+                case 2: {
+                    title = 'Chat';
+                    img = require('../../public/img/chat.png');
+                    break;
+                }
+                case 3: {
+                    title = '3D object';
+                    img = require('../../public/img/3Dobj.png');
+                    break;
+                }
+            }
+            this.state.markers.push({
                 longitude: lng,
                 latitude: lat,
-                title: 'Message ' + (i + 1),
-                subTitle: messages[i].text
+                title: title,
+                detailCalloutView:
+                    (<View style={styles.messageContainer}>
+                        <Text>
+                            { this.state.messages[i].text }
+                        </Text>
+                        <Text>
+                            see more ...
+                        </Text>
+                    </View>),
+                view: <Image
+                    style={styles.picture}
+                    source={img}
+                />
+
             });
         }
     }
@@ -163,7 +207,7 @@ class MessageMap extends React.Component {
                         onRegionChange={this._onRegionChange}
                         onRegionChangeComplete={this._onRegionChangeComplete}
                         region={this.state.mapRegion}
-                        annotations={this.markers}
+                        annotations={this.state.markers}
                         showsUserLocation={true}
                         followUserLocation={true}
                     />
