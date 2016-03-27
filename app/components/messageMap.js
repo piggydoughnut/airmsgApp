@@ -23,12 +23,6 @@ var styles = StyleSheet.create({
         marginTop: 35,
         alignItems: 'stretch'
     },
-    messageContainer: {
-        padding: 20,
-        marginTop: 15,
-        marginRight: 15,
-        alignItems: 'stretch'
-    },
     map: {
         height: 600
     },
@@ -54,6 +48,10 @@ var styles = StyleSheet.create({
     picture: {
         width: 20,
         height: 50
+    },
+    navigationBar: {
+        backgroundColor: '#246dd5',
+        alignItems: 'center'
     }
 });
 
@@ -66,97 +64,10 @@ class MessageMap extends React.Component {
             mapRegion: undefined,
             mapRegionInput: '',
             annotations: [],
-            position: {},
-            markers: [],
-            messages: [],
+            position: {}
         };
-        // the functions need to be bound to the component instance before being passed as prop
-        // otherwise this variable in the body of the funciton will not refer to the component instance but to window
         this._onRegionChange = this._onRegionChange.bind(this);
         this._onRegionChangeComplete = this._onRegionChangeComplete.bind(this);
-        this._getMessages = this._getMessages.bind(this);
-    }
-
-    _getMessages(position) {
-        fetch("http://localhost:3000/messages",
-            {method: "GET"})
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.state.messages = responseData;
-                this._createMarkers();
-                console.log(this.state.markers);
-            })
-            .done();
-    }
-
-    _createMarkers() {
-        if (!this.state.messages) {
-            return;
-        }
-
-        for (var i = 0; i < this.state.messages.length; i++) {
-            var lng = 0;
-            var lat = 0;
-            if (typeof this.state.messages[i].location != 'undefined' && !(this.state.messages[i].location.lng.isInteger)) {
-                lng = parseFloat(this.state.messages[i].location.lng);
-            }
-            if (typeof this.state.messages[i].location != 'undefined' && !(this.state.messages[i].location.lat.isInteger)) {
-                lat = parseFloat(this.state.messages[i].location.lat);
-            }
-            var img='';
-            var title='';
-            switch(this.state.messages[i].type){
-                case 1: {
-                    title = 'Message';
-                    img = require('../../public/img/msg.png');
-                    break;
-                }
-                case 2: {
-                    title = 'Chat';
-                    img = require('../../public/img/chat.png');
-                    break;
-                }
-                case 3: {
-                    title = '3D object';
-                    img = require('../../public/img/3Dobj.png');
-                    break;
-                }
-            }
-            this.state.markers.push({
-                longitude: lng,
-                latitude: lat,
-                title: title,
-                detailCalloutView:
-                    (<View style={styles.messageContainer}>
-                        <Text>
-                            { this.state.messages[i].text }
-                        </Text>
-                        <Text>
-                            see more ...
-                        </Text>
-                    </View>),
-                view: <Image
-                    style={styles.picture}
-                    source={img}
-                />
-
-            });
-        }
-    }
-
-    _getMarkers() {
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.state.position = position.coords;
-                if (!this.state.position) {
-                    return;
-                }
-                this._getMessages(this.state.position);
-            },
-            (error) => alert(error.message),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-        );
     }
 
     _onRegionChange(region) {
@@ -169,7 +80,7 @@ class MessageMap extends React.Component {
         if (this.state.isFirstLoad) {
             this.setState({
                 mapRegionInput: region,
-                annotations: this._getMarkers(),
+                annotations: this.props.updateMarkers,
                 isFirstLoad: false
             });
         }
@@ -182,7 +93,7 @@ class MessageMap extends React.Component {
                 navigator={this.props.navigator}
                 navigationBar={
                     <Navigator.NavigationBar
-                        style={{backgroundColor: '#246dd5', alignItems: 'center'}}
+                        style={styles.navigationBar}
                         routeMapper={NavigationBarRouteMapper({
                                 position: {
                                     lat: this.state.position.latitude,
@@ -197,9 +108,9 @@ class MessageMap extends React.Component {
     }
 
     renderScene(route, navigator) {
-        const menu = <Menu navigator={navigator}/>;
+        const menu = <Menu navigator={this.props.navigator}/>;
+        console.log(this.props);
         return (
-
             <SideMenu menu={menu}>
                 <View style={styles.container}>
                     <MapView
@@ -207,13 +118,10 @@ class MessageMap extends React.Component {
                         onRegionChange={this._onRegionChange}
                         onRegionChangeComplete={this._onRegionChangeComplete}
                         region={this.state.mapRegion}
-                        annotations={this.state.markers}
+                        annotations={this.props.markers}
                         showsUserLocation={true}
                         followUserLocation={true}
                     />
-                    <Text style={styles.title}>Initial position:
-                        {this.state.initialPosition}
-                    </Text>
                 </View>
             </SideMenu>
         );
@@ -244,5 +152,11 @@ var NavigationBarRouteMapper = props => ({
         return null;
     }
 });
+
+MessageMap.propTypes = {
+    markers: PropTypes.array.isRequired,
+    updateMarkers: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired
+};
 
 module.exports = MessageMap;

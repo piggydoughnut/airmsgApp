@@ -88,7 +88,7 @@ class CreateMsg extends React.Component {
             })
             .done();
         this.props.navigator.push({
-            id: "MessageMap"
+            id: "MessageMapContainer"
         });
     }
 

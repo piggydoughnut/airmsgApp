@@ -14,7 +14,6 @@ var styles = StyleSheet.create({
         marginTop: 150
     },
     menu_item: {
-        color: 'red',
         fontWeight: '300',
         fontSize: 24
     }
