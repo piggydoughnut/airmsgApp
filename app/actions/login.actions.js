@@ -68,7 +68,7 @@ export function loginSuccess(response) {
     return {
         type: LOGIN_SUCCESS,
         payload: {
-            response
+            user_id: "56ebe2c5871fc6eb9cd08bcc"
         }
     }
 }

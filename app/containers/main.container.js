@@ -53,6 +53,10 @@ var styles = StyleSheet.create({
         width: 35,
         height: 35,
         justifyContent: 'center',
+    },
+    error: {
+        fontSize: 16,
+        color: 'red'
     }
 });
 
@@ -68,7 +72,8 @@ class MainContainer extends React.Component {
         super(props);
         this.state = {
             username: null,
-            password: null
+            password: null,
+            error: ''
         };
     }
 
@@ -82,18 +87,20 @@ class MainContainer extends React.Component {
     }
 
     _onBasicLoginPressed() {
-        console.log(this.state.username);
         if (this.state.username && this.state.password) {
-            return this.props.basicLogin({
+            this.props.basicLogin({
                 username: this.state.username,
                 password: this.state.password
             });
+            if (this.props.loggedIn) {
+                this.props.navigator.push({
+                    id: 'MessageMap',
+                    title: 'Message Map',
+                    sceneConfig: CustomSceneConfig
+                });
+            }
+            this.setState({error: 'There has been an error'});
         }
-        //this.props.navigator.push({
-        //    id: 'MessageMap',
-        //    title: 'Message Map',
-        //    sceneConfig: CustomSceneConfig
-        //})
     }
 
     _onGuestLoginPressed() {
@@ -104,14 +111,16 @@ class MainContainer extends React.Component {
 
     }
 
+
     renderScene(route, navigator) {
+
         return (
             <View style={styles.mainContainer}>
                 <Image
                     style={styles.picture}
                     source={require('../../public/img/bottle-message.png')}
                 />
-
+                <Text style={styles.error}> {this.state.error}</Text>
                 <TextInput
                     placeholder="Username"
                     onChange={(event) => this.setState({username: event.nativeEvent.text})}
@@ -140,7 +149,8 @@ class MainContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        loggedInUser: store.loggedIn
+        loggedIn: store.login.loggedIn,
+        payload: store.login.payload
     };
 };
 

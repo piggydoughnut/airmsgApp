@@ -6,10 +6,16 @@ import Immutable from 'immutable';
 const login = (state = [], action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
-            console.log('success');
-            return state;
+            return {
+                payload: action.payload,
+                loggedIn: true
+            };
         default:
-            return state;
+            return {
+                redirect: null,
+                loggedIn: false,
+                payload: {}
+            };
     }
 };
 
