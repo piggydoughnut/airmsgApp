@@ -109,7 +109,6 @@ class MessageMap extends React.Component {
 
     renderScene(route, navigator) {
         const menu = <Menu navigator={this.props.navigator}/>;
-        console.log(this.props);
         return (
             <SideMenu menu={menu}>
                 <View style={styles.container}>

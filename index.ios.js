@@ -1,95 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
-import React, {
-    AppRegistry,
-    Component,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    TextInput,
-    ListView,
-    View,
-    StatusBarIOS,
-    Navigator,
-    AlertIOS,
-    TouchableOpacity
-    } from 'react-native';
+import React, {AppRegistry,Component,} from 'react-native';
+import { Provider } from 'react-redux'
+import configureStore from './app/store/configureStore'
+import Root from './app/containers/root.container'
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#111111'
-    },
-    textStyle: {
-        flex: 2,
-        fontSize: 20,
-        margin: 20
-    }
-});
 
-/** Pages for navigation **/
-var Login = require('./app/pages/login');
-var CreateMsg = require('./app/pages/createMsg');
-var MessageMapContainer = require('./app/containers/messageMapContainer');
-
-var Profile = require('./app/pages/profile');
-var EditProfile = require('./app/pages/editProfile');
-
-var MyMessages = require('./app/pages/myMessages');
-var Main = require('./app/pages/main');
+const store = configureStore();
 
 class AirMsgProject extends Component {
-
-    renderScene(route, navigator) {
-        var routeId = route.id;
-        switch (routeId) {
-            case 'Main':
-                return (<Main navigator={navigator}/>);
-            case 'LoginPage':
-                return (<Login navigator={navigator}/>);
-            case 'CreateMsg':
-                return (<CreateMsg navigator={navigator} route={route}/>);
-            case 'MessageMap':
-                return (<MessageMapContainer navigator={navigator}/>);
-            case 'Profile':
-                return (<Profile navigator={navigator}/>);
-            case 'EditProfile':
-                return (<EditProfile navigator={navigator}/>);
-            case 'Messages':
-                return (<MyMessages navigator={navigator}/>);
-        }
-        return this.noRoute(navigator);
-    }
-
-    noRoute(navigator) {
-        return (
-            <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
-                <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                    onPress={() => navigator.pop()}>
-                    <Text style={{color: 'red', fontWeight: 'bold'}}>No such route</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
     render() {
         return (
-            <Navigator
-                initialRoute={{id: 'Main', name: 'Main'}}
-                renderScene={this.renderScene.bind(this)}
-                configureScene={(route) => {
-                    if (route.sceneConfig) {
-                        return route.sceneConfig;
-                    }
-                    return Navigator.SceneConfigs.PushFromRight;
-                }}
-            />
+            <Provider store={store}>
+                <Root />
+            </Provider>
         );
     }
 }
-
 
 AppRegistry.registerComponent('AirMsgProject', () => AirMsgProject);
