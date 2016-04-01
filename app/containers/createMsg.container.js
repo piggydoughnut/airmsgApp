@@ -1,5 +1,6 @@
 var React = require('react-native');
 var CreateMsg = require('../components/createMsg');
+var Routes = require('../config/routes');
 
 var {
     StyleSheet,
@@ -39,7 +40,7 @@ class CreateMsgContainer extends React.Component {
             })
             .done();
         this.props.navigator.push({
-            id: "MessageMapContainer"
+            id: Routes.messageMap
         });
     }
 
@@ -47,7 +48,7 @@ class CreateMsgContainer extends React.Component {
         return (
             <CreateMsg
                 onPress = { () => this._postMessage}
-
+                navigator = {this.props.navigator}
             />
         );
     }

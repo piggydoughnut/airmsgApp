@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as loginActions from '../actions/login.actions';
 
+var Routes = require('../config/routes');
 var React = require('react-native');
 var {
     Appregistry,
@@ -80,7 +81,7 @@ class MainContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.loggedIn) {
             this.props.navigator.push({
-                id: 'MessageMap',
+                id: Routes.messageMap,
                 title: 'Message Map',
                 sceneConfig: CustomSceneConfig
             });

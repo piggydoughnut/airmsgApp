@@ -18,6 +18,8 @@ import React, {
     TouchableOpacity
     } from 'react-native';
 
+var Routes = require('../config/routes');
+
 var styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -45,17 +47,17 @@ class Root extends Component {
     renderScene(route, navigator) {
         var routeId = route.id;
         switch (routeId) {
-            case 'MainContainer':
+            case Routes.mainContainer:
                 return (<MainContainer navigator={navigator}/>);
-            case 'CreateMsg':
+            case Routes.createMsg:
                 return (<CreateMsg navigator={navigator} route={route}/>);
-            case 'MessageMap':
+            case Routes.messageMap:
                 return (<MessageMap navigator={navigator}/>);
-            case 'Profile':
+            case Routes.profile:
                 return (<Profile navigator={navigator}/>);
-            case 'EditProfile':
+            case Routes.editProfile:
                 return (<EditProfile navigator={navigator}/>);
-            case 'Messages':
+            case Routes.messages:
                 return (<MyMessages navigator={navigator}/>);
         }
         return this.noRoute(navigator);
@@ -75,7 +77,7 @@ class Root extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{id: 'MainContainer', name: 'MainContainer'}}
+                initialRoute={{id: Routes.mainContainer }}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                     if (route.sceneConfig) {

@@ -7,6 +7,7 @@ var {
     Navigator,
     ScrollView
     } = React;
+var Routes = require('../config/routes');
 
 var styles = StyleSheet.create({
     container: {
@@ -29,22 +30,22 @@ class Menu extends React.Component {
             <ScrollView style={styles.container}>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'MyMessages'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: Routes.messages})}>
                     My messages
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'Profile'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: Routes.profile})}>
                     Profile
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'Settings'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: Routes.settings})}>
                     Settings
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: 'LoginPage'})}>
+                    onPress={ ()=>this.props.navigator.parentNavigator.push({id: Routes.login})}>
                     Logout
                 </Text>
             </ScrollView>
