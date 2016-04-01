@@ -41,11 +41,14 @@ export function loginError(error) {
     }
 }
 
-export function loginSuccess(response) {
+export function loginSuccess() {
     return {
-        type: LOGIN_SUCCESS,
-        payload: {
-            user_id: "56ebe2c5871fc6eb9cd08bcc"
-        }
+        type: LOGIN_SUCCESS
+    }
+}
+
+export function loginFailure() {
+    return {
+        type: LOGIN_FAILURE
     }
 }
