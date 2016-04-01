@@ -1,6 +1,7 @@
 var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var Menu = require('../components/menu');
+var Routes = require('../config/routes');
 
 var {
     View,
@@ -94,12 +95,7 @@ class MessageMap extends React.Component {
                 navigationBar={
                     <Navigator.NavigationBar
                         style={styles.navigationBar}
-                        routeMapper={NavigationBarRouteMapper({
-                                position: {
-                                    lat: this.state.position.latitude,
-                                    lng: this.state.position.longitude
-                                }
-                            }
+                        routeMapper={NavigationBarRouteMapper({position: this.props.position}
                         )}
                     />
                     }
@@ -136,7 +132,7 @@ var NavigationBarRouteMapper = props => ({
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
                 onPress={() => {
                     navigator.parentNavigator.push({
-                            id: 'CreateMsg',
+                            id: Routes.createMsg,
                             props: props
                         }
                     );

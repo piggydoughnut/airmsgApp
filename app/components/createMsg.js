@@ -57,6 +57,7 @@ class CreateMsg extends React.Component {
             value: 0,
             message_type: 0
         };
+        this.props.post = this.props.post.bind(this);
     }
 
     render() {
@@ -73,10 +74,20 @@ class CreateMsg extends React.Component {
         );
     }
 
+    _onPress() {
+        var data = {
+            validity: this.state.value,
+            text: this.state.message,
+            location: this.props.location
+        };
+        this.props.post(data);
+    }
+
     renderScene(route, navigator) {
         return (
             <View style={styles.container}>
                 <Text> Message type: </Text>
+                <Text> {this.props.error} </Text>
                 <Picker
                     selectedValue={this.state.message_type}
                     onValueChange={(type) => this.setState({message_type: type})}>
@@ -97,7 +108,7 @@ class CreateMsg extends React.Component {
                     step={1}
                     onValueChange={(value) => this.setState({value: value})} />
                 <Text> {this.state.value} </Text>
-                <TouchableHighlight onPress={() => this.props.onPress()} style={styles.button}>
+                <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Leave message</Text>
                 </TouchableHighlight>
             </View>

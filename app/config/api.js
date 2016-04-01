@@ -1,3 +1,5 @@
-/**
- * Created by Dasha on 01/04/16.
- */
+/** Api config */
+
+module.exports = {
+    domain: "http://localhost:3000"
+};

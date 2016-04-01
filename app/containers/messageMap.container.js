@@ -36,7 +36,6 @@ class MessageMapContainer extends React.Component {
     constructor(props) {
         super(props);
         this._getMessages = this._getMessages.bind(this);
-        this._getImageByType = this._getImageByType.bind(this);
         this._getMarkers = this._getMarkers.bind(this);
         this._getFloat = this._getFloat.bind(this);
         this.state = {
@@ -78,11 +77,10 @@ class MessageMapContainer extends React.Component {
                 lat = this._getFloat(this.state.messages[i].location.lat);
             }
 
-            var response = this._getImageByType(this.state.messages[i].type);
             markers.push({
                 longitude: lng,
                 latitude: lat,
-                title: response.title,
+                title: 'Message',
                 detailCalloutView: (
                     <View style={styles.messageContainer}>
                         <Text>
@@ -93,7 +91,7 @@ class MessageMapContainer extends React.Component {
                         </Text>
                     </View>
                 ),
-                view: <Image style={styles.picture} source={response.img}/>
+                view: <Image style={styles.picture} source={require('../../public/img/msg.png')}/>
             });
         }
         this.setState({
@@ -108,32 +106,6 @@ class MessageMapContainer extends React.Component {
         return null;
     }
 
-    _getImageByType(type) {
-        switch (type) {
-            case 1:
-            {
-                return {
-                    title: 'Message',
-                    img: require('../../public/img/msg.png')
-                };
-            }
-            case 2:
-            {
-                return {
-                    title: 'Chat',
-                    img: require('../../public/img/chat.png')
-                };
-            }
-            case 3:
-            {
-                return {
-                    title: '3D object',
-                    img: require('../../public/img/3Dobj.png')
-                };
-            }
-        }
-    }
-
     _getMarkers() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -141,9 +113,9 @@ class MessageMapContainer extends React.Component {
                     return;
                 }
                 this.setState({
-                    position:{
-                        latitude: position.coords.lat,
-                        longitude : position.coords.lng
+                    position: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
                     }
                 });
                 this._getMessages(position.coords);
@@ -172,6 +144,7 @@ class MessageMapContainer extends React.Component {
                 markers = {this.state.markers}
                 updateMarkers = { () => this._getMarkers}
                 navigator = {this.props.navigator}
+                position = {this.state.position}
             />
         );
     }

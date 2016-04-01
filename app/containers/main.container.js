@@ -88,7 +88,6 @@ class MainContainer extends React.Component {
         } else {
             this.setState({error: 'There has been an error'});
         }
-
     }
 
     render() {

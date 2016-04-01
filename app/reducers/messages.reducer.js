@@ -1,17 +1,17 @@
-import {LOAD_MESSAGES} from '../actions/messages.actions'
+import { LOAD_MESSAGES, MESSAGE_POST_SUCCESS, MESSAGE_POST_FAILURE } from '../actions/messages.actions'
 
 // initial state for messages is an empty array
 const messages = (state = [], action) => {
     switch (action.type) {
-        case 'LOAD_MESSAGES':
+        case MESSAGE_POST_SUCCESS:
             return {
-                loading: false,
-                messages: [
-                    {
-                        title: 'Hello',
-                        text: 'Hello everyone everywhere'
-                    }
-                ]
+                error: false,
+                payload: action.payload
+            };
+        case MESSAGE_POST_FAILURE:
+            return {
+                error: action.error,
+                payload: action.payload
             };
         default:
             return state;
