@@ -17,7 +17,7 @@ function* postMessage(data) {
     try {
         const response = yield call(messagesApi.postMessage, data.payload.message);
         console.log(response);
-        yield put(messageActions.postMessageFailure());
+        yield put(messageActions.postMessageSuccess());
     } catch (error) {
         yield put(messageActions.postMessageFailure());
     }
