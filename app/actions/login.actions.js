@@ -1,5 +1,3 @@
-//import { CALL_API } from 'redux-api-middleware';
-
 /** Actions */
 export const LOGIN_BASIC = 'LOGIN_BASIC';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -7,37 +5,16 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGIN_FB = 'LOGIN_FB';
 export const LOGIN_GMAIL = 'LOGIN_GMAIL';
 
-/** Action creaters */
+/** Action creators */
 
-/** @todo implement login */
-export function basicLogin(userData) {
-    return dispatch =>
-        //fetch('http://localhost/login', {
-        //    method: 'post',
-        //    headers: {
-        //        'Accept': 'application/json',
-        //        'Content-Type': 'application/json'
-        //    },
-        //    body: JSON.stringify({
-        //        email: userData.email,
-        //        password: userData.password
-        //    })
-        //})
-        //    .then(response => {
-        //        if (response.status >= 200 && response.status < 300) {
-        //            console.log(response);
-        //            dispatch(loginSuccess(response));
-        //        } else {
-        //            const error = new Error(response.statusText);
-        //            error.response = response;
-        //            dispatch(loginError(error));
-        //            throw error;
-        //        }
-        //    })
-        //    .catch(error => { console.log('request failed', error); });
-        dispatch(loginSuccess(userData));
+export function basicLogin(user) {
+    return {
+        type: LOGIN_BASIC,
+        payload: {
+            user: user
+        }
+    }
 }
-
 export function loginFacebook(user) {
     return {
         type: LOGIN_FB,

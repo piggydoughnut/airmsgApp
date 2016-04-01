@@ -11,11 +11,7 @@ const login = (state = [], action) => {
                 loggedIn: true
             };
         default:
-            return {
-                redirect: null,
-                loggedIn: false,
-                payload: {}
-            };
+            return state;
     }
 };
 

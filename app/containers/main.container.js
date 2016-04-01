@@ -77,6 +77,19 @@ class MainContainer extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.loggedIn) {
+            this.props.navigator.push({
+                id: 'MessageMap',
+                title: 'Message Map',
+                sceneConfig: CustomSceneConfig
+            });
+        } else {
+            this.setState({error: 'There has been an error'});
+        }
+
+    }
+
     render() {
         return (
             <Navigator
@@ -92,14 +105,6 @@ class MainContainer extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             });
-            if (this.props.loggedIn) {
-                this.props.navigator.push({
-                    id: 'MessageMap',
-                    title: 'Message Map',
-                    sceneConfig: CustomSceneConfig
-                });
-            }
-            this.setState({error: 'There has been an error'});
         }
     }
 
