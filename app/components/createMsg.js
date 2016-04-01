@@ -57,39 +57,6 @@ class CreateMsg extends React.Component {
             value: 0,
             message_type: 0
         };
-        this._onPress = this._onPress.bind(this);
-        this._postMessage = this._postMessage.bind(this);
-    }
-
-    _onPress() {
-        this._postMessage();
-
-    }
-
-    _postMessage() {
-        var data = {
-            validity: this.state.value,
-            text: this.state.message,
-            location: {
-                lat: this.props.route.props.position.lat,
-                lng: this.props.route.props.position.lng
-            }
-        };
-        fetch("http://localhost:3000/messages", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                alert(JSON.stringify(responseData));
-            })
-            .done();
-        this.props.navigator.push({
-            id: "MessageMapContainer"
-        });
     }
 
     render() {
@@ -130,7 +97,7 @@ class CreateMsg extends React.Component {
                     step={1}
                     onValueChange={(value) => this.setState({value: value})} />
                 <Text> {this.state.value} </Text>
-                <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
+                <TouchableHighlight onPress={() => this.props.onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Leave message</Text>
                 </TouchableHighlight>
             </View>

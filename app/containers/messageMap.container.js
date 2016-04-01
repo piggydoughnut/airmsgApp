@@ -167,7 +167,6 @@ class MessageMapContainer extends React.Component {
         if (this.state.markers.length != this.state.messages.length) {
             return this._renderLoadingView();
         }
-        console.log(this.props.navigator);
         return (
             <MessageMap
                 markers = {this.state.markers}

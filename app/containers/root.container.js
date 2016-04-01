@@ -31,8 +31,8 @@ var styles = StyleSheet.create({
 });
 
 /** Pages for navigation **/
-var CreateMsg = require('../pages/createMsg');
-var MessageMapContainer = require('./messageMap.container');
+var CreateMsg = require('./createMsg.container');
+var MessageMap = require('./messageMap.container');
 
 var Profile = require('../pages/profile');
 var EditProfile = require('../pages/editProfile');
@@ -50,7 +50,7 @@ class Root extends Component {
             case 'CreateMsg':
                 return (<CreateMsg navigator={navigator} route={route}/>);
             case 'MessageMap':
-                return (<MessageMapContainer navigator={navigator}/>);
+                return (<MessageMap navigator={navigator}/>);
             case 'Profile':
                 return (<Profile navigator={navigator}/>);
             case 'EditProfile':
