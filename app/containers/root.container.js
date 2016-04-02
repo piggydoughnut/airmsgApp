@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
 var CreateMsg = require('./createMsg.container');
 var MessageMap = require('./messageMap.container');
 
-var Profile = require('../pages/profile');
+var Profile = require('./profile.container');
 var EditProfile = require('../pages/editProfile');
 
 var MyMessages = require('../pages/myMessages');
@@ -77,7 +77,7 @@ class Root extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{id: Routes.messageMap }}
+                initialRoute={{id: Routes.mainContainer }}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                     if (route.sceneConfig) {

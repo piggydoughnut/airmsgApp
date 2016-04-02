@@ -112,7 +112,7 @@ class EditProfile extends React.Component {
             <View style={styles.mainContainer}>
                 <Image
                     style={styles.picture}
-                    source={require('../../public/img/profile.jpg')}sdfds
+                    source={require('../../public/img/profile.jpg')}
                 />
 
                 <TextInput

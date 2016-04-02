@@ -13,7 +13,8 @@ var {
     PropTypes,
     TextInput,
     Navigator,
-    Image
+    Image,
+    TouchableOpacity
     } = React;
 
 
@@ -85,9 +86,11 @@ class MessageMapContainer extends React.Component {
                         <Text>
                             { data[x].text }
                         </Text>
-                        <Text>
-                            see more ...
-                        </Text>
+                        <TouchableOpacity>
+                            <Text>
+                                see more ...
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 ),
                 view: <Image style={styles.picture} source={require('../../public/img/msg.png')}/>

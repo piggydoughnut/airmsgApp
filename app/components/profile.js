@@ -1,5 +1,5 @@
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
+//var Icon = require('react-native-vector-icons/Ionicons');
 
 var {
     Appregistry,
@@ -36,34 +36,24 @@ class Profile extends React.Component {
 
     constructor(props) {
         super(props);
-        this._getUser = this._getUser.bind(this);
         this._getFormattedBirthday = this._getFormattedBirthday.bind(this);
-        this.state = {
-            user: null
-        };
-    }
-
-    componentDidMount() {
-        this._getUser();
-    }
-
-    _getUser() {
-        fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc",
-            {method: "GET"})
-            .then((response) => response.json())
-            .then((responseData) => {
-                this.setState({
-                    user: responseData.user
-                });
-            })
-            .done();
     }
 
     _getFormattedBirthday() {
-        if (this.state.user.birthday) {
-            var bd = new Date(this.state.user.birthday);
+        if (this.props.user.birthday) {
+            var bd = new Date(this.props.user.birthday);
             return bd.getFullYear() + '/' + bd.getMonth() + '/' + bd.getDay();
         }
+    }
+
+    _renderLoadingView() {
+        return (
+            <View style={styles.mainContainer}>
+                <Text>
+                    Loading user...
+                </Text>
+            </View>
+        );
     }
 
     render() {
@@ -76,13 +66,12 @@ class Profile extends React.Component {
                         routeMapper={NavigationBarRouteMapper} />
                     }
             />
-
         );
     }
 
     renderScene(route, navigator) {
-        if (!this.state.user) {
-            return this.renderLoadingView();
+        if (!this.props.user) {
+            return this._renderLoadingView();
         }
 
         return (
@@ -92,25 +81,13 @@ class Profile extends React.Component {
                     source={require('../../public/img/profile.jpg')}
                 />
 
-                <Icon name={this.state.user.gender} size={30} color="#4f8ef7" style={styles.info} >
-                    <Text style={styles.info}> { this.state.user.username } </Text>
-                </Icon>
-
+                <Text style={styles.info}> { this.props.user.username } </Text>
                 <Text style={styles.info}> { this._getFormattedBirthday() } </Text>
 
             </View>
         );
     }
 
-    renderLoadingView() {
-        return (
-            <View style={styles.mainContainer}>
-                <Text>
-                    Loading user...
-                </Text>
-            </View>
-        );
-    }
 }
 
 var NavigationBarRouteMapper = {
@@ -128,7 +105,9 @@ var NavigationBarRouteMapper = {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
                 onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
-                <Icon name="edit" color="white" size={20} style={styles.rightIcon}/>
+                <Text>
+                    Edit
+                </Text>
             </TouchableOpacity>
         );
     },
