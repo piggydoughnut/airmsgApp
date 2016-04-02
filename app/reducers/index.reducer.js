@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import messages from './messages.reducer'
-import login from './login.reducer'
+import user from './user.reducer'
 
 const airMsgApp = combineReducers({
     messages,
-    login
+    user
 });
 
 export default airMsgApp;

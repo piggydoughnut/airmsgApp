@@ -154,8 +154,8 @@ class MainContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        loggedIn: store.login.loggedIn,
-        payload: store.login.payload
+        loggedIn: store.user.loggedIn,
+        payload: store.user.payload
     };
 };
 

@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 
 
 // initial state for login is empty user details
-const login = (state = [], action) => {
+const user = (state = [], action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
             return {
@@ -15,4 +15,4 @@ const login = (state = [], action) => {
     }
 };
 
-export default login;
+export default user;

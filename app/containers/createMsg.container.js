@@ -5,31 +5,29 @@ import {bindActionCreators} from 'redux';
 var React = require('react-native');
 var CreateMsg = require('../components/createMsg');
 var Routes = require('../config/routes');
+var {Navigator} = React;
 
-var {
-    StyleSheet,
-    } = React;
+var CustomSceneConfig = Object.assign({},
+    Navigator.SceneConfigs.FloatFromLeft, {});
+
 
 class CreateMsgContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loc: "",
-            message: "",
-            value: 0,
-            message_type: 0,
             error: false
         };
         this._postMessage = this._postMessage.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.error) {
+        if (nextProps.messages.redirect && !nextProps.messages.error) {
             this.props.navigator.push({
-                id: Routes.messageMap
+                id: Routes.messageMap,
+                sceneConfig: CustomSceneConfig
             });
         } else {
-            this.setState({error: 'There has been an error'});
+            this.setState({error: nextProps.error});
         }
     }
 
@@ -51,7 +49,7 @@ class CreateMsgContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        error: store.messages.error
+        messages: store.messages
     };
 };
 

@@ -43,8 +43,8 @@ export function postMessageSuccess(data) {
     return {
         type: MESSAGE_POST_SUCCESS,
         payload: {
-            error: false,
-            messages: data
+            messages: data,
+            redirect: true
         }
     };
 }
@@ -53,7 +53,7 @@ export function postMessageFailure(error) {
     return {
         type: MESSAGE_POST_FAILURE,
         payload: {
-            error: error
+            error: error,
         }
     };
 }
@@ -62,7 +62,6 @@ export function loadMessagesSuccess(data) {
     return {
         type: MESSAGES_LOAD_SUCCESS,
         payload: {
-            error: false,
             messages: data
         }
     };
@@ -73,7 +72,6 @@ export function loadMessagesFailure(error) {
         type: MESSAGES_LOAD_FAILURE,
         payload: {
             error: error,
-            messages: []
         }
     };
 }

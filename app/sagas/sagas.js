@@ -9,17 +9,17 @@ var loginActions = require('../actions/login.actions');
 var Api = require('../config/api');
 
 /** workers */
-function* loginApi(user) {
-    yield put(loginActions.loginSuccess());
+function* loginApi(action) {
+    yield put(loginActions.loginSuccess(action.payload.user));
 }
 
 function* postMessage(data) {
     try {
         const response = yield call(messagesApi.postMessage, data.payload.message);
         console.log(response);
-        yield put(messageActions.postMessageSuccess());
+        yield put(messageActions.postMessageSuccess(response));
     } catch (error) {
-        yield put(messageActions.postMessageFailure());
+        yield put(messageActions.postMessageFailure(error));
     }
 }
 

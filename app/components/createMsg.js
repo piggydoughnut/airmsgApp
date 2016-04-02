@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Routes = require('../config/routes');
 
 var {
     View,
@@ -46,6 +47,10 @@ var styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: "center"
     },
+    error: {
+        fontSize: 16,
+        color: 'red'
+    }
 });
 
 class CreateMsg extends React.Component {
@@ -55,10 +60,11 @@ class CreateMsg extends React.Component {
             loc: "",
             message: "",
             value: 0,
-            message_type: 0
+            message_type: 0,
         };
         this.props.post = this.props.post.bind(this);
     }
+
 
     render() {
         return (
@@ -87,7 +93,7 @@ class CreateMsg extends React.Component {
         return (
             <View style={styles.container}>
                 <Text> Message type: </Text>
-                <Text> {this.props.error} </Text>
+                <Text style={styles.error}> {this.props.error} </Text>
                 <Picker
                     selectedValue={this.state.message_type}
                     onValueChange={(type) => this.setState({message_type: type})}>

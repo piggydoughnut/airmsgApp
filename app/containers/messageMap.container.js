@@ -149,9 +149,10 @@ class MessageMapContainer extends React.Component {
     }
 
     render() {
-        if(this.props.messages.error){
+        if (this.props.messages.error) {
             return this._renderError();
         }
+        console.log(this.state);
         if (this.state.markers.length == 0) {
             return this._renderLoadingView();
         }

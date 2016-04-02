@@ -41,9 +41,10 @@ export function loginError(error) {
     }
 }
 
-export function loginSuccess() {
+export function loginSuccess(user) {
     return {
-        type: LOGIN_SUCCESS
+        type: LOGIN_SUCCESS,
+        payload: user
     }
 }
 
