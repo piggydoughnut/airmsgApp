@@ -105,7 +105,7 @@ var NavigationBarRouteMapper = {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
                 onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
-                <Text>
+                <Text style={{color: 'white', margin: 10}}>
                     Edit
                 </Text>
             </TouchableOpacity>

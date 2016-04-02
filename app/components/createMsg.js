@@ -1,5 +1,10 @@
+import { SegmentedControls } from 'react-native-radio-buttons';
+
 var React = require('react-native');
 var Routes = require('../config/routes');
+var InputMessage = require('./inputMessage');
+var InputChat = require('./inputChat');
+var InputObject = require('./inputObject');
 
 var {
     View,
@@ -10,7 +15,6 @@ var {
     TextInput,
     SliderIOS,
     Navigator,
-    Picker
     } = React;
 
 var styles = StyleSheet.create({
@@ -20,51 +24,25 @@ var styles = StyleSheet.create({
         marginTop: 65,
         alignItems: 'stretch'
     },
-    formInput: {
-        height: 36,
-        padding: 10,
-        marginRight: 5,
-        marginBottom: 5,
-        marginTop: 5,
-        flex: 1,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: "#555555",
-        borderRadius: 8,
-        color: "#555555"
-    },
-    buttonText: {
-        fontSize: 18,
-        color: "#ffffff",
-        alignSelf: "center"
-    },
-    button: {
-        height: 36,
-        backgroundColor: "#555555",
-        borderColor: "#555555",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 10,
-        justifyContent: "center"
-    },
     error: {
         fontSize: 16,
         color: 'red'
     }
 });
 
+const MESSAGE = 'Message';
+const CHAT = "Chat";
+const OBJECT = "3D object";
+
 class CreateMsg extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            loc: "",
-            message: "",
-            value: 0,
-            message_type: 0,
+            message_type: MESSAGE
         };
         this.props.post = this.props.post.bind(this);
     }
-
 
     render() {
         return (
@@ -80,43 +58,36 @@ class CreateMsg extends React.Component {
         );
     }
 
-    _onPress() {
-        var data = {
-            validity: this.state.value,
-            text: this.state.message,
-            location: this.props.location
-        };
-        this.props.post(data);
-    }
-
     renderScene(route, navigator) {
+        const options = [
+            MESSAGE,
+            CHAT,
+            OBJECT
+        ];
+       var view = <InputMessage
+           postMessage={ (data) => this.props.post(data)}
+           location = {this.props.location}
+       />;
+
+        switch (this.state.message_type) {
+            case CHAT:
+                view = <InputChat />;
+                break;
+            case OBJECT:
+                view = <InputObject />;
+                break;
+            default:
+                break;
+        }
         return (
             <View style={styles.container}>
-                <Text> Message type: </Text>
                 <Text style={styles.error}> {this.props.error} </Text>
-                <Picker
-                    selectedValue={this.state.message_type}
-                    onValueChange={(type) => this.setState({message_type: type})}>
-                    <Picker.Item label="Text message" value="1" />
-                    <Picker.Item label="Chat" value="2" />
-                    <Picker.Item label="3D object" value="3" />
-                </Picker>
-                <Text> Your message: </Text>
-                <TextInput
-                    required={true}
-                    placeholder="Message"
-                    onChange={(event) => this.setState({message: event.nativeEvent.text})}
-                    style={styles.formInput}
-                    value={this.state.message} />
-                <Text> Validity of your message in hours: </Text>
-                <SliderIOS
-                    maximumValue={10}
-                    step={1}
-                    onValueChange={(value) => this.setState({value: value})} />
-                <Text> {this.state.value} </Text>
-                <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
-                    <Text style={styles.buttonText}>Leave message</Text>
-                </TouchableHighlight>
+                <SegmentedControls
+                    options={ options }
+                    onSelection={ (type) => this.setState({message_type: type}) }
+                    selectedOption={ this.state.message_type }
+                />
+                {view}
             </View>
         );
     }
