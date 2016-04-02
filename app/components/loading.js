@@ -9,12 +9,11 @@ var {
     } = React;
 
 var styles = StyleSheet.create({
-    messageContainer: {
-        padding: 20,
-        marginTop: 15,
-        marginRight: 15,
-        alignItems: 'stretch'
-    }
+    mainContainer: {
+        padding: 30,
+        marginTop: 65,
+        alignItems: 'center'
+    },
 });
 
 class Loading extends React.Component {
