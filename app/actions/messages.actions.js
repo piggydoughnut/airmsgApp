@@ -1,32 +1,28 @@
 /** Actions */
-export const LOAD_MESSAGES = 'LOAD_MESSAGES';
-export const OPEN_MESSAGE = 'OPEN_MESSAGE';
+export const MESSAGES_LOAD = 'MESSAGES LOAD';
+export const MESSAGES_LOAD_SUCCESS = 'MESSAGES LOAD SUCCESS';
+export const MESSAGES_LOAD_FAILURE = 'MESSAGES LOAD FAILURE';
+export const MESSAGE_OPEN = 'MESSAGE OPEN';
 export const MESSAGE_POST = 'MESSAGE POST';
 export const MESSAGE_POST_SUCCESS = 'MESSAGE POST SUCCESS';
 export const MESSAGE_POST_FAILURE = 'MESSAGE POST FAILURE';
 
-/** Action creaters */
-export function loadMessages(position) {
+/** Action creators */
+export function loadMessages(position, radius) {
     return {
-        type: LOAD_MESSAGES,
+        type: MESSAGES_LOAD,
         payload: {
-            position: {
-                lat: postition.latitude,
-                lng: position.longitude
-            },
-            radius: 5
+            position,
+            radius: radius
         }
     }
 }
 
 export function openMessage(id, position) {
     return {
-        type: OPEN_MESSAGE,
+        type: MESSAGE_OPEN,
         payload: {
-            position: {
-                lat: postition.lat,
-                lng: position.lng
-            },
+            position,
             msg_id: id
         }
     }
@@ -41,15 +37,44 @@ export function postMessage(data) {
     };
 }
 
-export function postMessageSuccess() {
+/** SUCCESS/FAILURE action creators */
+
+export function postMessageSuccess(data) {
     return {
-        type: MESSAGE_POST_SUCCESS
+        type: MESSAGE_POST_SUCCESS,
+        payload: {
+            error: false,
+            messages: data
+        }
     };
 }
 
-export function postMessageFailure() {
+export function postMessageFailure(error) {
     return {
-        type: MESSAGE_POST_FAILURE
+        type: MESSAGE_POST_FAILURE,
+        payload: {
+            error: error
+        }
     };
-
 }
+
+export function loadMessagesSuccess(data) {
+    return {
+        type: MESSAGES_LOAD_SUCCESS,
+        payload: {
+            error: false,
+            messages: data
+        }
+    };
+}
+
+export function loadMessagesFailure(error) {
+    return {
+        type: MESSAGES_LOAD_FAILURE,
+        payload: {
+            error: error,
+            messages: []
+        }
+    };
+}
+

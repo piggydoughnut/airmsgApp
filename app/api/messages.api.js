@@ -1,8 +1,9 @@
 /** API Calls to /messages */
+var api = require('../config/api');
 
 export function postMessage(data) {
     var response = '';
-    fetch("http://localhost:3000/messages", {
+    fetch(api.domain + "/messages", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -15,4 +16,14 @@ export function postMessage(data) {
         })
         .done();
     return response;
+}
+
+export function loadMessages(data) {
+    var response = '';
+    return fetch(api.domain + "/messages",
+        {method: "GET"})
+        .then((response) => response.json())
+        .then((responseData) => {
+            return responseData
+        });
 }
