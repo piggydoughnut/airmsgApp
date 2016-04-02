@@ -5,6 +5,8 @@ import * as messageActions from '../actions/messages.actions';
 var React = require('react-native');
 var MessageMap = require('../components/messageMap');
 var Marker = require('../components/marker');
+var Error = require('../components/error');
+var Loading = require('../components/loading');
 
 var {
     View,
@@ -55,10 +57,9 @@ class MessageMapContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.messages.messages.length != this.state.markers.length) {
+        if (nextProps.messages.hasOwnProperty('messages') &&
+            nextProps.messages.messages.length != this.state.markers.length) {
             this._createMarkers(nextProps.messages.messages);
-        } else {
-            this.setState({messages: {error: 'There has been an error'}});
         }
     }
 
@@ -128,33 +129,12 @@ class MessageMapContainer extends React.Component {
         );
     }
 
-    _renderLoadingView() {
-        return (
-            <View style={styles.mainContainer}>
-                <Text>
-                    Loading map...
-                </Text>
-            </View>
-        );
-    }
-
-    _renderError() {
-        return (
-            <View style={styles.mainContainer}>
-                <Text>
-                    {this.props.messages.error}
-                </Text>
-            </View>
-        );
-    }
-
     render() {
-        if (this.props.messages.error) {
-            return this._renderError();
+        if (this.state.messages.hasOwnProperty('error')) {
+            return ( <Error error = {this.props.messages.error} />);
         }
-        console.log(this.state);
         if (this.state.markers.length == 0) {
-            return this._renderLoadingView();
+            return ( <Loading />);
         }
         return (
             <MessageMap
