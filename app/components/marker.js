@@ -1,12 +1,10 @@
 var React = require('react-native');
 var {
-    Appregistry,
+    TouchableOpacity,
     StyleSheet,
     Text,
     View,
-    Navigator,
-    ScrollView
-    } = React;
+} = React;
 
 var styles = StyleSheet.create({
     messageContainer: {
@@ -26,11 +24,14 @@ class Marker extends React.Component {
         return (
             <View style={styles.messageContainer}>
                 <Text>
-                    { this.props.message }
+                    { this.props.message.text }
                 </Text>
-                <Text>
-                    see more ...
-                </Text>
+                <TouchableOpacity onPress={() => { console.log(this.props.message)} }>
+
+                    <Text>
+                        see more ...
+                    </Text>
+                </TouchableOpacity>
             </View>
         );
     }

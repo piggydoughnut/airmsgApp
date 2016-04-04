@@ -1,23 +1,18 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as messageActions from '../actions/messages.actions';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as messageActions from "../actions/messages.actions";
 
 var React = require('react-native');
 var MessageMap = require('../components/messageMap');
 var Marker = require('../components/marker');
 var Error = require('../components/error');
 var Loading = require('../components/loading');
+var Routes = require('../config/routes');
 
 var {
-    View,
-    Text,
     StyleSheet,
-    PropTypes,
-    TextInput,
-    Navigator,
     Image,
-    TouchableOpacity
-    } = React;
+} = React;
 
 
 var styles = StyleSheet.create({
@@ -25,17 +20,6 @@ var styles = StyleSheet.create({
         width: 20,
         height: 50
     },
-    mainContainer: {
-        padding: 30,
-        marginTop: 65,
-        alignItems: 'center'
-    },
-    messageContainer: {
-        padding: 20,
-        marginTop: 15,
-        marginRight: 15,
-        alignItems: 'stretch'
-    }
 });
 
 class MessageMapContainer extends React.Component {
@@ -43,7 +27,7 @@ class MessageMapContainer extends React.Component {
     constructor(props) {
         super(props);
         this._getMarkers = this._getMarkers.bind(this);
-        this._getFloat = this._getFloat.bind(this);
+        this._viewDetail = this._viewDetail.bind(this);
         this.state = {
             messages: [],
             markers: []
@@ -69,45 +53,20 @@ class MessageMapContainer extends React.Component {
             return;
         }
 
-        var x;
-        for (x in data) {
-            var lng = 0;
-            var lat = 0;
-            if (data[x].hasOwnProperty("location") && typeof data[x].location != 'undefined') {
-                lng = this._getFloat(data[x].location.lng);
-                lat = this._getFloat(data[x].location.lat);
-            }
-
+        for (var x in data) {
             markers.push({
-                longitude: lng,
-                latitude: lat,
+                id: data[x]._id,
+                longitude: data[x].location.lng,
+                latitude: data[x].location.lat,
                 title: 'Message',
-                detailCalloutView: (
-                    <View style={styles.messageContainer}>
-                        <Text>
-                            { data[x].text }
-                        </Text>
-                        <TouchableOpacity>
-                            <Text>
-                                see more ...
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                ),
-                view: <Image style={styles.picture} source={require('../../public/img/msg.png')}/>
+                detailCalloutView: (<Marker message={data[x]}/>),
+                view: <Image style={styles.picture} source={require('../../public/img/msg.png')}/>,
             });
 
         }
         this.setState({
             markers: markers
         });
-    }
-
-    _getFloat(integer) {
-        if (!(integer.isInteger)) {
-            return parseFloat(integer);
-        }
-        return null;
     }
 
     _getMarkers() {
@@ -131,18 +90,18 @@ class MessageMapContainer extends React.Component {
 
     render() {
         if (this.state.messages.hasOwnProperty('error')) {
-            return ( <Error error = {this.props.messages.error} />);
+            return ( <Error error={this.props.messages.error}/>);
         }
         if (this.state.markers.length == 0) {
             return ( <Loading />);
         }
         return (
             <MessageMap
-                markers = {this.state.markers}
-                updateMarkers = { () => this._getMarkers}
-                navigator = {this.props.navigator}
-                position = {this.state.position}
-                error = {this.props.messages.error}
+                markers={this.state.markers}
+                updateMarkers={ () => this._getMarkers}
+                navigator={this.props.navigator}
+                position={this.state.position}
+                error={this.props.messages.error}
             />
         );
     }
@@ -156,11 +115,11 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadMessages: bindActionCreators(messageActions.loadMessages, dispatch)
+        loadMessages: bindActionCreators(messageActions.loadMessages, dispatch),
+        openMessage: bindActionCreators(messageActions.openMessage, dispatch)
     };
 };
 
 MessageMapContainer = connect(mapStateToProps, mapDispatchToProps)(MessageMapContainer);
-
 
 module.exports = MessageMapContainer;
