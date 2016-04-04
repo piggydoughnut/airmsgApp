@@ -5,6 +5,7 @@ module.exports = {
     messages: "Messages",
     messageMap: "MessageMap",
     createMsg: "CreateMsg",
+    messageDetail: "MessageDetail",
     profile: "Profile",
     editProfile: "EditProfile"
 };

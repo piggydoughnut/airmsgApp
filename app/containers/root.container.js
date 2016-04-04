@@ -35,6 +35,7 @@ var styles = StyleSheet.create({
 /** Pages for navigation **/
 var CreateMsg = require('./createMsg.container');
 var MessageMap = require('./messageMap.container');
+var MessageDetail = require('./messageDetail.container');
 
 var Profile = require('./profile.container');
 var EditProfile = require('../pages/editProfile');
@@ -59,6 +60,8 @@ class Root extends Component {
                 return (<EditProfile navigator={navigator}/>);
             case Routes.messages:
                 return (<MyMessages navigator={navigator}/>);
+            case Routes.messageDetail:
+                return (<MessageDetail navigator={navigator} route={route}/>);
         }
         return this.noRoute(navigator);
     }
