@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
 });
 
 const MESSAGE = 'Message';
-const CHAT = "Chat";
 const OBJECT = "3D object";
 
 class CreateMsg extends React.Component {
@@ -61,23 +60,15 @@ class CreateMsg extends React.Component {
     renderScene(route, navigator) {
         const options = [
             MESSAGE,
-            CHAT,
             OBJECT
         ];
-       var view = <InputMessage
-           postMessage={ (data) => this.props.post(data)}
-           location = {this.props.location}
-       />;
+        var view = <InputMessage
+            postMessage={ (data) => this.props.post(data)}
+            location = {this.props.location}
+        />;
 
-        switch (this.state.message_type) {
-            case CHAT:
-                view = <InputChat />;
-                break;
-            case OBJECT:
-                view = <InputObject />;
-                break;
-            default:
-                break;
+        if (this.state.message_type == OBJECT) {
+            view = <InputObject />;
         }
         return (
             <View style={styles.container}>
