@@ -1,23 +1,26 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as messageActions from '../actions/messages.actions';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 var React = require('react-native');
-
+var DateFormatting = require('../util/dateFormatting');
 var {
     View,
     Text,
     StyleSheet,
     Navigator,
     TouchableOpacity
-    } = React;
+} = React;
 
 
 var styles = StyleSheet.create({
     mainContainer: {
         padding: 30,
         marginTop: 65,
-        alignItems: 'center'
+        alignItems: 'stretch'
+    },
+    message: {
+        fontSize: 14,
+        color: 'green'
     }
 });
 
@@ -42,10 +45,13 @@ class MessageDetail extends React.Component {
     renderScene(route, navigator) {
         return (
             <View style={styles.mainContainer}>
-                <Text> {this.props.message.user.username} </Text>
-                <Text> {this.props.message.text} </Text>
-                <Text> {this.props.message.published_at} </Text>
-                <Text> {this.props.message.views_count} </Text>
+                <Text style={styles.message}>
+                    {this.props.message.text}
+                    {"\n"}
+                </Text>
+                <Text> Views: {this.props.message.views_count} </Text>
+                <Text> by {this.props.message.user.username}
+                    on {DateFormatting.getFormattedDateYMD(this.props.message.published_at)}</Text>
 
             </View>
         );
@@ -56,7 +62,7 @@ var NavigationBarRouteMapper = {
     LeftButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
+                              onPress={() => navigator.parentNavigator.pop()}>
                 <Text style={{color: 'white', margin: 10}}>
                     Back
                 </Text>

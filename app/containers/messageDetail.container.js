@@ -13,7 +13,7 @@ class MessageDetailContainer extends React.Component {
     render() {
         return (
             <MessageDetail
-                message = {this.props.messageDetail}
+                message = {this.props.messageDetail.msg}
                 navigator = {this.props.navigator}
             />
         );
@@ -21,7 +21,7 @@ class MessageDetailContainer extends React.Component {
 }
 const mapStateToProps = (store) => {
     return {
-        messageDetail: store.messages.messageDetail.msg
+        messageDetail: store.messages.messageDetail
     };
 };
 

@@ -65,7 +65,7 @@ class MessageMapContainer extends React.Component {
                     latitude: data[x].location.lat
                 },
                 title: 'Message',
-                description: data[x].text.substring(1, 150),
+                description: data[x].text.substring(0, 150),
                 msg: data[x]
             });
 

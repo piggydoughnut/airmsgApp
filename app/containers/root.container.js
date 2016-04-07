@@ -80,7 +80,7 @@ class Root extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{id: Routes.mainContainer }}
+                initialRoute={{id: Routes.messageMap }}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                     if (route.sceneConfig) {

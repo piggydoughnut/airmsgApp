@@ -9,7 +9,8 @@ var {
 var styles = StyleSheet.create({
     messageContainer: {
         alignItems: 'stretch',
-        width: 200
+        width: 200,
+        padding: 10
     },
     seeMore: {
         color: 'gray'
