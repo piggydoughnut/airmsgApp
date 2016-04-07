@@ -40,7 +40,7 @@ var MessageDetail = require('./messageDetail.container');
 var Profile = require('./profile.container');
 var EditProfile = require('../pages/editProfile');
 
-var MyMessages = require('../pages/myMessages');
+var MyMessages = require('./myMessages.container');
 var MainContainer = require('./main.container');
 
 class Root extends Component {
@@ -80,7 +80,7 @@ class Root extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{id: Routes.messageMap }}
+                initialRoute={{id: Routes.mainContainer }}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                     if (route.sceneConfig) {

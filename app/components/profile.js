@@ -1,5 +1,6 @@
 var React = require('react-native');
 //var Icon = require('react-native-vector-icons/Ionicons');
+var DateFormatter = require('../util/dateFormatting')
 
 var {
     Appregistry,
@@ -10,7 +11,7 @@ var {
     TouchableOpacity,
     TouchableHighlight,
     Image,
-    } = React;
+} = React;
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -36,14 +37,6 @@ class Profile extends React.Component {
 
     constructor(props) {
         super(props);
-        this._getFormattedBirthday = this._getFormattedBirthday.bind(this);
-    }
-
-    _getFormattedBirthday() {
-        if (this.props.user.birthday) {
-            var bd = new Date(this.props.user.birthday);
-            return bd.getFullYear() + '/' + bd.getMonth() + '/' + bd.getDay();
-        }
     }
 
     _renderLoadingView() {
@@ -82,7 +75,7 @@ class Profile extends React.Component {
                 />
 
                 <Text style={styles.info}> { this.props.user.username } </Text>
-                <Text style={styles.info}> { this._getFormattedBirthday() } </Text>
+                <Text style={styles.info}> { DateFormatter.getFormattedDateYMD(this.props.user.birthday) } </Text>
 
             </View>
         );
@@ -94,7 +87,7 @@ var NavigationBarRouteMapper = {
     LeftButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
+                              onPress={() => navigator.parentNavigator.pop()}>
                 <Text style={{color: 'white', margin: 10}}>
                     Back
                 </Text>
@@ -104,7 +97,7 @@ var NavigationBarRouteMapper = {
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
+                              onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
                 <Text style={{color: 'white', margin: 10}}>
                     Edit
                 </Text>
