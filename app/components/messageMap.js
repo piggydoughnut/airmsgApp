@@ -2,30 +2,34 @@ var React = require('react-native');
 var SideMenu = require('react-native-side-menu');
 var Menu = require('../components/menu');
 var Routes = require('../config/routes');
+var Callout = require('./callout');
+var MapView = require('../../node_modules/react-native-maps/index');
 
 var {
     View,
     Text,
     StyleSheet,
-    TouchableHighlight,
     TouchableOpacity,
-    MapView,
     PropTypes,
-    TextInput,
-    MapRegionInput,
-    AlertIOS,
     Navigator,
-    Image
-    } = React;
+} = React;
 
 var styles = StyleSheet.create({
     container: {
-        padding: 30,
-        marginTop: 35,
-        alignItems: 'stretch'
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     map: {
-        height: 600
+        position: 'absolute',
+        top: 0,
+        left: 10,
+        right: 10,
+        bottom: 0
     },
     row: {
         flexDirection: 'row',
@@ -61,32 +65,20 @@ class MessageMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isFirstLoad: true,
-            mapRegion: undefined,
-            mapRegionInput: '',
+            region: undefined,
             annotations: [],
             position: {}
         };
         this._onRegionChange = this._onRegionChange.bind(this);
-        this._onRegionChangeComplete = this._onRegionChangeComplete.bind(this);
     }
 
     _onRegionChange(region) {
-        this.setState({
-            mapRegionInput: region
-        });
+        this.setState({region});
     }
 
-    _onRegionChangeComplete(region) {
-        if (this.state.isFirstLoad) {
-            this.setState({
-                mapRegionInput: region,
-                annotations: this.props.updateMarkers,
-                isFirstLoad: false
-            });
-        }
+    onPress(){
+        console.log(this);
     }
-
     render() {
         return (
             <Navigator
@@ -110,13 +102,29 @@ class MessageMap extends React.Component {
                 <View style={styles.container}>
                     <MapView
                         style={styles.map}
+                        region={this.state.region}
                         onRegionChange={this._onRegionChange}
-                        onRegionChangeComplete={this._onRegionChangeComplete}
-                        region={this.state.mapRegion}
-                        annotations={this.props.markers}
                         showsUserLocation={true}
-                        followUserLocation={true}
-                    />
+                    >
+                        {this.props.markers.map(marker => (
+                            <MapView.Marker
+                                key={marker.id}
+                                coordinate={marker.coordinates}
+                                title={marker.title}
+                                description={marker.description}
+                                pinColor={'#B24BDE'}
+                                onPress={(e) => console.log("Marker::onPress", e.nativeEvent)}
+                                onCalloutPress={(e) => console.log("Marker::onCalloutPress", e.nativeEvent)}
+                                // image={require('../../public/img/msg.png')}
+                                >
+                            <MapView.Callout>
+                                <Callout
+                                    message = {marker}
+                                    />
+                            </MapView.Callout>
+                            </MapView.Marker>
+                        ))}
+                    </MapView>
                 </View>
             </SideMenu>
         );

@@ -3,7 +3,6 @@ import { SegmentedControls } from 'react-native-radio-buttons';
 var React = require('react-native');
 var Routes = require('../config/routes');
 var InputMessage = require('./inputMessage');
-var InputChat = require('./inputChat');
 var InputObject = require('./inputObject');
 
 var {

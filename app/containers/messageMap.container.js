@@ -4,14 +4,12 @@ import * as messageActions from "../actions/messages.actions";
 
 var React = require('react-native');
 var MessageMap = require('../components/messageMap');
-var Marker = require('../components/marker');
 var Error = require('../components/error');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
 
 var {
     StyleSheet,
-    Image,
 } = React;
 
 
@@ -56,11 +54,12 @@ class MessageMapContainer extends React.Component {
         for (var x in data) {
             markers.push({
                 id: data[x]._id,
-                longitude: data[x].location.lng,
-                latitude: data[x].location.lat,
+                coordinates: {
+                    longitude: data[x].location.lng,
+                    latitude: data[x].location.lat
+                },
                 title: 'Message',
-                detailCalloutView: (<Marker message={data[x]}/>),
-                view: <Image style={styles.picture} source={require('../../public/img/msg.png')}/>,
+                description: data[x].text
             });
 
         }

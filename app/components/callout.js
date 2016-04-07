@@ -8,14 +8,15 @@ var {
 
 var styles = StyleSheet.create({
     messageContainer: {
-        padding: 20,
-        marginTop: 15,
-        marginRight: 15,
-        alignItems: 'stretch'
+        alignItems: 'stretch',
+        width: 200
+    },
+    seeMore: {
+        color: 'gray'
     }
 });
 
-class Marker extends React.Component {
+class Callout extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -24,11 +25,11 @@ class Marker extends React.Component {
         return (
             <View style={styles.messageContainer}>
                 <Text>
-                    { this.props.message.text }
+                    { this.props.message.description }
                 </Text>
                 <TouchableOpacity onPress={() => { console.log(this.props.message)} }>
 
-                    <Text>
+                    <Text style={styles.seeMore}>
                         see more ...
                     </Text>
                 </TouchableOpacity>
@@ -37,4 +38,4 @@ class Marker extends React.Component {
     }
 }
 
-module.exports = Marker;
+module.exports = Callout;
