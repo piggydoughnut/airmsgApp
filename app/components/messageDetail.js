@@ -40,7 +40,6 @@ class MessageDetail extends React.Component {
     }
 
     renderScene(route, navigator) {
-        console.log(this.props);
         return (
             <View style={styles.mainContainer}>
                 <Text> {this.props.message.user.username} </Text>

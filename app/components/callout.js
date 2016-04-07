@@ -27,7 +27,7 @@ class Callout extends React.Component {
                 <Text>
                     { this.props.message.description }
                 </Text>
-                <TouchableOpacity onPress={() => { console.log(this.props.message)} }>
+                <TouchableOpacity onPress={ () => this.props.detailPage(this.props.message)}>
 
                     <Text style={styles.seeMore}>
                         see more ...

@@ -76,9 +76,6 @@ class MessageMap extends React.Component {
         this.setState({region});
     }
 
-    onPress(){
-        console.log(this);
-    }
     render() {
         return (
             <Navigator
@@ -116,12 +113,13 @@ class MessageMap extends React.Component {
                                 onPress={(e) => console.log("Marker::onPress", e.nativeEvent)}
                                 onCalloutPress={(e) => console.log("Marker::onCalloutPress", e.nativeEvent)}
                                 // image={require('../../public/img/msg.png')}
-                                >
-                            <MapView.Callout>
-                                <Callout
-                                    message = {marker}
+                            >
+                                <MapView.Callout>
+                                    <Callout
+                                        message={marker}
+                                        detailPage={(msg) => this.props.detailPage(msg)}
                                     />
-                            </MapView.Callout>
+                                </MapView.Callout>
                             </MapView.Marker>
                         ))}
                     </MapView>
@@ -138,12 +136,11 @@ var NavigationBarRouteMapper = props => ({
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => {
-                    navigator.parentNavigator.push({
-                            id: Routes.createMsg,
-                            props: props
-                        }
-                    );
+                              onPress={() => {
+                              navigator.parentNavigator.push({
+                                id: Routes.createMsg,
+                                props: props
+                              });
                 }}>
                 <Text style={{color: 'white', margin: 10}}>
                     Add Message

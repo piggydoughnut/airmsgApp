@@ -13,11 +13,22 @@ class MessageDetailContainer extends React.Component {
     render() {
         return (
             <MessageDetail
-                message = {this.props.route.props[0]}
+                message = {this.props.messageDetail}
                 navigator = {this.props.navigator}
             />
         );
     }
 }
+const mapStateToProps = (store) => {
+    return {
+        messageDetail: store.messages.messageDetail.msg
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+MessageDetailContainer = connect(mapStateToProps, mapDispatchToProps)(MessageDetailContainer);
 
 module.exports = MessageDetailContainer;

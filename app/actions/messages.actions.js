@@ -18,12 +18,11 @@ export function loadMessages(position, radius) {
     }
 }
 
-export function openMessage(id, position) {
+export function openMessage(msg) {
     return {
         type: MESSAGE_OPEN,
         payload: {
-            position,
-            msg_id: id
+            msg: msg
         }
     }
 }

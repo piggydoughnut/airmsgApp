@@ -7,6 +7,7 @@ var MessageMap = require('../components/messageMap');
 var Error = require('../components/error');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
+var MessageDetail = require('../components/messageDetail');
 
 var {
     StyleSheet,
@@ -25,7 +26,6 @@ class MessageMapContainer extends React.Component {
     constructor(props) {
         super(props);
         this._getMarkers = this._getMarkers.bind(this);
-        this._viewDetail = this._viewDetail.bind(this);
         this.state = {
             messages: [],
             markers: []
@@ -43,6 +43,12 @@ class MessageMapContainer extends React.Component {
             nextProps.messages.messages.length != this.state.markers.length) {
             this._createMarkers(nextProps.messages.messages);
         }
+        if (nextProps.messages.hasOwnProperty('messageDetail')) {
+            this.props.navigator.push({
+                    id: Routes.messageDetail
+                }
+            );
+        }
     }
 
     _createMarkers(data) {
@@ -59,7 +65,8 @@ class MessageMapContainer extends React.Component {
                     latitude: data[x].location.lat
                 },
                 title: 'Message',
-                description: data[x].text
+                description: data[x].text.substring(1, 150),
+                msg: data[x]
             });
 
         }
@@ -98,6 +105,7 @@ class MessageMapContainer extends React.Component {
             <MessageMap
                 markers={this.state.markers}
                 updateMarkers={ () => this._getMarkers}
+                detailPage={(msg) => this.props.openMessage(msg)}
                 navigator={this.props.navigator}
                 position={this.state.position}
                 error={this.props.messages.error}
