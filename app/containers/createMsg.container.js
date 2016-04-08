@@ -41,6 +41,7 @@ class CreateMsgContainer extends React.Component {
                 post = { (data) => this._postMessage(data)}
                 navigator = {this.props.navigator}
                 location = {this.props.route.props.position}
+                user= {this.props.user}
                 error = {this.state.error}
             />
         );
@@ -49,7 +50,8 @@ class CreateMsgContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        messages: store.messages
+        messages: store.messages,
+        user: store.user.user
     };
 };
 

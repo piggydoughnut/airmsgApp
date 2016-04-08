@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "react-native": "^0.19.0",
+    "react-native-image-picker": "^0.18.10",
     "react-native-maps": "^0.3.1",
     "react-native-radio-buttons": "^0.9.1",
     "react-native-side-menu": "^0.18.0",

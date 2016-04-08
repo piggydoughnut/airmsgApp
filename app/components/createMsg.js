@@ -64,6 +64,7 @@ class CreateMsg extends React.Component {
         var view = <InputMessage
             postMessage={ (data) => this.props.post(data)}
             location = {this.props.location}
+            user = { this.props.user}
         />;
 
         if (this.state.message_type == OBJECT) {
