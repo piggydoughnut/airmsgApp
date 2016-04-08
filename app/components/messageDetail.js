@@ -4,11 +4,12 @@ import {bindActionCreators} from "redux";
 var React = require('react-native');
 var DateFormatting = require('../util/dateFormatting');
 var {
-    View,
+    ScrollView,
     Text,
     StyleSheet,
     Navigator,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } = React;
 
 
@@ -16,12 +17,16 @@ var styles = StyleSheet.create({
     mainContainer: {
         padding: 30,
         marginTop: 65,
-        alignItems: 'stretch'
     },
     message: {
         fontSize: 14,
         color: 'green'
-    }
+    },
+    image: {
+        width: 250,
+        height: 250,
+        margin: 10,
+    },
 });
 
 class MessageDetail extends React.Component {
@@ -43,17 +48,17 @@ class MessageDetail extends React.Component {
     }
 
     renderScene(route, navigator) {
+        var image = this.props.message.file ? <Image source={{uri: this.props.message.file.data}} style={styles.image}/> : null;
         return (
-            <View style={styles.mainContainer}>
+            <ScrollView style={styles.mainContainer}>
                 <Text style={styles.message}>
                     {this.props.message.text}
                     {"\n"}
                 </Text>
+                { image }
                 <Text> Views: {this.props.message.views_count} </Text>
-                <Text> by {this.props.message.user.username}
-                    on {DateFormatting.getFormattedDateYMD(this.props.message.published_at)}</Text>
-
-            </View>
+                <Text> by {this.props.message.user.username} on {DateFormatting.getFormattedDateYMD(this.props.message.published_at)}</Text>
+            </ScrollView>
         );
     }
 }

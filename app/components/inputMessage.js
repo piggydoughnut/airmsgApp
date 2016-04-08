@@ -99,10 +99,10 @@ class InputMessage extends React.Component {
             }
             else {
                 // uri (on iOS)
-                const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+                // const source = {uri: response.uri.replace('file://', ''), isStatic: true};
 
                 this.setState({
-                    image: response
+                    image: {data: 'data:image/jpeg;base64,' + response.data}
                 });
             }
         });
@@ -126,7 +126,7 @@ class InputMessage extends React.Component {
     }
 
     render() {
-        var image = (this.state.image != '') ? <Image source={this.state.image} style={styles.image}/> : null;
+        var image = (this.state.image != '') ? <Image source={{uri: this.state.image.data}} style={styles.image}/> : null;
         return (
             <ScrollView style={styles.messageContainer}>
                 <TextInput
