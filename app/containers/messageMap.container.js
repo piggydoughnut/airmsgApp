@@ -95,7 +95,7 @@ class MessageMapContainer extends React.Component {
     }
 
     render() {
-        if (this.state.messages.hasOwnProperty('error')) {
+        if (this.props.messages.hasOwnProperty('error')) {
             return ( <Error error={this.props.messages.error}/>);
         }
         if (this.state.markers.length == 0) {
