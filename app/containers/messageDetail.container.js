@@ -13,7 +13,7 @@ class MessageDetailContainer extends React.Component {
     render() {
         return (
             <MessageDetail
-                message = {this.props.messageDetail.msg}
+                message = {this.props.messageDetail}
                 navigator = {this.props.navigator}
             />
         );

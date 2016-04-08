@@ -105,14 +105,10 @@ class MessageMap extends React.Component {
                     >
                         {this.props.markers.map(marker => (
                             <MapView.Marker
-                                key={marker.id}
-                                coordinate={marker.coordinates}
-                                title={marker.title}
+                                key={marker._id}
+                                coordinate={marker.location}
                                 description={marker.description}
                                 pinColor={'#B24BDE'}
-                                onPress={(e) => console.log("Marker::onPress", e.nativeEvent)}
-                                onCalloutPress={(e) => console.log("Marker::onCalloutPress", e.nativeEvent)}
-                                // image={require('../../public/img/msg.png')}
                             >
                                 <MapView.Callout>
                                     <Callout

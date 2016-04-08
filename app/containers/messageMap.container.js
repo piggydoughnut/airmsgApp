@@ -41,7 +41,9 @@ class MessageMapContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.messages.hasOwnProperty('messages') &&
             nextProps.messages.messages.length != this.state.markers.length) {
-            this._createMarkers(nextProps.messages.messages);
+            this.setState({
+                markers: nextProps.messages.messages
+            });
         }
         if (nextProps.messages.hasOwnProperty('messageDetail')) {
             this.props.navigator.push({
@@ -49,30 +51,6 @@ class MessageMapContainer extends React.Component {
                 }
             );
         }
-    }
-
-    _createMarkers(data) {
-        var markers = [];
-        if (data.length == 0) {
-            return;
-        }
-
-        for (var x in data) {
-            markers.push({
-                id: data[x]._id,
-                coordinates: {
-                    longitude: data[x].location.lng,
-                    latitude: data[x].location.lat
-                },
-                title: 'Message',
-                description: data[x].text.substring(0, 150),
-                msg: data[x]
-            });
-
-        }
-        this.setState({
-            markers: markers
-        });
     }
 
     _getMarkers() {
