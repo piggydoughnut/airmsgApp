@@ -50,6 +50,7 @@ var styles = StyleSheet.create({
     },
 });
 var ImagePickerManager = require('NativeModules').ImagePickerManager;
+var FileUpload = require('NativeModules').FileUpload;
 
 var options = {
     title: null, // specify null or empty string to remove the title
@@ -58,8 +59,8 @@ var options = {
     chooseFromLibraryButtonTitle: 'Choose from Library...', // specify null or empty string to remove this button
     cameraType: 'back', // 'front' or 'back'
     mediaType: 'photo', // 'photo' or 'video'
-    // maxWidth: 100, // photos only
-    // maxHeight: 100, // photos only
+    maxWidth: 500, // photos only
+    maxHeight: 500, // photos only
     quality: 0.8, // 0 to 1, photos only
     allowsEditing: false, // Built in functionality to resize/reposition the image after selection
     noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
@@ -101,13 +102,14 @@ class InputMessage extends React.Component {
                 const source = {uri: response.uri.replace('file://', ''), isStatic: true};
 
                 this.setState({
-                    image: source
+                    image: response
                 });
             }
         });
     }
 
     _onPress() {
+
         var data = {
             validity: this.state.value,
             text: this.state.message,
@@ -116,7 +118,9 @@ class InputMessage extends React.Component {
                 id: this.props.user._id,
                 username: this.props.user.username
             },
-            file: this.state.image
+            file: {
+                data: this.state.image.data
+            }
         };
         this.props.postMessage(data);
     }
