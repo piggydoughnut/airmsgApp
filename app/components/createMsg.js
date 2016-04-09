@@ -9,10 +9,7 @@ var {
     View,
     Text,
     StyleSheet,
-    TouchableHighlight,
     TouchableOpacity,
-    TextInput,
-    SliderIOS,
     Navigator,
     } = React;
 
@@ -65,6 +62,7 @@ class CreateMsg extends React.Component {
             postMessage={ (data) => this.props.post(data)}
             location = {this.props.location}
             user = { this.props.user}
+            onImagePress={ (data) => this.props.onImagePress(data)}
         />;
 
         if (this.state.message_type == OBJECT) {

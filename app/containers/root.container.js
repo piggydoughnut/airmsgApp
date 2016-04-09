@@ -42,6 +42,7 @@ var EditProfile = require('../pages/editProfile');
 
 var MyMessages = require('./myMessages.container');
 var MainContainer = require('./main.container');
+var ImageDetail = require('./imageDetail.container');
 
 class Root extends Component {
 
@@ -60,6 +61,8 @@ class Root extends Component {
                 return (<EditProfile navigator={navigator}/>);
             case Routes.messages:
                 return (<MyMessages navigator={navigator}/>);
+            case Routes.imageDetail:
+                return (<ImageDetail navigator={navigator}/>);
             case Routes.messageDetail:
                 return (<MessageDetail navigator={navigator} route={route}/>);
         }

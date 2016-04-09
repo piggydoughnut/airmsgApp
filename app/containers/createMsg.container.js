@@ -1,6 +1,7 @@
-import * as messageActions from '../actions/messages.actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import * as messageActions from "../actions/messages.actions";
+import * as imageActions from "../actions/image.actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 var React = require('react-native');
 var CreateMsg = require('../components/createMsg');
@@ -31,6 +32,13 @@ class CreateMsgContainer extends React.Component {
         }
     }
 
+    _onImagePress(image) {
+        this.props.openImage(image);
+        this.props.navigator.push({
+            id: Routes.imageDetail
+        })
+    }
+
     _postMessage(data) {
         this.props.postMessage(data);
     }
@@ -38,11 +46,12 @@ class CreateMsgContainer extends React.Component {
     render() {
         return (
             <CreateMsg
-                post = { (data) => this._postMessage(data)}
-                navigator = {this.props.navigator}
-                location = {this.props.route.props.position}
-                user= {this.props.user}
-                error = {this.state.error}
+                post={ (data) => this._postMessage(data)}
+                onImagePress={ (data) => this._onImagePress(data)}
+                navigator={this.props.navigator}
+                location={this.props.route.props.position}
+                user={this.props.user}
+                error={this.state.error}
             />
         );
     }
@@ -57,7 +66,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        postMessage: bindActionCreators(messageActions.postMessage, dispatch)
+        postMessage: bindActionCreators(messageActions.postMessage, dispatch),
+        openImage: bindActionCreators(imageActions.imageOpen, dispatch)
     };
 };
 

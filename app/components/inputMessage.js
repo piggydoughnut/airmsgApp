@@ -4,6 +4,7 @@ var {
     Text,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
     TextInput,
     SliderIOS,
     Image,
@@ -60,8 +61,8 @@ var options = {
     cameraType: 'back', // 'front' or 'back'
     mediaType: 'photo', // 'photo' or 'video'
     maxWidth: 500, // photos only
-    maxHeight: 500, // photos only
-    quality: 0.8, // 0 to 1, photos only
+    maxHeight: 800, // photos only
+    quality: 1, // 0 to 1, photos only
     allowsEditing: false, // Built in functionality to resize/reposition the image after selection
     noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
     storageOptions: { // if this key is provided, the image will get saved in the documents directory on ios, and the pictures directory on android (rather than a temporary directory)
@@ -146,7 +147,9 @@ class InputMessage extends React.Component {
                     <Text style={styles.buttonText}>Add Image</Text>
                 </TouchableHighlight>
 
-                { image }
+                <TouchableOpacity onPress={ () => this.props.onImagePress(this.state.image.data)}>
+                    { image }
+                </TouchableOpacity>
 
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
