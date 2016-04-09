@@ -21,7 +21,7 @@ class CreateMsgContainer extends React.Component {
         this._postMessage = this._postMessage.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {m
         if (nextProps.messages.redirect && !nextProps.messages.error) {
             this.props.navigator.push({
                 id: Routes.messageMap,

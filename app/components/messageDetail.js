@@ -55,7 +55,9 @@ class MessageDetail extends React.Component {
                     {this.props.message.text}
                     {"\n"}
                 </Text>
-                { image }
+                <TouchableOpacity onPress={ () => this.props.onImagePress(this.props.message.file.data)}>
+                    { image }
+                </TouchableOpacity>
                 <Text> Views: {this.props.message.views_count} </Text>
                 <Text> by {this.props.message.user.username} on {DateFormatting.getFormattedDateYMD(this.props.message.published_at)}</Text>
             </ScrollView>

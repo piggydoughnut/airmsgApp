@@ -1,20 +1,29 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as messageActions from '../actions/messages.actions';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as imageActions from "../actions/image.actions";
 
 var React = require('react-native');
-var MessageDetail = require('../components/messageDetail')
+var MessageDetail = require('../components/messageDetail');
+var Routes = require('../config/routes');
 
 class MessageDetailContainer extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    _onImagePress(image) {
+        this.props.openImage(image);
+        this.props.navigator.push({
+            id: Routes.imageDetail
+        })
+    }
+
     render() {
         return (
             <MessageDetail
-                message = {this.props.messageDetail}
-                navigator = {this.props.navigator}
+                message={this.props.messageDetail}
+                navigator={this.props.navigator}
+                onImagePress={ (img) => this._onImagePress(img)}
             />
         );
     }
@@ -26,7 +35,9 @@ const mapStateToProps = (store) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        openImage: bindActionCreators(imageActions.imageOpen, dispatch)
+    };
 };
 
 MessageDetailContainer = connect(mapStateToProps, mapDispatchToProps)(MessageDetailContainer);
