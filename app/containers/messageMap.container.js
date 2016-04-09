@@ -40,9 +40,9 @@ class MessageMapContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.messages.hasOwnProperty('messages') &&
-            nextProps.messages.messages.length != this.state.markers.length) {
+            nextProps.messages.messages.docs.length != this.state.markers.length) {
             this.setState({
-                markers: nextProps.messages.messages
+                markers: nextProps.messages.messages.docs
             });
         }
         if (nextProps.messages.hasOwnProperty('messageDetail')) {

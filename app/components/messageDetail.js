@@ -3,12 +3,14 @@ import {bindActionCreators} from "redux";
 
 var React = require('react-native');
 var DateFormatting = require('../util/dateFormatting');
+var CommentView = require('./commentView');
 var {
     ScrollView,
     Text,
     StyleSheet,
     Navigator,
     TouchableOpacity,
+    TextInput,
     Image
 } = React;
 
@@ -27,11 +29,27 @@ var styles = StyleSheet.create({
         height: 250,
         margin: 10,
     },
+    formInput: {
+        height: 150,
+        padding: 10,
+        marginRight: 5,
+        marginBottom: 5,
+        marginTop: 15,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: "#555555",
+        borderRadius: 8,
+        color: "#555555"
+    },
+
 });
 
 class MessageDetail extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            commentsNumber: 0
+        }
     }
 
     render() {
@@ -48,18 +66,37 @@ class MessageDetail extends React.Component {
     }
 
     renderScene(route, navigator) {
-        var image = this.props.message.file ? <Image source={{uri: this.props.message.file.data}} style={styles.image}/> : null;
+        var commentStyle= '';
+        var comments = '';
+        if(this.state.commentsNumber == 0){
+            comments =
+                <CommentView>
+
+                </CommentView>
+        }
+        var msg = this.props.messageDetail.message;
+
+        var image = msg.file ? <Image source={{uri: msg.file.data}} style={styles.image}/> : null;
         return (
             <ScrollView style={styles.mainContainer}>
-                <Text style={styles.message}>
-                    {this.props.message.text}
-                    {"\n"}
-                </Text>
-                <TouchableOpacity onPress={ () => this.props.onImagePress(this.props.message.file.data)}>
+                <TouchableOpacity onPress={ () => this.props.onImagePress(msg.file.data)}>
                     { image }
                 </TouchableOpacity>
-                <Text> Views: {this.props.message.views_count} </Text>
-                <Text> by {this.props.message.user.username} on {DateFormatting.getFormattedDateYMD(this.props.message.published_at)}</Text>
+                <Text style={styles.message}>
+                    {msg.text}
+                    {"\n"}
+                </Text>
+                <Text> Views: {msg.views_count} </Text>
+                <Text> by {msg.username} on {DateFormatting.getFormattedDateYMD(msg.published_at)}</Text>
+                <TouchableOpacity>
+                    <Text style={commentStyle}> Comments {this.state.commentsNumber} </Text>
+                </TouchableOpacity>
+                <TextInput
+                    multiline={true}
+                    placeholder="Comment"
+                    style={styles.formInput}
+                />
+
             </ScrollView>
         );
     }

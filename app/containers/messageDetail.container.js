@@ -21,7 +21,7 @@ class MessageDetailContainer extends React.Component {
     render() {
         return (
             <MessageDetail
-                message={this.props.messageDetail}
+                messageDetail={this.props.messageDetail}
                 navigator={this.props.navigator}
                 onImagePress={ (img) => this._onImagePress(img)}
             />

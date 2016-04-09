@@ -27,3 +27,17 @@ export function loadMessages(data) {
             return responseData
         });
 }
+
+export function openMessage(id) {
+    var response = '';
+    return fetch(api.domain + "/messages/"+ id,
+        {method: "GET"})
+        .then((response) => response.json())
+        .then((responseData) => {
+            return responseData
+        });
+}
+
+/**
+ * @todo: handle HTTP errors
+ */
