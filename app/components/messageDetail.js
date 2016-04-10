@@ -77,9 +77,6 @@ class MessageDetail extends React.Component {
                 <Text style={styles.message}>{msg.text}{"\n"}</Text>
                 <Text> Views: {msg.views_count} </Text>
                 <Text> by {msg.user.username} on {getFormattedDateYMD(msg.published_at)}</Text>
-                <TouchableOpacity>
-                    <Text> Comments {comments.total} </Text>
-                </TouchableOpacity>
                 <CommentView />
             </ScrollView>
         );

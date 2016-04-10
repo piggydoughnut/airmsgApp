@@ -56,7 +56,6 @@ var styles = StyleSheet.create({
     commentSignature: {
         fontSize: 10
     }
-m
 });
 
 class CommentView extends React.Component {
@@ -66,14 +65,14 @@ class CommentView extends React.Component {
             rowHasChanged: (r1, r2) => r1 != r2
         });
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.comments)
+            total: this.props.comments.total,
+            dataSource: ds.cloneWithRows(this.props.comments.docs)
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.comments),
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.comments.docs)
         });
     }
 
@@ -102,6 +101,7 @@ class CommentView extends React.Component {
     render() {
         return (
             <View>
+                <Text> Comments {this.props.comments.total}</Text>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}

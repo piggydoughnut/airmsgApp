@@ -32,7 +32,7 @@ class CommentViewContainer extends React.Component {
     render() {
         return (
             <CommentView
-                comments={this.state.comments.docs}
+                comments={this.state.comments}
                 sendComment={ (comment) => this._onSendCommentPress(comment)}
                 getComments={ (id) => this.props.getComments(id)}
                 msgId={this.props.messageDetail.message._id}
