@@ -1,16 +1,15 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {getFormattedDateYMD} from "../util/dateFormatting";
 
 var React = require('react-native');
-var DateFormatting = require('../util/dateFormatting');
-var CommentView = require('./commentView');
+var CommentView = require('../containers/commentsView.container');
 var {
     ScrollView,
     Text,
     StyleSheet,
     Navigator,
     TouchableOpacity,
-    TextInput,
     Image
 } = React;
 
@@ -40,8 +39,7 @@ var styles = StyleSheet.create({
         borderColor: "#555555",
         borderRadius: 8,
         color: "#555555"
-    },
-
+    }
 });
 
 class MessageDetail extends React.Component {
@@ -66,37 +64,23 @@ class MessageDetail extends React.Component {
     }
 
     renderScene(route, navigator) {
-        var commentStyle= '';
-        var comments = '';
-        if(this.state.commentsNumber == 0){
-            comments =
-                <CommentView>
-
-                </CommentView>
-        }
+        var comments = this.props.messageDetail.comments;
         var msg = this.props.messageDetail.message;
 
         var image = msg.file ? <Image source={{uri: msg.file.data}} style={styles.image}/> : null;
+
         return (
             <ScrollView style={styles.mainContainer}>
                 <TouchableOpacity onPress={ () => this.props.onImagePress(msg.file.data)}>
                     { image }
                 </TouchableOpacity>
-                <Text style={styles.message}>
-                    {msg.text}
-                    {"\n"}
-                </Text>
+                <Text style={styles.message}>{msg.text}{"\n"}</Text>
                 <Text> Views: {msg.views_count} </Text>
-                <Text> by {msg.username} on {DateFormatting.getFormattedDateYMD(msg.published_at)}</Text>
+                <Text> by {msg.user.username} on {getFormattedDateYMD(msg.published_at)}</Text>
                 <TouchableOpacity>
-                    <Text style={commentStyle}> Comments {this.state.commentsNumber} </Text>
+                    <Text> Comments {comments.total} </Text>
                 </TouchableOpacity>
-                <TextInput
-                    multiline={true}
-                    placeholder="Comment"
-                    style={styles.formInput}
-                />
-
+                <CommentView />
             </ScrollView>
         );
     }
