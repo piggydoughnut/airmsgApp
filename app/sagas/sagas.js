@@ -1,7 +1,7 @@
 import { takeEvery, takeLatest } from 'redux-saga'
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import { LOGIN_BASIC, LOGIN_FB, LOGIN_GMAIL } from '../actions/login.actions'
-import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_FAILURE } from '../actions/messages.actions'
+import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_SUCCESS, MESSAGES_LOAD_FAILURE, COMMENT_POST, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE } from '../actions/messages.actions'
 
 var messagesApi = require('../api/messages.api');
 var messageActions = require('../actions/messages.actions');
@@ -23,10 +23,19 @@ function* postMessage(data) {
     }
 }
 
+function* postComment(data) {
+    try {
+        const response = yield call(messagesApi.postComment, data.payload);
+        yield put(messageActions.success(response, COMMENT_POST_SUCCESS));
+    } catch (error) {
+        yield put(messageActions.failure(error, COMMENT_POST_FAILURE));
+    }
+}
+
 function* loadMessages(data){
     try{
         const response = yield call(messagesApi.loadMessages, data.payload);
-        yield put(messageActions.loadMessagesSuccess(response));
+        yield put(messageActions.success(response, MESSAGES_LOAD_SUCCESS));
     }catch(error){
         yield put(messageActions.failure(error, MESSAGES_LOAD_FAILURE));
     }
@@ -52,6 +61,10 @@ export function* watchMessagesLoad() {
 
 export function* watchMessagePost() {
     yield* takeEvery(MESSAGE_POST, postMessage);
+}
+
+export function* watchCommentPost() {
+    yield* takeEvery(COMMENT_POST, postComment);
 }
 
 export function* watchMessageOpen() {

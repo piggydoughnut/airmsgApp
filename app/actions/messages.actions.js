@@ -8,6 +8,10 @@ export const MESSAGE_OPEN_FAILURE = 'MESSAGE OPEN FAILURE';
 export const MESSAGE_POST = 'MESSAGE POST';
 export const MESSAGE_POST_SUCCESS = 'MESSAGE POST SUCCESS';
 export const MESSAGE_POST_FAILURE = 'MESSAGE POST FAILURE';
+export const COMMENT_POST = 'COMMENT POST';
+export const COMMENT_POST_SUCCESS = 'COMMENT POST SUCCESS';
+export const COMMENT_POST_FAILURE = 'COMMENT POST FAILURE';
+
 
 /** Action creators */
 export function loadMessages(position, radius) {
@@ -58,9 +62,9 @@ export function postMessageSuccess(data) {
     };
 }
 
-export function loadMessagesSuccess(data) {
+export function success(data, action){
     return {
-        type: MESSAGES_LOAD_SUCCESS,
+        type: action,
         payload: {
             messages: data
         }
