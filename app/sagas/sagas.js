@@ -1,10 +1,12 @@
 import { takeEvery, takeLatest } from 'redux-saga'
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import { LOGIN_BASIC, LOGIN_FB, LOGIN_GMAIL } from '../actions/login.actions'
-import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_SUCCESS, MESSAGES_LOAD_FAILURE, COMMENT_POST, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE } from '../actions/messages.actions'
+import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_SUCCESS, MESSAGES_LOAD_FAILURE, } from '../actions/messages.actions'
+import { COMMENT_POST, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE, COMMENTS_LOAD_SUCCESS, COMMENTS_LOAD_FAILURE, COMMENTS_LOAD } from '../actions/comments.actions'
 
 var messagesApi = require('../api/messages.api');
 var messageActions = require('../actions/messages.actions');
+var commentActions = require('../actions/comments.actions');
 var loginActions = require('../actions/login.actions');
 var Api = require('../config/api');
 
@@ -16,7 +18,6 @@ function* loginApi(action) {
 function* postMessage(data) {
     try {
         const response = yield call(messagesApi.postMessage, data.payload.message);
-        console.log(response);
         yield put(messageActions.postMessageSuccess(response));
     } catch (error) {
         yield put(messageActions.failure(error, MESSAGE_POST_FAILURE));
@@ -25,7 +26,7 @@ function* postMessage(data) {
 
 function* postComment(data) {
     try {
-        const response = yield call(messagesApi.postComment, data.payload);
+        const response = yield call(messagesApi.postComment, data.payload.comment);
         yield put(messageActions.success(response, COMMENT_POST_SUCCESS));
     } catch (error) {
         yield put(messageActions.failure(error, COMMENT_POST_FAILURE));
@@ -38,6 +39,14 @@ function* loadMessages(data){
         yield put(messageActions.success(response, MESSAGES_LOAD_SUCCESS));
     }catch(error){
         yield put(messageActions.failure(error, MESSAGES_LOAD_FAILURE));
+    }
+}
+function* loadComments(data){
+    try{
+        const response = yield call(messagesApi.loadComments, data.payload);
+        yield put(commentActions.success(response, COMMENTS_LOAD_SUCCESS));
+    }catch(error){
+        yield put(commentActions.failure(error, COMMENTS_LOAD_FAILURE));
     }
 }
 
@@ -63,10 +72,13 @@ export function* watchMessagePost() {
     yield* takeEvery(MESSAGE_POST, postMessage);
 }
 
+export function* watchMessageOpen() {
+    yield* takeEvery(MESSAGE_OPEN, openMessage);
+}
+
 export function* watchCommentPost() {
     yield* takeEvery(COMMENT_POST, postComment);
 }
-
-export function* watchMessageOpen() {
-    yield* takeEvery(MESSAGE_OPEN, openMessage);
+export function* watchCommentsLoad() {
+    yield* takeEvery(COMMENTS_LOAD, loadComments);
 }
