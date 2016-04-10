@@ -1,7 +1,7 @@
 import { takeEvery, takeLatest } from 'redux-saga'
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import { LOGIN_BASIC, LOGIN_FB, LOGIN_GMAIL } from '../actions/login.actions'
-import { MESSAGE_POST, MESSAGE_OPEN, MESSAGES_LOAD } from '../actions/messages.actions'
+import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_FAILURE } from '../actions/messages.actions'
 
 var messagesApi = require('../api/messages.api');
 var messageActions = require('../actions/messages.actions');
@@ -19,7 +19,7 @@ function* postMessage(data) {
         console.log(response);
         yield put(messageActions.postMessageSuccess(response));
     } catch (error) {
-        yield put(messageActions.postMessageFailure(error));
+        yield put(messageActions.failure(error, MESSAGE_POST_FAILURE));
     }
 }
 
@@ -28,7 +28,7 @@ function* loadMessages(data){
         const response = yield call(messagesApi.loadMessages, data.payload);
         yield put(messageActions.loadMessagesSuccess(response));
     }catch(error){
-        yield put(messageActions.loadMessagesFailure(error));
+        yield put(messageActions.failure(error, MESSAGES_LOAD_FAILURE));
     }
 }
 
@@ -37,7 +37,7 @@ function* openMessage(data){
         const response = yield call(messagesApi.openMessage, data.payload.id);
         yield put(messageActions.openMessageSuccess(response));
     }catch(error){
-        yield put(messageActions.openMessageFailure(error));
+        yield put(messageActions.failure(error, MESSAGE_OPEN_FAILURE));
     }
 }
 

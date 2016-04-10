@@ -47,14 +47,6 @@ export function openMessageSuccess(msg) {
     };
 }
 
-export function openMessageFailure(error) {
-    return {
-        type: MESSAGE_OPEN_FAILURE,
-        payload: {
-            error: error
-        }
-    };
-}
 
 export function postMessageSuccess(data) {
     return {
@@ -62,15 +54,6 @@ export function postMessageSuccess(data) {
         payload: {
             messages: data,
             redirect: true
-        }
-    };
-}
-
-export function postMessageFailure(error) {
-    return {
-        type: MESSAGE_POST_FAILURE,
-        payload: {
-            error: error,
         }
     };
 }
@@ -84,12 +67,11 @@ export function loadMessagesSuccess(data) {
     };
 }
 
-export function loadMessagesFailure(error) {
+export function failure(error, action){
     return {
-        type: MESSAGES_LOAD_FAILURE,
+        type: action,
         payload: {
-            error: error,
+            error: error
         }
     };
 }
-
