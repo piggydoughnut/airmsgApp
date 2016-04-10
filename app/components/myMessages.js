@@ -1,7 +1,6 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 var React = require('react-native');
-var ListingRow = require('./listingRow');
 
 var {
     StyleSheet,
@@ -51,10 +50,10 @@ class MyMessages extends React.Component {
                     {this.props.userMessages.map((message, i) => {
                         var style = '';
                         if (i % 2 == 0) {
-                            style = {backgroundColor: '#CFA9DB'}
+                            style = {backgroundColor: '#E3F4FA'}
                         }
 
-                        return (<ListingRow row={message} rowStyle={style} key={i}/>);
+                        return (<MessageRow row={message} rowStyle={style} key={i}/>);
                     })}
                 </ScrollView>
             </View>
@@ -62,6 +61,24 @@ class MyMessages extends React.Component {
     }
 
 }
+
+
+class MessageRow extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <View style={this.props.rowStyle}>
+                <Text style={styles.item} key={this.props.key}>{this.props.row.text.substring(0, 20)} ...</Text>
+                <Text>{this.props.row.location.city} - {this.props.row.location.country}</Text>
+            </View>
+        );
+    }
+}
+
 
 var NavigationBarRouteMapper = {
     LeftButton(route, navigator, index, navState) {
