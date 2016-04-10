@@ -114,7 +114,6 @@ class CommentView extends React.Component {
                     onChange={(event) => this.setState({comment: event.nativeEvent.text})}
                     style={styles.formInput}
                 />
-                <Text> {this.state.comment}</Text>
                 <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
                     <Text style={styles.buttonText}>Post</Text>
                 </TouchableHighlight>
@@ -133,7 +132,7 @@ class Comment extends React.Component {
             <View style={this.props.style}>
                 <Text key={this.props.key}>{this.props.comment.description} </Text>
                 <Text style={styles.commentSignature}>by {this.props.comment.user.username}
-                    on {getFormattedDateYMDHM(this.props.comment.published_at)}</Text>
+                    {" "}on {getFormattedDateYMDHM(this.props.comment.published_at)}</Text>
             </View>
         );
     }
