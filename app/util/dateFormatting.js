@@ -4,3 +4,10 @@ export function getFormattedDateYMD(date) {
         return d.getFullYear() + '/' + d.getMonth() + '/' + d.getDay();
     }
 }
+
+export function getFormattedDateYMDHM(date) {
+    if (typeof date != 'undefined') {
+        var d = new Date(date);
+        return d.getFullYear() + '/' + d.getMonth() + '/' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes();
+    }
+}
