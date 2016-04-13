@@ -49,6 +49,9 @@ var styles = StyleSheet.create({
         height: 100,
         margin: 10,
     },
+    error: {
+        color: 'red'
+    }
 });
 var ImagePickerManager = require('NativeModules').ImagePickerManager;
 var FileUpload = require('NativeModules').FileUpload;
@@ -77,8 +80,9 @@ class InputMessage extends React.Component {
         super(props);
         this.state = {
             message: "",
-            value: 0,
-            image: ''
+            value: 1,
+            image: '',
+            textValidation: ''
         };
     }
 
@@ -110,7 +114,10 @@ class InputMessage extends React.Component {
     }
 
     _onPress() {
-
+        if(this.state.message===''){
+            this.setState({textValidation: 'Did you forget to write a message?'});
+            return;
+        }
         var data = {
             validity: this.state.value,
             text: this.state.message,
@@ -130,6 +137,7 @@ class InputMessage extends React.Component {
         var image = (this.state.image != '') ? <Image source={{uri: this.state.image.data}} style={styles.image}/> : null;
         return (
             <ScrollView style={styles.messageContainer}>
+                <Text style={styles.error}>{ this.state.textValidation }</Text>
                 <TextInput
                     multiline={true}
                     required={true}
@@ -141,6 +149,7 @@ class InputMessage extends React.Component {
                 <SliderIOS
                     maximumValue={10}
                     step={1}
+                    value={this.state.value}
                     onValueChange={(value) => this.setState({value: value})}/>
                 <Text> {this.state.value} </Text>
                 <TouchableHighlight onPress={() => this._addImage()} style={styles.button}>
