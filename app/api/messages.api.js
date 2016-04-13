@@ -1,5 +1,7 @@
 /** API Calls to /messages */
 var api = require('../config/api');
+import {checkStatus, errorModal} from "./default.api";
+var React = require('react-native');
 
 export function postMessage(data) {
     fetch(api.domain + "/messages", {
@@ -9,6 +11,7 @@ export function postMessage(data) {
         },
         body: JSON.stringify(data)
     })
+        .then(checkStatus)
         .then((response) => response.json())
         .then((responseData) => {
             return JSON.stringify(responseData)
@@ -18,10 +21,12 @@ export function postMessage(data) {
 export function loadMessages(data) {
     return fetch(api.domain + "/messages",
         {method: "GET"})
+        .then((response) => checkStatus(response))
         .then((response) => response.json())
         .then((responseData) => {
             return responseData
-        });
+        })
+        .catch(error => {errorModal(error)});
 }
 
 export function openMessage(id) {
