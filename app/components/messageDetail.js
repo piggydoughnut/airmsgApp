@@ -45,9 +45,6 @@ var styles = StyleSheet.create({
 class MessageDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            commentsNumber: 0
-        }
     }
 
     render() {
@@ -64,7 +61,6 @@ class MessageDetail extends React.Component {
     }
 
     renderScene(route, navigator) {
-        var comments = this.props.messageDetail.comments;
         var msg = this.props.messageDetail.message;
 
         var image = msg.file ? <Image source={{uri: msg.file.data}} style={styles.image}/> : null;
