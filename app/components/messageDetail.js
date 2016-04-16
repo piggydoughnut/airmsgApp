@@ -4,12 +4,14 @@ import {getFormattedDateYMD} from "../util/dateFormatting";
 
 var React = require('react-native');
 var CommentView = require('../containers/commentsView.container');
+var ARView = require('../ar/arView');
 var {
     ScrollView,
     Text,
     StyleSheet,
     Navigator,
     TouchableOpacity,
+    TouchableHighlight,
     Image
 } = React;
 
@@ -39,15 +41,39 @@ var styles = StyleSheet.create({
         borderColor: "#555555",
         borderRadius: 8,
         color: "#555555"
-    }
+    },
+    buttonText: {
+        fontSize: 18,
+        color: "#ffffff",
+        alignSelf: "center"
+    },
+    button: {
+        height: 36,
+        backgroundColor: "#555555",
+        borderColor: "#555555",
+        borderWidth: 1,
+        borderRadius: 8,
+        marginTop: 10,
+        justifyContent: "center"
+    },
 });
 
 class MessageDetail extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            ar: 'off'
+        }
     }
 
+    _startAR(){
+        this.setState({ar: 'on'});
+
+    }
     render() {
+        if(this.state.ar=='on'){
+            return (<ARView />);
+        }
         return (
             <Navigator
                 renderScene={this.renderScene.bind(this)}
@@ -74,6 +100,11 @@ class MessageDetail extends React.Component {
                 <Text> Views: {msg.views_count} </Text>
                 <Text> by {msg.user.username} on {getFormattedDateYMD(msg.published_at)}</Text>
                 <CommentView />
+
+                <TouchableHighlight onPress={() => this._startAR()} style={styles.button}>
+                    <Text style={styles.buttonText}>Show AR</Text>
+                </TouchableHighlight>
+
             </ScrollView>
         );
     }
