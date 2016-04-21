@@ -1,18 +1,31 @@
+var x = function objSrcFn(src){
+    AR.logger.activateDebugMode();
+    AR.logger.debug('hello');
+    AR.logger.debug(src);
+}
+
 var World = {
 	loaded: false,
 	rotating: false,
+  objSrc: 'initial-value',
 
 	init: function initFn() {
-		this.createModelAtLocation();
+    AR.logger.activateDebugMode();
+    this.createModelAtLocation();
 	},
 
-	createModelAtLocation: function createModelAtLocationFn() {
+  setObjSrc: function setObjSrcFn(src){
+    AR.logger.debug(src);
+    this.objSrc = src;
+  },
 
+	createModelAtLocation: function createModelAtLocationFn() {
+//    AR.logger.activateDebugMode();
 		/*
-			First a location where the model should be displayed will be defined. This location will be relativ to the user.	
+			First a location where the model should be displayed will be defined. This location will be relative to the user.
 		*/
 		var location = new AR.RelativeLocation(null, 5, 0, 2);
-    AR.logger.debug('omg');
+    AR.logger.debug(this.objSrc);
 
 		/*
 			Next the model object is loaded.
