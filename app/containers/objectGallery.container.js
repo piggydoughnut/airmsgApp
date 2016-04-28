@@ -3,7 +3,11 @@ import {bindActionCreators} from "redux";
 import * as galleryActions from "../actions/gallery.actions";
 
 var React = require('react-native');
+var Loading = require('../components/loading');
 var ObjectGallery = require('../components/objectGallery');
+var {
+    Text
+} = React;
 
 class ObjectGalleryContainer extends React.Component {
 
@@ -12,18 +16,24 @@ class ObjectGalleryContainer extends React.Component {
         this.state = {
             data: null
         };
-        this.props.getUserGallery();
+        this.props.getUserGallery(this.props.user._id);
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-        // this.setState({data:})
+        if(nextProps.gallery.hasOwnProperty('gallery')){
+            this.setState({data: nextProps.gallery.gallery});
+        }
     }
 
     render() {
+        console.log(this.state.data);
+        if(this.state.data == null){
+            return (<Loading />)
+        }
         return (
             <ObjectGallery
                 data={this.state.data}
+                navigator={this.props.navigator}
             />
         );
     }
@@ -32,7 +42,8 @@ class ObjectGalleryContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        gallery: store.gallery
+        gallery: store.gallery,
+        user: store.user.user
     };
 };
 

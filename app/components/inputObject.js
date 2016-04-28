@@ -1,4 +1,5 @@
 var React = require('react-native');
+var Routes = require('../config/routes');
 var {
     View,
     Text,
@@ -51,10 +52,13 @@ class InputObject extends React.Component {
             value: 0
         };
     }
-
+    
     render() {
         return (
             <View style={styles.messageContainer}>
+                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
+                    <Text style={styles.buttonText}>Choose object</Text>
+                </TouchableHighlight>
                 <TextInput
                     multiline={true}
                     required={true}

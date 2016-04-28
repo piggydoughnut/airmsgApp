@@ -5,10 +5,10 @@ const gallery = (state = [], action) => {
     switch (action.type) {
         case GET_GALLERY_USER_SUCCESS:
             return {
-                user: action.payload
+                gallery: action.payload
             };
         default:
-            return null;
+            return {};
     }
 };
 

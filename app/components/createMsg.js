@@ -66,7 +66,9 @@ class CreateMsg extends React.Component {
         />;
 
         if (this.state.message_type == OBJECT) {
-            view = <InputObject />;
+            view = <InputObject
+                    onAddObject={() => this.props.onAddObject()}
+                />;
         }
         return (
             <View style={styles.container}>

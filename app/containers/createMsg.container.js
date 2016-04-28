@@ -31,6 +31,12 @@ class CreateMsgContainer extends React.Component {
             this.setState({error: nextProps.error});
         }
     }
+    _addObject(){
+        this.props.navigator.push({
+            id: Routes.objectGallery
+        });
+
+    }
 
     _onImagePress(image) {
         this.props.openImage(image);
@@ -48,6 +54,7 @@ class CreateMsgContainer extends React.Component {
             <CreateMsg
                 post={ (data) => this._postMessage(data)}
                 onImagePress={ (data) => this._onImagePress(data)}
+                onAddObject={ () => this._addObject()}
                 navigator={this.props.navigator}
                 location={this.props.route.props.position}
                 user={this.props.user}
