@@ -76,6 +76,9 @@ class CreateMsg extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.error}> {this.props.error} </Text>
                 <SegmentedControls
+                    tint= {'#8b78a5'}
+                    selectedTint= {'white'}
+                    backTint= {'#d7d2e8'}
                     options={ options }
                     onSelection={ (type) => this.setState({message_type: type}) }
                     selectedOption={ this.state.message_type }
