@@ -3,11 +3,14 @@ import { take, put, call, fork, select } from 'redux-saga/effects'
 import { LOGIN_BASIC, LOGIN_FB, LOGIN_GMAIL } from '../actions/login.actions'
 import { MESSAGE_POST, MESSAGE_POST_FAILURE, MESSAGE_OPEN, MESSAGE_OPEN_FAILURE, MESSAGES_LOAD, MESSAGES_LOAD_SUCCESS, MESSAGES_LOAD_FAILURE, } from '../actions/messages.actions'
 import { COMMENT_POST, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE, COMMENTS_LOAD_SUCCESS, COMMENTS_LOAD_FAILURE, COMMENTS_LOAD } from '../actions/comments.actions'
+import {GET_GALLERY_USER, GET_GALLERY_USER_SUCCESS, GET_GALLERY_USER_FAILURE} from '../actions/gallery.actions';
 
 var messagesApi = require('../api/messages.api');
+var galleryApi = require('../api/gallery.api');
 var messageActions = require('../actions/messages.actions');
 var commentActions = require('../actions/comments.actions');
 var loginActions = require('../actions/login.actions');
+var commonActions = require('../actions/common.actions');
 var Api = require('../config/api');
 
 /** workers */
@@ -59,6 +62,15 @@ function* openMessage(data){
     }
 }
 
+function* getGalleryUser(data) {
+    try {
+        const response = yield call(galleryApi.getGalleryForUser, data.payload);
+        yield put(commonActions.success(response, GET_GALLERY_USER_SUCCESS));
+    } catch (error) {
+        yield put(commonActions.failure(error, GET_GALLERY_USER_FAILURE));
+    }
+}
+
 /** watchers */
 export function* watchLogin() {
     yield* takeEvery(LOGIN_BASIC, loginApi);
@@ -81,4 +93,7 @@ export function* watchCommentPost() {
 }
 export function* watchCommentsLoad() {
     yield* takeEvery(COMMENTS_LOAD, loadComments);
+}
+export function* watchGetGalleryUser() {
+    yield* takeEvery(GET_GALLERY_USER, getGalleryUser);
 }
