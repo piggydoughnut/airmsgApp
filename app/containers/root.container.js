@@ -44,6 +44,8 @@ var MyMessages = require('./myMessages.container');
 var MainContainer = require('./main.container');
 var ImageDetail = require('./imageDetail.container');
 
+var ObjectGallery = require('./objectGallery.container');
+
 class Root extends Component {
 
     renderScene(route, navigator) {
@@ -65,6 +67,8 @@ class Root extends Component {
                 return (<ImageDetail navigator={navigator}/>);
             case Routes.messageDetail:
                 return (<MessageDetail navigator={navigator} route={route}/>);
+            case Routes.objectGallery:
+                return (<ObjectGallery navigator={navigator}/>);
         }
         return this.noRoute(navigator);
     }
