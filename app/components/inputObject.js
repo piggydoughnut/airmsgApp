@@ -88,6 +88,7 @@ class InputObject extends React.Component {
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.message}/>
+                { chosen }
                 <Text> Validity of your message in hours: </Text>
                 <SliderIOS
                     maximumValue={10}
@@ -98,7 +99,6 @@ class InputObject extends React.Component {
                 <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
                     <Text style={styles.buttonText}> {buttonText} </Text>
                 </TouchableHighlight>
-                { chosen }
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
