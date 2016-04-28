@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 var React = require('react-native');
+var s = require('../styles/style');
 
 var {
     StyleSheet,
@@ -36,7 +37,7 @@ class MyMessages extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                    <Navigator.NavigationBar style={s.navigator}
                         routeMapper={NavigationBarRouteMapper} />
                     }
             />

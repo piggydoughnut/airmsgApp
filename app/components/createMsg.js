@@ -4,6 +4,7 @@ var React = require('react-native');
 var Routes = require('../config/routes');
 var InputMessage = require('./inputMessage');
 var InputObject = require('./inputObject');
+var s = require('../styles/style');
 
 var {
     View,
@@ -45,7 +46,7 @@ class CreateMsg extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                    <Navigator.NavigationBar style={s.navigator}
                         routeMapper={NavigationBarRouteMapper} />
                     }
             />

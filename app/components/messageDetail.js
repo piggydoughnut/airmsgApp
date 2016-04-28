@@ -5,6 +5,7 @@ import {getFormattedDateYMD} from "../util/dateFormatting";
 var React = require('react-native');
 var CommentView = require('../containers/commentsView.container');
 var ARView = require('../ar/arView');
+var s = require('../styles/style');
 var {
     ScrollView,
     Text,
@@ -79,7 +80,7 @@ class MessageDetail extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                    <Navigator.NavigationBar style={s.navigator}
                         routeMapper={NavigationBarRouteMapper} />
                     }
             />
@@ -98,7 +99,7 @@ class MessageDetail extends React.Component {
                 </TouchableOpacity>
                 <Text style={styles.message}>{msg.text}{"\n"}</Text>
                 <Text> Views: {msg.views_count} </Text>
-                <Text> by {msg.user.username} on {getFormattedDateYMD(msg.published_at)}</Text>
+                <Text> by {msg.user.username} on {getFormattedDateYMD(msg.created_at)}</Text>
                 <CommentView />
 
                 <TouchableHighlight onPress={() => this._startAR()} style={styles.button}>

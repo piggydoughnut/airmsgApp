@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     formInput: {
-        height: 150,
+        height: 100,
         padding: 10,
         marginRight: 5,
         marginBottom: 5,
@@ -37,16 +37,17 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        backgroundColor: "#555555",
-        borderColor: "#555555",
+        width: 140,
+        backgroundColor: "#91a3c6",
+        borderColor: "#91a3c6",
         borderWidth: 1,
         borderRadius: 8,
         marginTop: 10,
         justifyContent: "center"
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 200,
+        height: 200,
         margin: 10,
     },
     error: {
@@ -54,7 +55,6 @@ var styles = StyleSheet.create({
     }
 });
 var ImagePickerManager = require('NativeModules').ImagePickerManager;
-var FileUpload = require('NativeModules').FileUpload;
 
 var options = {
     title: null, // specify null or empty string to remove the title
@@ -141,10 +141,13 @@ class InputMessage extends React.Component {
                 <TextInput
                     multiline={true}
                     required={true}
-                    placeholder="INPUT MESSAGE"
+                    placeholder="your message..."
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.message}/>
+                <TouchableOpacity onPress={ () => this.props.onImagePress(this.state.image.data)}>
+                    { image }
+                </TouchableOpacity>
                 <Text> Validity of your message in hours: </Text>
                 <SliderIOS
                     maximumValue={10}
@@ -155,10 +158,6 @@ class InputMessage extends React.Component {
                 <TouchableHighlight onPress={() => this._addImage()} style={styles.button}>
                     <Text style={styles.buttonText}>Add Image</Text>
                 </TouchableHighlight>
-
-                <TouchableOpacity onPress={ () => this.props.onImagePress(this.state.image.data)}>
-                    { image }
-                </TouchableOpacity>
 
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>

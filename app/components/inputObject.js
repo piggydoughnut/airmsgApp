@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     formInput: {
-        height: 250,
+        height: 100,
         padding: 10,
         marginRight: 5,
         marginBottom: 5,
@@ -38,6 +38,7 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
+        width: 140,
         backgroundColor: "#555555",
         borderColor: "#555555",
         borderWidth: 1,
@@ -51,7 +52,8 @@ var styles = StyleSheet.create({
     },
     image: {
         height: 200,
-        width: 200
+        width: 200,
+        margin: 10
     }
 });
 
@@ -60,15 +62,16 @@ class InputObject extends React.Component {
         super(props);
         this.state = {
             message: "",
-            value: 0
+            value: 1,
+            validation: ''
         };
     }
 
     render() {
-        var buttonText = 'Choose object';
+        var buttonText = 'Choose 3D';
         var chosen = null;
         if (this.props.chosenObject) {
-            buttonText = 'Chose another object';
+            buttonText = 'Chose another';
             chosen =
                 <View style={styles.imageContainer}>
                     <Image style={styles.image} source={{uri: api.domain + this.props.chosenObject.thumb_file_path}}/>
@@ -77,14 +80,11 @@ class InputObject extends React.Component {
         }
         return (
             <ScrollView style={styles.messageContainer}>
-                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
-                    <Text style={styles.buttonText}> {buttonText} </Text>
-                </TouchableHighlight>
-                { chosen }
+                <Text style={styles.error}>{ this.state.validation }</Text>
                 <TextInput
                     multiline={true}
                     required={true}
-                    placeholder="INPUT 3D"
+                    placeholder="your message..."
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.message}/>
@@ -92,8 +92,13 @@ class InputObject extends React.Component {
                 <SliderIOS
                     maximumValue={10}
                     step={1}
+                    value={this.state.value}
                     onValueChange={(value) => this.setState({value: value})}/>
                 <Text> {this.state.value} </Text>
+                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
+                    <Text style={styles.buttonText}> {buttonText} </Text>
+                </TouchableHighlight>
+                { chosen }
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>

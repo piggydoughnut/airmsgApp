@@ -20,18 +20,6 @@ import React, {
 
 var Routes = require('../config/routes');
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#111111'
-    },
-    textStyle: {
-        flex: 2,
-        fontSize: 20,
-        margin: 20
-    }
-});
-
 /** Pages for navigation **/
 var CreateMsg = require('./createMsg.container');
 var MessageMap = require('./messageMap.container');

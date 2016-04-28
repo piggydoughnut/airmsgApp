@@ -1,5 +1,6 @@
 var React = require('react-native');
 var api = require('../config/api');
+var s = require('../styles/style');
 
 var {
     StyleSheet,
@@ -94,7 +95,7 @@ class ObjectGallery extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+                    <Navigator.NavigationBar style={s.navigator}
                         routeMapper={NavigationBarRouteMapper} />
                     }
             />

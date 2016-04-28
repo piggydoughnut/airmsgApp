@@ -4,6 +4,7 @@ var Menu = require('../components/menu');
 var Routes = require('../config/routes');
 var Callout = require('./callout');
 var MapView = require('../../node_modules/react-native-maps/index');
+var s = require('../styles/style');
 
 var {
     View,
@@ -82,8 +83,7 @@ class MessageMap extends React.Component {
                 renderScene={this.renderScene.bind(this)}
                 navigator={this.props.navigator}
                 navigationBar={
-                    <Navigator.NavigationBar
-                        style={styles.navigationBar}
+                    <Navigator.NavigationBar style={s.navigator}
                         routeMapper={NavigationBarRouteMapper({position: this.props.position}
                         )}
                     />
