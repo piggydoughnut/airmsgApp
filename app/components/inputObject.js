@@ -1,13 +1,16 @@
 var React = require('react-native');
 var Routes = require('../config/routes');
+var api = require('../config/api');
 var {
     View,
+    ScrollView,
     Text,
     StyleSheet,
     TouchableHighlight,
     TextInput,
-    SliderIOS
-    } = React;
+    SliderIOS,
+    Image
+} = React;
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -42,6 +45,14 @@ var styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: "center"
     },
+    imageContainer: {
+        alignItems: 'center',
+        margin: 10,
+    },
+    image: {
+        height: 200,
+        width: 200
+    }
 });
 
 class InputObject extends React.Component {
@@ -52,30 +63,41 @@ class InputObject extends React.Component {
             value: 0
         };
     }
-    
+
     render() {
+        var buttonText = 'Choose object';
+        var chosen = null;
+        if (this.props.chosenObject) {
+            buttonText = 'Chose another object';
+            chosen =
+                <View style={styles.imageContainer}>
+                    <Image style={styles.image} source={{uri: api.domain + this.props.chosenObject.thumb_file_path}}/>
+                </View>
+
+        }
         return (
-            <View style={styles.messageContainer}>
+            <ScrollView style={styles.messageContainer}>
                 <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
-                    <Text style={styles.buttonText}>Choose object</Text>
+                    <Text style={styles.buttonText}> {buttonText} </Text>
                 </TouchableHighlight>
+                { chosen }
                 <TextInput
                     multiline={true}
                     required={true}
                     placeholder="INPUT 3D"
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
-                    value={this.state.message} />
+                    value={this.state.message}/>
                 <Text> Validity of your message in hours: </Text>
                 <SliderIOS
                     maximumValue={10}
                     step={1}
-                    onValueChange={(value) => this.setState({value: value})} />
+                    onValueChange={(value) => this.setState({value: value})}/>
                 <Text> {this.state.value} </Text>
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
         );
     }
 }

@@ -26,13 +26,13 @@ class ObjectGalleryContainer extends React.Component {
     }
 
     render() {
-        console.log(this.state.data);
-        if(this.state.data == null){
+        if(!this.state.data){
             return (<Loading />)
         }
         return (
             <ObjectGallery
                 data={this.state.data}
+                chooseGalleryObject={(path) => this.props.chooseGalleryObject(path)}
                 navigator={this.props.navigator}
             />
         );
@@ -49,7 +49,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getUserGallery: bindActionCreators(galleryActions.getGalleryForUser, dispatch)
+        getUserGallery: bindActionCreators(galleryActions.getGalleryForUser, dispatch),
+        chooseGalleryObject: bindActionCreators(galleryActions.chooseGalleryObject, dispatch)
     };
 };
 

@@ -26,6 +26,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 5,
         margin: 10,
+        marginBottom: 5,
         width: 150,
         height: 150,
         backgroundColor: '#F6F6F6',
@@ -65,18 +66,24 @@ class ObjectGallery extends React.Component {
         super(props);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(this.props.data.docs)
+            dataSource: ds.cloneWithRows(this.props.data.docs),
+            pressedThumbId: null
         };
-        // this._pressRow = this._pressRow.bind(this);
+        this._renderRow = this._renderRow.bind(this);
 
     }
 
+    pressedThumb(obj){
+        this.props.chooseGalleryObject(obj);
+        this.props.navigator.pop();
+    }
+
     _renderRow(rowData, sectionId, rowId) {
-        console.log(rowData);
         return (
             <Thumb
                 data={rowData}
                 rowId={rowId}
+                pressedThumb={(id) => {this.pressedThumb(id)}}
             />
         )
     }
@@ -110,30 +117,16 @@ class ObjectGallery extends React.Component {
 class Thumb extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            id: this.props.rowId,
-            pressed: false
-        }
-
     }
 
     pressRow() {
-        console.log('pressed');
-        if (this.state.pressed) {
-            this.setState({pressed: false});
-        } else {
-            this.setState({pressed: true});
-        }
+        this.props.pressedThumb(this.props.data);
     }
 
     render() {
-        var style = "";
-        if (this.state.pressed) {
-            style = {backgroundColor: 'pink'};
-        }
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.pressRow()} style={style}>
+                <TouchableOpacity onPress={() => this.pressRow()}>
                     <View style={styles.row}>
                         <Image style={styles.thumb}
                                source={{uri: api.domain + this.props.data.thumb_file_path}}/>

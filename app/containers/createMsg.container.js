@@ -16,12 +16,16 @@ class CreateMsgContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: false
+            error: false,
+            chosen_object: null
         };
         this._postMessage = this._postMessage.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.gallery.hasOwnProperty('chosen_object')){
+            this.setState({chosen_object: nextProps.gallery.chosen_object});
+        }
         if (nextProps.messages.redirect && !nextProps.messages.error) {
             this.props.navigator.push({
                 id: Routes.messageMap,
@@ -55,6 +59,7 @@ class CreateMsgContainer extends React.Component {
                 post={ (data) => this._postMessage(data)}
                 onImagePress={ (data) => this._onImagePress(data)}
                 onAddObject={ () => this._addObject()}
+                chosen_object={this.state.chosen_object}
                 navigator={this.props.navigator}
                 location={this.props.route.props.position}
                 user={this.props.user}
@@ -67,6 +72,7 @@ class CreateMsgContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messages: store.messages,
+        gallery: store.gallery,
         user: store.user.user
     };
 };

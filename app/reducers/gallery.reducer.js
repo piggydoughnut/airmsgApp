@@ -1,4 +1,4 @@
-import {GET_GALLERY_USER_SUCCESS} from "../actions/gallery.actions";
+import {GET_GALLERY_USER_SUCCESS, CHOOSE_GALLERY_OBJECT} from "../actions/gallery.actions";
 
 // initial state for messages is an empty array
 const gallery = (state = [], action) => {
@@ -6,6 +6,10 @@ const gallery = (state = [], action) => {
         case GET_GALLERY_USER_SUCCESS:
             return {
                 gallery: action.payload
+            };
+        case CHOOSE_GALLERY_OBJECT:
+            return {
+                chosen_object: action.payload.obj
             };
         default:
             return {};

@@ -1,4 +1,6 @@
 /** Actions */
+export const CHOOSE_GALLERY_OBJECT = 'CHOOSE GALLERY OBJECT';
+
 export const GET_GALLERY_USER = 'GALLERY USER GET';
 export const GET_GALLERY_USER_SUCCESS = 'GALLERY USER GET SUCCESS';
 export const GET_GALLERY_USER_FAILURE = 'GALLERY USER GET FAILURE';
@@ -12,4 +14,13 @@ export function getGalleryForUser(user_id, page = 1) {
             page: page
         }
     };
+}
+
+export function chooseGalleryObject(obj){
+    return {
+        type: CHOOSE_GALLERY_OBJECT,
+        payload: {
+            obj: obj
+        }
+    }
 }
