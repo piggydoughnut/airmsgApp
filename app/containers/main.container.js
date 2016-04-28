@@ -5,7 +5,6 @@ import * as loginActions from '../actions/login.actions';
 var Routes = require('../config/routes');
 var React = require('react-native');
 var {
-    Appregistry,
     StyleSheet,
     Text,
     View,
@@ -29,7 +28,7 @@ var styles = StyleSheet.create({
     formInput: {
         height: 36,
         padding: 10,
-        marginRight: 5,
+        width: 200,
         marginBottom: 5,
         marginTop: 5,
         flex: 1,
@@ -37,7 +36,8 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#555555",
         borderRadius: 8,
-        color: "#555555"
+        color: "#555555",
+        alignSelf: "center"
     },
     button: {
         width: 200,
@@ -139,7 +139,14 @@ class MainContainer extends React.Component {
                     value={this.state.password} />
 
                 <TouchableHighlight onPress={(this._onBasicLoginPressed.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
+                    <Text style={styles.buttonText}>Enter</Text>
+                </TouchableHighlight>
+                <Text>
+                    {"\n"}
+                    or
+                </Text>
+                <TouchableHighlight onPress={(this._onGuestLoginPressed.bind(this))} style={styles.button}>
+                    <Text style={styles.buttonText}>Become a member</Text>
                 </TouchableHighlight>
             </View>
         );
