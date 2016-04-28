@@ -141,12 +141,6 @@ class MainContainer extends React.Component {
                 <TouchableHighlight onPress={(this._onBasicLoginPressed.bind(this))} style={styles.button}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={(this._onGuestLoginPressed.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Be a Guest</Text>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={(this._onFacebookLoginPressed.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Login with Facebook</Text>
-                </TouchableHighlight>
             </View>
         );
     }
