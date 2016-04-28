@@ -132,7 +132,7 @@ class Comment extends React.Component {
             <View style={this.props.style}>
                 <Text key={this.props.key}>{this.props.comment.description} </Text>
                 <Text style={styles.commentSignature}>by {this.props.comment.user.username}
-                    {" "}on {getFormattedDateYMDHM(this.props.comment.published_at)}</Text>
+                    {" "}on {getFormattedDateYMDHM(this.props.comment.created_at)}</Text>
             </View>
         );
     }
