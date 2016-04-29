@@ -121,11 +121,6 @@ class InputMessage extends React.Component {
         var data = {
             validity: this.state.value,
             text: this.state.message,
-            location: this.props.location,
-            user: {
-                id: this.props.user._id,
-                username: this.props.user.username
-            },
             file: {
                 data: this.state.image.data
             }

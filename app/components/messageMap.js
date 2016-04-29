@@ -84,8 +84,7 @@ class MessageMap extends React.Component {
                 navigator={this.props.navigator}
                 navigationBar={
                     <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper({position: this.props.position}
-                        )}
+                        routeMapper={NavigationBarRouteMapper}
                     />
                     }
             />
@@ -129,7 +128,7 @@ class MessageMap extends React.Component {
     }
 }
 
-var NavigationBarRouteMapper = props => ({
+var NavigationBarRouteMapper = {
     LeftButton(route, navigator, index, navState) {
         return null;
     },
@@ -139,7 +138,6 @@ var NavigationBarRouteMapper = props => ({
                               onPress={() => {
                               navigator.parentNavigator.push({
                                 id: Routes.createMsg,
-                                props: props
                               });
                 }}>
                 <Text style={{color: 'white', margin: 10}}>
@@ -151,7 +149,7 @@ var NavigationBarRouteMapper = props => ({
     Title(route, navigator, index, navState) {
         return null;
     }
-});
+};
 
 MessageMap.propTypes = {
     markers: PropTypes.array.isRequired,

@@ -8,10 +8,6 @@ var CreateMsg = require('../components/createMsg');
 var Routes = require('../config/routes');
 var {Navigator} = React;
 
-var CustomSceneConfig = Object.assign({},
-    Navigator.SceneConfigs.FloatFromLeft, {});
-
-
 class CreateMsgContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -23,19 +19,15 @@ class CreateMsgContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.gallery.hasOwnProperty('chosen_object')){
-            this.setState({chosen_object: nextProps.gallery.chosen_object});
-        }
-        if (nextProps.messages.redirect && !nextProps.messages.error) {
-            this.props.navigator.push({
-                id: Routes.messageMap,
-                sceneConfig: CustomSceneConfig
-            });
-        } else {
+        if (nextProps.messages.error) {
             this.setState({error: nextProps.error});
         }
+        if (nextProps.gallery.hasOwnProperty('chosen_object')) {
+            this.setState({chosen_object: nextProps.gallery.chosen_object});
+        }
     }
-    _addObject(){
+
+    _addObject() {
         this.props.navigator.push({
             id: Routes.objectGallery
         });
@@ -50,7 +42,18 @@ class CreateMsgContainer extends React.Component {
     }
 
     _postMessage(data) {
+        data['loc'] = {
+            coordinates: [
+                this.props.location.longitude,
+                this.props.location.latitude
+            ]
+        };
+        data['user']= {
+            id:this.props.user._id,
+            username: this.props.user.username
+        };
         this.props.postMessage(data);
+        this.props.navigator.pop();
     }
 
     render() {
@@ -61,8 +64,6 @@ class CreateMsgContainer extends React.Component {
                 onAddObject={ () => this._addObject()}
                 chosen_object={this.state.chosen_object}
                 navigator={this.props.navigator}
-                location={this.props.route.props.position}
-                user={this.props.user}
                 error={this.state.error}
             />
         );
@@ -73,7 +74,8 @@ const mapStateToProps = (store) => {
     return {
         messages: store.messages,
         gallery: store.gallery,
-        user: store.user.user
+        user: store.user.user,
+        location: store.location
     };
 };
 

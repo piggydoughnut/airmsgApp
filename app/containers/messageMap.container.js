@@ -1,6 +1,8 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as messageActions from "../actions/messages.actions";
+import * as locationActions from "../actions/location.actions";
+
 
 var React = require('react-native');
 var MessageMap = require('../components/messageMap');
@@ -39,7 +41,8 @@ class MessageMapContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.messages.hasOwnProperty('messages') &&
+        if (typeof nextProps.messages.messages != 'undefined' &&
+            nextProps.messages.messages.hasOwnProperty('docs') &&
             nextProps.messages.messages.docs.length != this.state.markers.length) {
             this.setState({
                 markers: nextProps.messages.messages.docs
@@ -65,6 +68,7 @@ class MessageMapContainer extends React.Component {
                         longitude: position.coords.longitude
                     }
                 });
+                this.props.updateLocation(position.coords);
                 this.props.loadMessages(position.coords, 5);
             },
             (error) => alert(error.message),
@@ -85,7 +89,6 @@ class MessageMapContainer extends React.Component {
                 updateMarkers={ () => this._getMarkers}
                 detailPage={(msg) => this.props.openMessage(msg)}
                 navigator={this.props.navigator}
-                position={this.state.position}
                 error={this.props.messages.error}
             />
         );
@@ -101,7 +104,8 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadMessages: bindActionCreators(messageActions.loadMessages, dispatch),
-        openMessage: bindActionCreators(messageActions.openMessage, dispatch)
+        openMessage: bindActionCreators(messageActions.openMessage, dispatch),
+        updateLocation: bindActionCreators(locationActions.updateLocation, dispatch)
     };
 };
 
