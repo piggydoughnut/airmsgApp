@@ -19,7 +19,7 @@ export function postMessage(data) {
 }
 
 export function loadMessages(data) {
-    return fetch(api.domain + "/messages",
+    return fetch(api.domain + "/messages?lng="+data.position.longitude+'&lat='+data.position.latitude,
         {method: "GET"})
         .then((response) => checkStatus(response))
         .then((response) => response.json())
