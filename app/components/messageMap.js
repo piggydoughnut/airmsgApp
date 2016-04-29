@@ -103,10 +103,14 @@ class MessageMap extends React.Component {
                         onRegionChange={this._onRegionChange}
                         showsUserLocation={true}
                     >
-                        {this.props.markers.map(marker => (
-                            <MapView.Marker
+                        {this.props.markers.map(function(marker) {
+                            var coords = {
+                                longitude: marker.loc.coordinates[0],
+                                latitude: marker.loc.coordinates[1]
+                            }
+                            return <MapView.Marker
                                 key={marker._id}
-                                coordinate={marker.location}
+                                coordinate={coords}
                                 description={marker.description}
                                 pinColor={'#B24BDE'}
                             >
@@ -117,7 +121,7 @@ class MessageMap extends React.Component {
                                     />
                                 </MapView.Callout>
                             </MapView.Marker>
-                        ))}
+                        }, this)}
                     </MapView>
                 </View>
             </SideMenu>
