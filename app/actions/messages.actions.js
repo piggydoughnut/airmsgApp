@@ -53,8 +53,7 @@ export function postMessageSuccess(data) {
     return {
         type: MESSAGE_POST_SUCCESS,
         payload: {
-            messages: data,
-            redirect: true
+            new_message: data
         }
     };
 }

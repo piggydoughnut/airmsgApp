@@ -10,9 +10,14 @@ const messages = (state = [], action) => {
             };
         }
         case MESSAGE_POST_SUCCESS:
+            state.messages.docs.push(action.payload.new_message);
             return {
-                messages: state.messages,
-                redirect: action.payload.redirect
+                messages: {
+                    docs: state.messages.docs,
+                    total: state.messages.total,
+                    limit: state.messages.limit,
+                    offset: state.messages.offset
+                }
             };
         case MESSAGE_POST_FAILURE:
             return action.payload;
@@ -21,7 +26,9 @@ const messages = (state = [], action) => {
         case MESSAGES_LOAD_FAILURE:
             return action.payload;
         default:
-            return state;
+            return {
+                messages: state.messages
+            };
     }
 };
 

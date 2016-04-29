@@ -4,7 +4,7 @@ import {checkStatus, errorModal} from "./default.api";
 var React = require('react-native');
 
 export function postMessage(data) {
-    fetch(api.domain + "/messages", {
+    return fetch(api.domain + "/messages", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -14,7 +14,7 @@ export function postMessage(data) {
         .then(checkStatus)
         .then((response) => response.json())
         .then((responseData) => {
-            return JSON.stringify(responseData)
+            return responseData;
         });
 }
 
@@ -39,7 +39,7 @@ export function openMessage(id) {
 }
 
 export function postComment(comment) {
-    fetch(api.domain + '/messages/' + comment.parent + '/comments', {
+    return fetch(api.domain + '/messages/' + comment.parent + '/comments', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
