@@ -70,6 +70,7 @@ class CreateMsg extends React.Component {
             view = <InputObject
                     onAddObject={() => this.props.onAddObject()}
                     chosenObject={this.props.chosen_object}
+                    postMessage={ (data) => this.props.post(data)}
                 />;
         }
         return (

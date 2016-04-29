@@ -57,6 +57,17 @@ var styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: "center"
     },
+    objectButton: {
+        height: 36,
+        width: 120,
+        backgroundColor: "#02a3ae",
+        borderColor: "#02a3ae",
+        borderWidth: 1,
+        borderRadius: 8,
+        marginTop: 10,
+        marginBottom: 10,
+        justifyContent: "center"
+    },
 });
 
 class MessageDetail extends React.Component {
@@ -67,12 +78,13 @@ class MessageDetail extends React.Component {
         }
     }
 
-    _startAR(){
+    _startAR() {
         this.setState({ar: 'on'});
 
     }
+
     render() {
-        if(this.state.ar=='on'){
+        if (this.state.ar == 'on') {
             return (<ARView />);
         }
         return (
@@ -89,6 +101,13 @@ class MessageDetail extends React.Component {
 
     renderScene(route, navigator) {
         var msg = this.props.messageDetail.message;
+        var objectButton = null;
+        if (msg.object) {
+            objectButton =
+                <TouchableHighlight onPress={() => this._startAR()} style={styles.objectButton}>
+                    <Text style={styles.buttonText}>see object</Text>
+                </TouchableHighlight>
+        }
 
         var image = msg.file ? <Image source={{uri: msg.file.data}} style={styles.image}/> : null;
 
@@ -98,13 +117,10 @@ class MessageDetail extends React.Component {
                     { image }
                 </TouchableOpacity>
                 <Text style={styles.message}>{msg.text}{"\n"}</Text>
+                { objectButton }
                 <Text> Views: {msg.views_count} </Text>
                 <Text> by {msg.user.username} on {getFormattedDateYMD(msg.created_at)}</Text>
                 <CommentView />
-
-                <TouchableHighlight onPress={() => this._startAR()} style={styles.button}>
-                    <Text style={styles.buttonText}>Show AR</Text>
-                </TouchableHighlight>
 
             </ScrollView>
         );

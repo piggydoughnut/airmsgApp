@@ -67,6 +67,22 @@ class InputObject extends React.Component {
         };
     }
 
+    _onPress(){
+        if(!this.props.chosenObject){
+            this.setState({validation: 'You forgot to choose a 3d object'});
+            return;
+        }
+        var data = {
+            validity: this.state.value,
+            text: this.state.message,
+            obj: {
+                id: this.props.chosenObject._id,
+                obj_file_path: this.props.chosenObject.obj_file_path
+            }
+        };
+        this.props.postMessage(data);
+    }
+
     render() {
         var buttonText = 'Choose 3D';
         var chosen = null;
