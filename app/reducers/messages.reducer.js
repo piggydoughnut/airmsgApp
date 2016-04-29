@@ -26,9 +26,7 @@ const messages = (state = [], action) => {
         case MESSAGES_LOAD_FAILURE:
             return action.payload;
         default:
-            return {
-                messages: state.messages
-            };
+            return state;
     }
 };
 
