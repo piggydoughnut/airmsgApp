@@ -4,13 +4,15 @@ import user from './user.reducer'
 import image from './image.reducer'
 import comments from './comments.reducer'
 import gallery from './gallery.reducer'
+import location from './location.reducer'
 
 const airMsgApp = combineReducers({
     messages,
     user,
     image,
     comments,
-    gallery
+    gallery,
+    location
 });
 
 export default airMsgApp;
