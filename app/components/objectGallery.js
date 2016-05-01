@@ -59,6 +59,12 @@ var styles = StyleSheet.create({
     buttonText: {
         color: "#ffffff",
         alignSelf: "center"
+    },
+    message: {
+        alignItems: 'center',
+        margin: 65,
+        justifyContent: 'center',
+        fontWeight: 'bold'
     }
 });
 
@@ -104,6 +110,12 @@ class ObjectGallery extends React.Component {
     }
 
     renderScene() {
+        if(this.props.data.total == 0) {
+            return (
+                <Text style={styles.message}> You have no objects in your object gallery. Please visit http://airWeb.com
+                    for more info.</Text>
+            );
+        }
         return (
             // ListView wraps ScrollView and so takes on its properties.
             // With that in mind you can use the ScrollView's contentContainerStyle prop to style the items.
