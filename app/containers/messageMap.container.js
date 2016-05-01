@@ -37,7 +37,8 @@ class MessageMapContainer extends React.Component {
             messages: [],
             markers: [],
             position: 'unknown',
-            lastPosition: 'unknown'
+            lastPosition: 'unknown',
+            error: null
         };
         // the functions need to be bound to the component instance before being passed as prop
         // otherwise this variable in the body of the function will not refer to the component instance but to window
@@ -48,7 +49,7 @@ class MessageMapContainer extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if(nextState.lastPosition!='unknown' && nextState.position!='unknown'){
+        if (nextState.lastPosition != 'unknown' && nextState.position != 'unknown') {
             var lastPosition = {
                 latitude: nextState.lastPosition.latitude,
                 longitude: nextState.lastPosition.longitude
@@ -71,15 +72,26 @@ class MessageMapContainer extends React.Component {
             nextProps.messages.messages.hasOwnProperty('docs') &&
             nextProps.messages.messages.docs.length != this.state.markers.length) {
             this.setState({
-                markers: nextProps.messages.messages.docs
+                markers: nextProps.messages.messages.docs,
+                error: null
             });
         }
+        if (nextProps.messages !== undefined &&
+            nextProps.messages.hasOwnProperty('error')
+        ) {
+            this.setState({error: nextProps.messages.error});
+        }
         if (nextProps.messages.hasOwnProperty('messageDetail')) {
+            this.setState({error: null});
             this.props.navigator.push({
                     id: Routes.messageDetail
                 }
             );
         }
+    }
+
+    _openMessage(msg) {
+        this.props.openMessage(msg, this.props.token.access_token);
     }
 
     _getMarkers() {
@@ -95,7 +107,7 @@ class MessageMapContainer extends React.Component {
                     }
                 });
                 this.props.updateLocation(position.coords);
-                this.props.loadMessages(position.coords, 5);
+                this.props.loadMessages(position.coords, this.props.token.access_token);
             },
             (error) => alert(error.message),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -106,8 +118,11 @@ class MessageMapContainer extends React.Component {
     }
 
     render() {
-        if (this.props.messages.hasOwnProperty('error')) {
-            return ( <Error error={this.props.messages.error}/>);
+        if (this.state.error) {
+            React.AlertIOS.alert(
+                'Error',
+                this.state.error
+            );
         }
         if (this.state.markers.length == 0) {
             return ( <Loading />);
@@ -116,7 +131,7 @@ class MessageMapContainer extends React.Component {
             <MessageMap
                 markers={this.state.markers}
                 updateMarkers={ () => this._getMarkers}
-                detailPage={(msg) => this.props.openMessage(msg)}
+                detailPage={(msg) => this._openMessage(msg)}
                 navigator={this.props.navigator}
                 error={this.props.messages.error}
             />
@@ -127,6 +142,7 @@ class MessageMapContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messages: store.messages,
+        token: store.user.tokenInfo
     };
 };
 

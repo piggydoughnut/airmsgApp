@@ -8,7 +8,7 @@ export function checkStatus(response) {
     }
 }
 
-export function errorModal(error){
+export function errorModal(error) {
     console.log(error);
     React.AlertIOS.alert(
         'Error',
@@ -16,9 +16,15 @@ export function errorModal(error){
     );
 }
 
-export function checkResponseStatus(status){
-    if(status == 403){
+export function checkResponseStatus(response) {
+    if (response.error !== undefined) {
+        throw response.error;
+    }
+    if (response.status == 403) {
         throw 'Invalid credentials'
+    }
+    if (response.status == 401) {
+        throw 'Unathorised';
     }
 }
 

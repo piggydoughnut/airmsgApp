@@ -20,6 +20,7 @@ function getToken(username, password) {
         })
     })
         .then((response) => {
+            console.log(response);
             if (response.status >= 400) {
                 return {
                     status: response.status
@@ -29,15 +30,20 @@ function getToken(username, password) {
         })
         .then((responseData) => {
             return responseData;
+        })
+        .catch((err) => {
+            return {
+                error: 'Network request failed'
+            }
         });
 }
 
-export function getUserInfo(access_token){
+export function getUserInfo(access_token) {
     return fetch(api.domain + '/api/users/me', {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',
-            'Authorization': 'Bearer '+ access_token
+            'Authorization': 'Bearer ' + access_token
         }
     })
         .then((response) => {

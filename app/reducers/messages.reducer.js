@@ -1,14 +1,26 @@
-import { LOAD_MESSAGES, MESSAGE_POST_SUCCESS, MESSAGE_POST_FAILURE, MESSAGES_LOAD_SUCCESS, MESSAGES_LOAD_FAILURE, MESSAGE_OPEN_SUCCESS } from '../actions/messages.actions'
+import {
+    LOAD_MESSAGES,
+    MESSAGE_POST_SUCCESS,
+    MESSAGE_POST_FAILURE,
+    MESSAGE_OPEN_FAILURE,
+    MESSAGES_LOAD_SUCCESS,
+    MESSAGES_LOAD_FAILURE,
+    MESSAGE_OPEN_SUCCESS
+} from "../actions/messages.actions";
 
 // initial state for messages is an empty array
 const messages = (state = [], action) => {
     switch (action.type) {
-        case MESSAGE_OPEN_SUCCESS: {
+        case MESSAGE_OPEN_FAILURE:
             return{
                 messages: state.messages,
-                messageDetail: action.payload,
+                error: action.payload.error
             };
-        }
+        case MESSAGE_OPEN_SUCCESS:
+            return {
+                messages: state.messages,
+                messageDetail: action.payload
+            };
         case MESSAGE_POST_SUCCESS:
             state.messages.docs.push(action.payload.new_message);
             return {

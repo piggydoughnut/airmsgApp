@@ -49,10 +49,10 @@ class CreateMsgContainer extends React.Component {
             ]
         };
         data['user']= {
-            id:this.props.user._id,
-            username: this.props.user.username
+            id:this.props.user.user._id,
+            username: this.props.user.user.username
         };
-        this.props.postMessage(data);
+        this.props.postMessage(data, this.props.user.tokenInfo.access_token);
         this.props.navigator.pop();
     }
 
@@ -74,7 +74,7 @@ const mapStateToProps = (store) => {
     return {
         messages: store.messages,
         gallery: store.gallery,
-        user: store.user.user,
+        user: store.user,
         location: store.location
     };
 };

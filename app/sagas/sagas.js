@@ -35,11 +35,11 @@ var Api = require('../config/api');
 function* loginApi(action) {
     try {
         const response = yield call(usersApi.getAccess, action.payload);
-        checkResponseStatus(response.status);
+        checkResponseStatus(response);
         yield put(authActions.setToken(response));
 
         const user = yield call(usersApi.getUserInfo, response.access_token);
-        checkResponseStatus(response.status);
+        checkResponseStatus(user);
         yield put(authActions.loginSuccess(user));
     } catch (error) {
         yield put(commonActions.failure(error, LOGIN_FAILURE))
@@ -67,6 +67,7 @@ function* postComment(data) {
 function* loadMessages(data) {
     try {
         const response = yield call(messagesApi.loadMessages, data.payload);
+        checkResponseStatus(response);
         yield put(messageActions.success(response, MESSAGES_LOAD_SUCCESS));
     } catch (error) {
         yield put(messageActions.failure(error, MESSAGES_LOAD_FAILURE));
@@ -83,7 +84,8 @@ function* loadComments(data) {
 
 function* openMessage(data) {
     try {
-        const response = yield call(messagesApi.openMessage, data.payload.id);
+        const response = yield call(messagesApi.openMessage, data.payload);
+        checkResponseStatus(response);
         yield put(messageActions.openMessageSuccess(response));
     } catch (error) {
         yield put(messageActions.failure(error, MESSAGE_OPEN_FAILURE));

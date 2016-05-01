@@ -19,22 +19,54 @@ export function postMessage(data) {
 }
 
 export function loadMessages(data) {
-    return fetch(api.domain + "/messages?lng="+data.position.longitude+'&lat='+data.position.latitude,
-        {method: "GET"})
-        .then((response) => checkStatus(response))
-        .then((response) => response.json())
+    return fetch(api.domain + "/messages?lng=" + data.position.longitude + '&lat=' + data.position.latitude, {
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + data.token
+        }
+    })
+        .then((response) => {
+            console.log(response);
+            if (response.status >= 400) {
+                return {
+                    status: response.status
+                }
+            }
+            return response.json();
+        })
         .then((responseData) => {
             return responseData
         })
-        .catch(error => {errorModal(error)});
+        .catch(error => {
+            return {
+                error: 'Network request failed'
+            }
+        });
 }
 
-export function openMessage(id) {
-    return fetch(api.domain + "/messages/" + id,
-        {method: "GET"})
-        .then((response) => response.json())
+export function openMessage(data) {
+    return fetch(api.domain + "/messages/" + data.id, {
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + data.token
+        }
+    })
+        .then((response) => {
+            console.log(response);
+            if (response.status >= 400) {
+                return {
+                    status: response.status
+                }
+            }
+            return response.json();
+        })
         .then((responseData) => {
             return responseData
+        })
+        .catch(error => {
+            return {
+                error: 'Network request failed'
+            }
         });
 }
 

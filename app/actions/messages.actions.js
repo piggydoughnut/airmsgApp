@@ -11,30 +11,32 @@ export const MESSAGE_POST_FAILURE = 'MESSAGE POST FAILURE';
 
 
 /** Action creators */
-export function loadMessages(position, radius) {
+export function loadMessages(position, token) {
     return {
         type: MESSAGES_LOAD,
         payload: {
             position,
-            radius: radius
+            token: token
         }
     }
 }
 
-export function openMessage(msg) {
+export function openMessage(msg, token) {
     return {
         type: MESSAGE_OPEN,
         payload: {
-            id: msg._id
+            id: msg._id,
+            token: token
         }
     }
 }
 
-export function postMessage(data) {
+export function postMessage(data, token) {
     return {
         type: MESSAGE_POST,
         payload: {
-            message: data
+            message: data,
+            token: token
         }
     };
 }
