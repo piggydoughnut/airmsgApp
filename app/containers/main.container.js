@@ -157,9 +157,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        basicLogin: bindActionCreators(authActions.basicLogin, dispatch),
-        loginFacebook: bindActionCreators(authActions.loginFacebook, dispatch),
-        loginGmail: bindActionCreators(authActions.loginGmail, dispatch)
+        basicLogin: bindActionCreators(authActions.basicLogin, dispatch)
     };
 };
 

@@ -27,7 +27,7 @@ var usersApi = require('../api/users.api');
 
 var messageActions = require('../actions/messages.actions');
 var commentActions = require('../actions/comments.actions');
-var loginActions = require('../actions/auth.actions');
+var authActions = require('../actions/auth.actions');
 var commonActions = require('../actions/common.actions');
 var Api = require('../config/api');
 
@@ -36,8 +36,9 @@ function* loginApi(action) {
     try {
         const response = yield call(usersApi.getAccess, action.payload);
         checkResponseStatus(response.status);
-
-        yield put(loginActions.loginSuccess(action.payload.user));
+        console.log(response);
+        yield put(authActions.setToken(response));
+        yield put(authActions.loginSuccess(response));
     } catch (error) {
         yield put(commonActions.failure(error, LOGIN_FAILURE))
     }

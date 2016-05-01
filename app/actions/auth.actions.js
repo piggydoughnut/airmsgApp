@@ -2,8 +2,7 @@
 export const LOGIN_BASIC = 'LOGIN_BASIC';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const LOGIN_FB = 'LOGIN_FB';
-export const LOGIN_GMAIL = 'LOGIN_GMAIL';
+export const SET_TOKEN = 'SET TOKEN';
 
 /** Action creators */
 
@@ -13,29 +12,10 @@ export function basicLogin(user) {
         payload: {user}
     }
 }
-export function loginFacebook(user) {
+export function setToken(data) {
     return {
-        type: LOGIN_FB,
-        payload: {
-            user: user
-        }
-    }
-}
-
-export function loginGmail(user) {
-    return {
-        type: LOGIN_GMAIL,
-        payload: {
-            user: user
-        }
-    }
-}
-
-export function loginError(error) {
-    return {
-        type: LOGIN_FAILURE,
-        payload: {},
-        error: error
+        type: SET_TOKEN,
+        payload: data
     }
 }
 
@@ -46,8 +26,3 @@ export function loginSuccess(user) {
     }
 }
 
-export function loginFailure() {
-    return {
-        type: LOGIN_FAILURE
-    }
-}

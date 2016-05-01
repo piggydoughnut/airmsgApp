@@ -25,7 +25,7 @@ function getToken(username, password) {
                     status: response.status
                 }
             }
-            return response.json;
+            return response.json();
         })
         .then((responseData) => {
             return responseData;

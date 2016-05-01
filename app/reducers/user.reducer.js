@@ -1,8 +1,13 @@
-import {LOGIN_SUCCESS } from '../actions/auth.actions.js'
+import {LOGIN_SUCCESS, SET_TOKEN } from '../actions/auth.actions.js'
 
 // initial state for login is empty user details
 const user = (state = [], action) => {
     switch (action.type) {
+        case SET_TOKEN: {
+            return {
+                tokenInfo: action.payload
+            }
+        }
         case LOGIN_SUCCESS:
             return {
                 user: {
