@@ -1,6 +1,6 @@
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as authActions from '../actions/auth.actions';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as authActions from "../actions/auth.actions";
 
 var Routes = require('../config/routes');
 var React = require('react-native');
@@ -12,7 +12,7 @@ var {
     TouchableHighlight,
     Image,
     TextInput
-    } = React;
+} = React;
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -79,14 +79,16 @@ class MainContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.loggedIn) {
+        console.log(nextProps);
+        if (nextProps.hasOwnProperty('error') && nextProps.error !== undefined) {
+            this.setState({error: nextProps.error});
+        }
+        if (nextProps.hasOwnProperty('tokenInfo') && nextProps.tokenInfo !== undefined) {
             this.props.navigator.push({
                 id: Routes.messageMap,
                 title: 'Message Map',
                 sceneConfig: CustomSceneConfig
             });
-        } else {
-            this.setState({error: 'There has been an error'});
         }
     }
 
@@ -125,13 +127,13 @@ class MainContainer extends React.Component {
                     placeholder="Username"
                     onChange={(event) => this.setState({username: event.nativeEvent.text})}
                     style={styles.formInput}
-                    value={this.state.username} />
+                    value={this.state.username}/>
                 <TextInput
                     placeholder="Password"
                     secureTextEntry={true}
                     onChange={(event) => this.setState({password: event.nativeEvent.text})}
                     style={styles.formInput}
-                    value={this.state.password} />
+                    value={this.state.password}/>
 
                 <TouchableHighlight onPress={(this._onBasicLoginPressed.bind(this))} style={styles.button}>
                     <Text style={styles.buttonText}>Enter</Text>
@@ -150,8 +152,8 @@ class MainContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        loggedIn: store.user.loggedIn,
-        payload: store.user.payload
+        tokenInfo: store.user.tokenInfo,
+        error: store.user.error
     };
 };
 
