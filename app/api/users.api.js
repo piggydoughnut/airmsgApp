@@ -1,4 +1,5 @@
 var api = require('../config/api');
+import {get} from "./default.api";
 
 export function getAccess(data) {
     return getToken(data.user.username, data.user.password);
@@ -39,24 +40,7 @@ function getToken(username, password) {
 }
 
 export function getUserInfo(access_token) {
-    return fetch(api.domain + '/api/users/me', {
-        method: 'GET',
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization': 'Bearer ' + access_token
-        }
-    })
-        .then((response) => {
-            if (response.status >= 400) {
-                return {
-                    status: response.status
-                }
-            }
-            return response.json();
-        })
-        .then((responseData) => {
-            return responseData;
-        });
+    return get(api.domain + '/api/users/me', access_token);
 }
 
 export function getTokenAfterExpired(refreshToken) {
