@@ -1,5 +1,8 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Cell, Section, TableView} from "react-native-tableview-simple";
+
+var Icon = require('react-native-vector-icons/Ionicons');
 var React = require('react-native');
 var s = require('../styles/style');
 
@@ -15,7 +18,7 @@ var {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 30,
+        padding: 0,
         marginTop: 65,
         alignItems: 'stretch'
     },
@@ -45,22 +48,25 @@ class MyMessages extends React.Component {
     }
 
     renderScene(route, navigator) {
+        var sectionName = "Your messages";
         return (
             <View style={styles.container}>
-                <ScrollView style={styles.scroll}>
-                    {this.props.userMessages.map((message, i) => {
-                        var style = '';
-                        if (i % 2 == 0) {
-                            style = {backgroundColor: '#E3F4FA'}
-                        }
-
-                        return (<MessageRow row={message} rowStyle={style} key={i}/>);
-                    })}
-                </ScrollView>
+                <Section header={sectionName}>
+                    <ScrollView style={styles.scroll}>
+                        <TableView>
+                            {this.props.userMessages.docs.map((message, i) => {
+                                var style = '';
+                                if (i % 2 == 0) {
+                                    style = {backgroundColor: '#E3F4FA'}
+                                }
+                                return (<MessageRow row={message} rowStyle={style} key={i}/>);
+                            })}
+                        </TableView>
+                    </ScrollView>
+                </Section>
             </View>
         );
     }
-
 }
 
 
@@ -71,11 +77,14 @@ class MessageRow extends React.Component {
     }
 
     render() {
+        var comments = '';
+        if(this.props.row.new_comments_count){
+            comments = '- new comments ('+ this.props.row.new_comments_count + ')';
+        }
+        var message = this.props.row.text.substring(0, 50) + '   ' + <Icon name="eye" size={30} color="#4F8EF7" /> + this.props.row.views_count + '  ' + comments;
         return (
-            <View style={this.props.rowStyle}>
-                <Text style={styles.item} key={this.props.key}>{this.props.row.text.substring(0, 20)} ...</Text>
-                <Text>{this.props.row.location.city} - {this.props.row.location.country}</Text>
-            </View>
+            <Cell cellstyle="Subtitle" title={message}
+                  detail={this.props.row.loc.city}/>
         );
     }
 }

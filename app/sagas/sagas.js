@@ -8,7 +8,10 @@ import {
     MESSAGE_OPEN_FAILURE,
     MESSAGES_LOAD,
     MESSAGES_LOAD_SUCCESS,
-    MESSAGES_LOAD_FAILURE
+    MESSAGES_LOAD_FAILURE,
+    MESSAGES_USER_LOAD,
+    MESSAGES_USER_LOAD_SUCCESS,
+    MESSAGES_USER_LOAD_FAILURE
 } from "../actions/messages.actions";
 import {
     COMMENT_POST,
@@ -78,6 +81,16 @@ function* loadMessages(data) {
     }
 }
 
+function* loadUserMessages(data) {
+    try {
+        const response = yield call(messagesApi.loadUserMessages, data.payload);
+        checkResponseStatus(response);
+        yield put(messageActions.success(response, MESSAGES_USER_LOAD_SUCCESS));
+    } catch (error) {
+        yield put(messageActions.failure(error, MESSAGES_USER_LOAD_FAILURE));
+    }
+}
+
 function* postMessage(data) {
     try {
         const response = yield call(messagesApi.postMessage, data.payload);
@@ -118,6 +131,10 @@ export function* watchMessagesLoad() {
     yield* takeEvery(MESSAGES_LOAD, loadMessages);
 }
 
+export function* watchUserMessagesLoad() {
+    yield* takeEvery(MESSAGES_USER_LOAD, loadUserMessages);
+}
+
 export function* watchMessagePost() {
     yield* takeEvery(MESSAGE_POST, postMessage);
 }
@@ -129,9 +146,11 @@ export function* watchMessageOpen() {
 export function* watchCommentPost() {
     yield* takeEvery(COMMENT_POST, postComment);
 }
+
 export function* watchCommentsLoad() {
     yield* takeEvery(COMMENTS_LOAD, loadComments);
 }
+
 export function* watchGetGalleryUser() {
     yield* takeEvery(GET_GALLERY_USER, getGalleryUser);
 }

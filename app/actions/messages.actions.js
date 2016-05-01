@@ -2,6 +2,9 @@
 export const MESSAGES_LOAD = 'MESSAGES LOAD';
 export const MESSAGES_LOAD_SUCCESS = 'MESSAGES LOAD SUCCESS';
 export const MESSAGES_LOAD_FAILURE = 'MESSAGES LOAD FAILURE';
+export const MESSAGES_USER_LOAD = 'MESSAGES USER LOAD';
+export const MESSAGES_USER_LOAD_SUCCESS = 'MESSAGES USER LOAD SUCCESS';
+export const MESSAGES_USER_LOAD_FAILURE = 'MESSAGES USER LOAD FAILURE';
 export const MESSAGE_OPEN = 'MESSAGE OPEN';
 export const MESSAGE_OPEN_SUCCESS = 'MESSAGE OPEN SUCCESS';
 export const MESSAGE_OPEN_FAILURE = 'MESSAGE OPEN FAILURE';
@@ -17,6 +20,16 @@ export function loadMessages(position, token) {
         payload: {
             position,
             token: token
+        }
+    }
+}
+
+export function loadUserMessages(id, token) {
+    return {
+        type: MESSAGES_USER_LOAD,
+        payload: {
+            id,
+            token
         }
     }
 }
