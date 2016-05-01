@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "geolib": "^2.0.20",
     "react-native": "^0.19.0",
     "react-native-image-picker": "^0.18.10",
     "react-native-maps": "^0.3.2",

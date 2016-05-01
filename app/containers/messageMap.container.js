@@ -10,6 +10,9 @@ var Error = require('../components/error');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
 var MessageDetail = require('../components/messageDetail');
+var Config = require('../config/api');
+
+var geolib = require('geolib/dist/geolib');
 
 var {
     StyleSheet,
@@ -25,12 +28,16 @@ var styles = StyleSheet.create({
 
 class MessageMapContainer extends React.Component {
 
+    watchID = null;
+
     constructor(props) {
         super(props);
         this._getMarkers = this._getMarkers.bind(this);
         this.state = {
             messages: [],
-            markers: []
+            markers: [],
+            position: 'unknown',
+            lastPosition: 'unknown'
         };
         // the functions need to be bound to the component instance before being passed as prop
         // otherwise this variable in the body of the function will not refer to the component instance but to window
@@ -38,6 +45,25 @@ class MessageMapContainer extends React.Component {
 
     componentDidMount() {
         this._getMarkers();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if(nextState.lastPosition!='unknown' && nextState.position!='unknown'){
+            var lastPosition = {
+                latitude: nextState.lastPosition.latitude,
+                longitude: nextState.lastPosition.longitude
+            };
+            var initialPosition = {
+                latitude: nextState.position.latitude,
+                longitude: nextState.position.longitude
+            };
+            /** We are getting more messages once we are 25 meters away from our initial point */
+            if (geolib.getDistance(lastPosition, initialPosition, 1, 1) > Config.loadDistance) {
+                this._getMarkers();
+            }
+            return true;
+        }
+        return false;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -74,6 +100,9 @@ class MessageMapContainer extends React.Component {
             (error) => alert(error.message),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
         );
+        this.watchID = navigator.geolocation.watchPosition((position) => {
+            this.setState({lastPosition: position.coords});
+        });
     }
 
     render() {
@@ -97,7 +126,7 @@ class MessageMapContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        messages: store.messages
+        messages: store.messages,
     };
 };
 
