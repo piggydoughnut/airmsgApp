@@ -1,6 +1,6 @@
 /** API Calls to /messages */
 var api = require('../config/api');
-import {checkStatus, get} from "./default.api";
+import {get, post} from "./default.api";
 var React = require('react-native');
 
 export function loadMessages(data) {
@@ -17,31 +17,9 @@ export function openMessage(data) {
 
 
 export function postMessage(data) {
-    return fetch(api.domain + "/messages", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + data.token
-        },
-        body: JSON.stringify(data.data)
-    })
-        .then(checkStatus)
-        .then((response) => response.json())
-        .then((responseData) => {
-            return responseData;
-        });
+    return post(api.domain + "/messages", data.token, data.message);
 }
 
-export function postComment(comment) {
-    return fetch(api.domain + '/messages/' + comment.parent + '/comments', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(comment)
-    })
-        .then((response) => response.json())
-        .then((responseData) => {
-            return JSON.stringify(responseData);
-        });
+export function postComment(data) {
+    return post(api.domain + '/messages/' + data.comment.parent + '/comments', data.token, data.comment);
 }

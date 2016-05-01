@@ -7,20 +7,22 @@ export const COMMENTS_LOAD_SUCCESS = 'COMMENTS LOAD SUCCESS';
 export const COMMENTS_LOAD_FAILURE = 'COMMENTS LOAD FAILURE';
 
 /** Action creators */
-export function getComments(id) {
+export function getComments(id, token) {
     return {
         type: COMMENTS_LOAD,
         payload: {
-            id: id
+            id: id,
+            token: token
         }
     }
 }
 
-export function post(data, action) {
+export function post(data, token, action) {
     return {
         type: action,
         payload: {
-            comment: data
+            comment: data,
+            token: token
         }
     };
 }

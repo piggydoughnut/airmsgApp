@@ -48,7 +48,7 @@ function* loginApi(action) {
 
 function* postMessage(data) {
     try {
-        const response = yield call(messagesApi.postMessage, data.payload.message);
+        const response = yield call(messagesApi.postMessage, data.payload);
         yield put(messageActions.postMessageSuccess(response));
     } catch (error) {
         yield put(messageActions.failure(error, MESSAGE_POST_FAILURE));
@@ -57,7 +57,7 @@ function* postMessage(data) {
 
 function* postComment(data) {
     try {
-        const response = yield call(messagesApi.postComment, data.payload.comment);
+        const response = yield call(messagesApi.postComment, data.payload);
         yield put(messageActions.success(response, COMMENT_POST_SUCCESS));
     } catch (error) {
         yield put(messageActions.failure(error, COMMENT_POST_FAILURE));

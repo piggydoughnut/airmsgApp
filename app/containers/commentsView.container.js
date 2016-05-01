@@ -26,7 +26,11 @@ class CommentViewContainer extends React.Component {
             user: this.props.messageDetail.message.user,
             text: comment
         };
-        this.props.postComment(data, COMMENT_POST);
+        this.props.postComment(data, this.props.token.access_token, COMMENT_POST);
+    }
+
+    _getComments(id){
+        this.props.getComments(id, this.props.token.access_token);
     }
 
     render() {
@@ -34,7 +38,7 @@ class CommentViewContainer extends React.Component {
             <CommentView
                 comments={this.state.comments}
                 sendComment={ (comment) => this._onSendCommentPress(comment)}
-                getComments={ (id) => this.props.getComments(id)}
+                getComments={ (id) => this._getComments(id)}
                 msgId={this.props.messageDetail.message._id}
             />
         );
@@ -43,7 +47,8 @@ class CommentViewContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messageDetail: store.messages.messageDetail,
-        comments: store.comments
+        comments: store.comments,
+        token: store.user.tokenInfo
     };
 };
 
