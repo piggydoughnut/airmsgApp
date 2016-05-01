@@ -32,7 +32,7 @@ var commonActions = require('../actions/common.actions');
 var Api = require('../config/api');
 
 /** workers */
-function* loginApi(action) {
+function* auth(action) {
     try {
         const response = yield call(usersApi.getAccess, action.payload);
         checkResponseStatus(response);
@@ -46,12 +46,14 @@ function* loginApi(action) {
     }
 }
 
-function* postMessage(data) {
+/***** Comments *****/
+function* loadComments(data) {
     try {
-        const response = yield call(messagesApi.postMessage, data.payload);
-        yield put(messageActions.postMessageSuccess(response));
+        const response = yield call(messagesApi.loadComments, data.payload);
+        checkResponseStatus(response);
+        yield put(commentActions.success({comments: response}, COMMENTS_LOAD_SUCCESS));
     } catch (error) {
-        yield put(messageActions.failure(error, MESSAGE_POST_FAILURE));
+        yield put(commentActions.failure(error, COMMENTS_LOAD_FAILURE));
     }
 }
 
@@ -65,6 +67,7 @@ function* postComment(data) {
     }
 }
 
+/***** Messages *****/
 function* loadMessages(data) {
     try {
         const response = yield call(messagesApi.loadMessages, data.payload);
@@ -74,13 +77,14 @@ function* loadMessages(data) {
         yield put(messageActions.failure(error, MESSAGES_LOAD_FAILURE));
     }
 }
-function* loadComments(data) {
+
+function* postMessage(data) {
     try {
-        const response = yield call(messagesApi.loadComments, data.payload);
+        const response = yield call(messagesApi.postMessage, data.payload);
         checkResponseStatus(response);
-        yield put(commentActions.success({comments: response}, COMMENTS_LOAD_SUCCESS));
+        yield put(messageActions.postMessageSuccess(response));
     } catch (error) {
-        yield put(commentActions.failure(error, COMMENTS_LOAD_FAILURE));
+        yield put(messageActions.failure(error, MESSAGE_POST_FAILURE));
     }
 }
 
@@ -94,9 +98,11 @@ function* openMessage(data) {
     }
 }
 
+/***** Galery *****/
 function* getGalleryUser(data) {
     try {
         const response = yield call(galleryApi.getGalleryForUser, data.payload);
+        checkResponseStatus(response);
         yield put(commonActions.success(response, GET_GALLERY_USER_SUCCESS));
     } catch (error) {
         yield put(commonActions.failure(error, GET_GALLERY_USER_FAILURE));
@@ -105,7 +111,7 @@ function* getGalleryUser(data) {
 
 /** watchers */
 export function* watchLogin() {
-    yield* takeEvery(LOGIN_BASIC, loginApi);
+    yield* takeEvery(LOGIN_BASIC, auth);
 }
 
 export function* watchMessagesLoad() {
