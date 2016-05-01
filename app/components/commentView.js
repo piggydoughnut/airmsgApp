@@ -79,7 +79,7 @@ class CommentView extends React.Component {
     _sendComment() {
         this.props.sendComment(this.state.comment);
         this._clearInput();
-        this.props.getComments(this.props.msgId);
+        // this.props.getComments(this.props.msgId);
     }
 
     _clearInput() {

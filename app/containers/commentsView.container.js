@@ -10,27 +10,36 @@ class CommentViewContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            comments: this.props.messageDetail.comments
+            comments: this.props.messageDetail.comments,
+            error: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            comments: nextProps.comments
-        });
+        if (nextProps.messageDetail.comments !== undefined &&
+            nextProps.messageDetail.comments.hasOwnProperty('docs') &&
+            nextProps.messageDetail.comments.docs.length != this.state.comments.length) {
+            this.setState({
+                comments: nextProps.messageDetail.comments,
+                error: null
+            });
+        }
     }
 
     _onSendCommentPress(comment) {
         var data = {
             parent: this.props.messageDetail.message._id,
-            user: this.props.messageDetail.message.user,
+            user: {
+                id: this.props.user._id,
+                username: this.props.user.username
+            },
             text: comment
         };
-        this.props.postComment(data, this.props.token.access_token, COMMENT_POST);
+        this.props.postComment(data, this.props.token, COMMENT_POST);
     }
 
     _getComments(id){
-        this.props.getComments(id, this.props.token.access_token);
+        this.props.getComments(id, this.props.token);
     }
 
     render() {
@@ -38,7 +47,7 @@ class CommentViewContainer extends React.Component {
             <CommentView
                 comments={this.state.comments}
                 sendComment={ (comment) => this._onSendCommentPress(comment)}
-                getComments={ (id) => this._getComments(id)}
+                // getComments={ (id) => this._getComments(id)}
                 msgId={this.props.messageDetail.message._id}
             />
         );
@@ -48,7 +57,8 @@ const mapStateToProps = (store) => {
     return {
         messageDetail: store.messages.messageDetail,
         comments: store.comments,
-        token: store.user.tokenInfo
+        token: store.user.tokenInfo.access_token,
+        user: store.user.user
     };
 };
 

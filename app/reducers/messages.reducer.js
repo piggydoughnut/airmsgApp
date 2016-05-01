@@ -1,5 +1,4 @@
 import {
-    LOAD_MESSAGES,
     MESSAGE_POST_SUCCESS,
     MESSAGE_POST_FAILURE,
     MESSAGE_OPEN_FAILURE,
@@ -7,12 +6,15 @@ import {
     MESSAGES_LOAD_FAILURE,
     MESSAGE_OPEN_SUCCESS
 } from "../actions/messages.actions";
+import {
+    COMMENT_POST_SUCCESS
+} from "../actions/comments.actions";
 
 // initial state for messages is an empty array
 const messages = (state = [], action) => {
     switch (action.type) {
         case MESSAGE_OPEN_FAILURE:
-            return{
+            return {
                 messages: state.messages,
                 error: action.payload.error
             };
@@ -37,6 +39,21 @@ const messages = (state = [], action) => {
             return action.payload;
         case MESSAGES_LOAD_FAILURE:
             return action.payload;
+        case COMMENT_POST_SUCCESS:
+            console.log(state.messageDetail);
+            state.messageDetail.comments.docs.push(action.payload.new_comment);
+            return {
+                messages: state.messages,
+                messageDetail: {
+                    message: state.messageDetail.message,
+                    comments: {
+                        docs: state.messageDetail.comments.docs,
+                        total: state.messageDetail.comments.total,
+                        limit: state.messageDetail.comments.limit,
+                        offset: state.messageDetail.comments.offset
+                    }
+                }
+            };
         default:
             return state;
     }

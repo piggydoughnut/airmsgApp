@@ -81,7 +81,9 @@ class MessageMapContainer extends React.Component {
         ) {
             this.setState({error: nextProps.messages.error});
         }
-        if (nextProps.messages.hasOwnProperty('messageDetail')) {
+        if (this.props.messages !== undefined &&
+            !this.props.messages.hasOwnProperty('messageDetail') &&
+            nextProps.messages.hasOwnProperty('messageDetail')) {
             this.setState({error: null});
             this.props.navigator.push({
                     id: Routes.messageDetail

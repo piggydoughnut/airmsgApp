@@ -31,9 +31,8 @@ export function post(data, token, action) {
 export function success(data, action) {
     return {
         type: action,
-        payload: {
-            comments: data
-        }
+        payload: data
+
     };
 }
 
