@@ -1,4 +1,4 @@
-import {LOGIN_SUCCESS } from '../actions/login.actions.js'
+import {LOGIN_SUCCESS } from '../actions/auth.actions.js'
 
 // initial state for login is empty user details
 const user = (state = [], action) => {

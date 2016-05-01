@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as loginActions from '../actions/login.actions';
+import * as authActions from '../actions/auth.actions';
 
 var Routes = require('../config/routes');
 var React = require('react-native');
@@ -108,14 +108,9 @@ class MainContainer extends React.Component {
         }
     }
 
-    _onGuestLoginPressed() {
+    _onRegisterPress() {
 
     }
-
-    _onFacebookLoginPressed() {
-
-    }
-
 
     renderScene(route, navigator) {
 
@@ -145,7 +140,7 @@ class MainContainer extends React.Component {
                     {"\n"}
                     or
                 </Text>
-                <TouchableHighlight onPress={(this._onGuestLoginPressed.bind(this))} style={styles.button}>
+                <TouchableHighlight onPress={(this._onRegisterPress.bind(this))} style={styles.button}>
                     <Text style={styles.buttonText}>Become a member</Text>
                 </TouchableHighlight>
             </View>
@@ -162,9 +157,9 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        basicLogin: bindActionCreators(loginActions.basicLogin, dispatch),
-        loginFacebook: bindActionCreators(loginActions.loginFacebook, dispatch),
-        loginGmail: bindActionCreators(loginActions.loginGmail, dispatch)
+        basicLogin: bindActionCreators(authActions.basicLogin, dispatch),
+        loginFacebook: bindActionCreators(authActions.loginFacebook, dispatch),
+        loginGmail: bindActionCreators(authActions.loginGmail, dispatch)
     };
 };
 

@@ -10,9 +10,7 @@ export const LOGIN_GMAIL = 'LOGIN_GMAIL';
 export function basicLogin(user) {
     return {
         type: LOGIN_BASIC,
-        payload: {
-            user: user
-        }
+        payload: {user}
     }
 }
 export function loginFacebook(user) {

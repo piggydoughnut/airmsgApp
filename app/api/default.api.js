@@ -16,4 +16,10 @@ export function errorModal(error){
     );
 }
 
+export function checkResponseStatus(status){
+    if(status == 403){
+        throw 'Invalid credentials'
+    }
+}
+
 
