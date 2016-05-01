@@ -58,6 +58,7 @@ function* postMessage(data) {
 function* postComment(data) {
     try {
         const response = yield call(messagesApi.postComment, data.payload);
+        checkResponseStatus(response);
         yield put(commentActions.success({new_comment: response}, COMMENT_POST_SUCCESS));
     } catch (error) {
         yield put(commentActions.failure(error, COMMENT_POST_FAILURE));
@@ -76,6 +77,7 @@ function* loadMessages(data) {
 function* loadComments(data) {
     try {
         const response = yield call(messagesApi.loadComments, data.payload);
+        checkResponseStatus(response);
         yield put(commentActions.success({comments: response}, COMMENTS_LOAD_SUCCESS));
     } catch (error) {
         yield put(commentActions.failure(error, COMMENTS_LOAD_FAILURE));

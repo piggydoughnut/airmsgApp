@@ -2,10 +2,14 @@ import {COMMENTS_LOAD_SUCCESS, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE} from 
 
 const comments = (state = [], action) => {
     switch (action.type) {
+        case COMMENT_POST_SUCCESS:
+            return {
+                comments: (state.comments !== undefined) ? state.comments : []
+            };
         case COMMENT_POST_FAILURE:
             return {
                 error: action.payload.error
-            }
+            };
         case COMMENTS_LOAD_SUCCESS:
             return action.payload.comments;
         default:

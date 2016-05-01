@@ -24,6 +24,10 @@ class CommentViewContainer extends React.Component {
                 error: null
             });
         }
+        if(nextProps.comments !== undefined &&
+            nextProps.comments.hasOwnProperty('error')){
+            this.setState({error:nextProps.comments.error});
+        }
     }
 
     _onSendCommentPress(comment) {
@@ -43,6 +47,12 @@ class CommentViewContainer extends React.Component {
     }
 
     render() {
+        if (this.state.error) {
+            React.AlertIOS.alert(
+                'Error',
+                this.state.error
+            );
+        }
         return (
             <CommentView
                 comments={this.state.comments}
