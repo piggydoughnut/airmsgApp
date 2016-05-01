@@ -36,9 +36,11 @@ function* loginApi(action) {
     try {
         const response = yield call(usersApi.getAccess, action.payload);
         checkResponseStatus(response.status);
-        console.log(response);
         yield put(authActions.setToken(response));
-        yield put(authActions.loginSuccess(response));
+
+        const user = yield call(usersApi.getUserInfo, response.access_token);
+        checkResponseStatus(response.status);
+        yield put(authActions.loginSuccess(user));
     } catch (error) {
         yield put(commonActions.failure(error, LOGIN_FAILURE))
     }

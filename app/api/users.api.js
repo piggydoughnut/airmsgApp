@@ -32,6 +32,27 @@ function getToken(username, password) {
         });
 }
 
+export function getUserInfo(access_token){
+    return fetch(api.domain + '/api/users/me', {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer '+ access_token
+        }
+    })
+        .then((response) => {
+            if (response.status >= 400) {
+                return {
+                    status: response.status
+                }
+            }
+            return response.json();
+        })
+        .then((responseData) => {
+            return responseData;
+        });
+}
+
 export function getTokenAfterExpired(refreshToken) {
 
 }
