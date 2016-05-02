@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {COMMENT_POST} from "../actions/comments.actions";
 import * as commentsActions from "../actions/comments.actions";
+import {COMMENT_POST} from "../actions/comments.actions";
 
 var React = require('react-native');
 var CommentView = require('../components/commentView');
@@ -10,8 +10,8 @@ class CommentViewContainer extends React.Component {
     constructor(props) {
         super(props);
         var detail = this.props.messageDetail;
-        if(detail == undefined &&  this.props.messageDetailPersonal!== undefined ){
-            detail =  this.props.messageDetailPersonal;
+        if (detail == undefined && this.props.messageDetailPersonal !== undefined) {
+            detail = this.props.messageDetailPersonal;
         }
         this.state = {
             comments: detail.comments,
@@ -21,6 +21,7 @@ class CommentViewContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (this.state.detail !== undefined &&
             this.state.detail.comments !== undefined &&
             this.state.detail.comments.hasOwnProperty('docs') &&
@@ -30,9 +31,9 @@ class CommentViewContainer extends React.Component {
                 error: null
             });
         }
-        if(nextProps.comments !== undefined &&
-            nextProps.comments.hasOwnProperty('error')){
-            this.setState({error:nextProps.comments.error});
+        if (nextProps.comments !== undefined &&
+            nextProps.comments.hasOwnProperty('error')) {
+            this.setState({error: nextProps.comments.error});
         }
     }
 
@@ -48,8 +49,8 @@ class CommentViewContainer extends React.Component {
         this.props.postComment(data, this.props.token, COMMENT_POST);
     }
 
-    _getComments(id){
-        this.props.getComments(id, this.props.token);
+    _getComments(page) {
+        this.props.getComments(this.state.detail.message._id, this.props.token, page);
     }
 
     render() {
@@ -63,7 +64,7 @@ class CommentViewContainer extends React.Component {
             <CommentView
                 comments={this.state.detail.comments}
                 sendComment={ (comment) => this._onSendCommentPress(comment)}
-                // getComments={ (id) => this._getComments(id)}
+                getComments={ (page) => this._getComments(page)}
                 msgId={this.state.detail.message._id}
             />
         );

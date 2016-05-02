@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
         color: 'green'
     },
     formInput: {
-        height: 150,
+        height: 70,
         padding: 10,
         marginRight: 5,
         marginBottom: 5,
@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
         color: "#555555"
     },
     button: {
-        width: 200,
+        width: 100,
         height: 36,
         flex: 1,
         backgroundColor: "#555555",
@@ -44,7 +44,7 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         marginTop: 10,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     buttonText: {
         fontSize: 18,
@@ -59,6 +59,14 @@ var styles = StyleSheet.create({
     },
     seeMore: {
         color: 'gray'
+    },
+    loadMore: {
+        alignSelf: "center"
+    },
+    inline: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection:'row'
     }
 });
 
@@ -83,7 +91,6 @@ class CommentView extends React.Component {
     _sendComment() {
         this.props.sendComment(this.state.comment);
         this._clearInput();
-        // this.props.getComments(this.props.msgId);
     }
 
     _clearInput() {
@@ -92,7 +99,6 @@ class CommentView extends React.Component {
     }
 
     renderRow(rowData, sectionId, rowId) {
-        var color = rowId % 2 == 0 ? '#E3F4FA' : 'white';
         return (
             <Comment
                 key={rowId}
@@ -103,24 +109,39 @@ class CommentView extends React.Component {
     }
 
     render() {
+        var loadMoreLink = null;
+        if(this.props.comments.total > 10){
+            loadMoreLink =
+                <TouchableOpacity style={styles.loadMore} onPress={ () => this.props.getComments()}>
+                    <Text style={styles.seeMore}>
+                        {"\n"}
+                        load more
+                    </Text>
+                </TouchableOpacity>
+        }
         return (
             <View>
-                <Text> Comments {this.props.comments.total}</Text>
+                <TextInput
+                    ref={component => this._textInput = component}
+                    multiline={true}
+                    placeholder="Write a comment"
+                    onChange={(event) => this.setState({comment: event.nativeEvent.text})}
+                    style={styles.formInput}
+                />
+
+                <View style={styles.inline}>
+                    <Text> {"\n"} Comments {this.props.comments.total}</Text>
+
+                    <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
+                        <Text style={styles.buttonText}>Post</Text>
+                    </TouchableHighlight>
+                </View>
+                <Text>{"\n"}</Text>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
                 />
-
-                <TextInput
-                    ref={component => this._textInput = component}
-                    multiline={true}
-                    placeholder="Comment"
-                    onChange={(event) => this.setState({comment: event.nativeEvent.text})}
-                    style={styles.formInput}
-                />
-                <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
-                    <Text style={styles.buttonText}>Post</Text>
-                </TouchableHighlight>
+                {loadMoreLink}
             </View>
         );
     }

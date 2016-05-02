@@ -10,7 +10,6 @@ var s = require('../styles/style');
 var {
     StyleSheet,
     Text,
-    ScrollView,
     ListView,
     View,
     Navigator,
@@ -39,7 +38,6 @@ class MyMessages extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.userMessages);
         this.state = {
             dataSource: this.ds.cloneWithRows(this.props.userMessages.docs),
             userMessages: this.props.userMessages,
@@ -48,7 +46,6 @@ class MyMessages extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('component will receive props');
         if (nextProps.userMessages !== undefined) {
             this.setState({
                 dataSource: this.ds.cloneWithRows(nextProps.userMessages.docs),
