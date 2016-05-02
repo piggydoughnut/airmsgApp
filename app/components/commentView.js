@@ -8,6 +8,7 @@ var {
     StyleSheet,
     TextInput,
     TouchableHighlight,
+    TouchableOpacity,
     Text,
     ListView
 } = React;
@@ -55,6 +56,9 @@ var styles = StyleSheet.create({
     },
     commentSignature: {
         fontSize: 10
+    },
+    seeMore: {
+        color: 'gray'
     }
 });
 
@@ -125,12 +129,45 @@ class CommentView extends React.Component {
 class Comment extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showFull: false,
+            linkText: 'see more...',
+            text: this.props.comment.description
+        }
+    }
+
+    showHide() {
+        var show = true;
+        var text = this.props.comment.text;
+        var linkText = 'see less';
+
+        if (this.state.showFull) {
+            show = false;
+            text = this.props.comment.description;
+            linkText = 'see more...';
+        }
+        this.setState({
+            showFull: show,
+            linkText: linkText,
+            text: text
+        });
     }
 
     render() {
+        var seeMoreLink = null;
+        if (this.props.comment.text.length != this.props.comment.description.length) {
+            seeMoreLink =
+                <TouchableOpacity onPress={ () => this.showHide()}>
+                    <Text style={styles.seeMore}>
+                        {this.state.linkText}
+                    </Text>
+                </TouchableOpacity>
+
+        }
         return (
             <View style={this.props.style}>
-                <Text key={this.props.key}>{this.props.comment.description} </Text>
+                <Text key={this.props.key}>{this.state.text}</Text>
+                {seeMoreLink}
                 <Text style={styles.commentSignature}>by {this.props.comment.user.username}
                     {" "}on {getFormattedDateYMDHM(this.props.comment.created_at)}</Text>
             </View>
