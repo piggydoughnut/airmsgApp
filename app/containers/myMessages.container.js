@@ -18,12 +18,20 @@ class MyMessagesContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('container will receive props');
         if (nextProps.userMessages !== undefined) {
             this.setState({
                 userMessages: nextProps.userMessages,
                 loading: false
             });
         }
+    }
+
+    loadUserMessages(page){
+        if(page == undefined || page == 0){
+            page = 1;
+        }
+        this.props.loadUserMessages(this.props.user._id, this.props.token, page);
     }
 
     render() {
@@ -34,6 +42,7 @@ class MyMessagesContainer extends React.Component {
             <MyMessages
                 userMessages={this.state.userMessages}
                 navigator={this.props.navigator}
+                loadUserMessages={(page) => this.loadUserMessages(page)}
             />
         );
     }

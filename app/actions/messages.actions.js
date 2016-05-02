@@ -24,12 +24,13 @@ export function loadMessages(position, token) {
     }
 }
 
-export function loadUserMessages(id, token) {
+export function loadUserMessages(id, token, page = 1) {
     return {
         type: MESSAGES_USER_LOAD,
         payload: {
             id,
-            token
+            token,
+            page
         }
     }
 }

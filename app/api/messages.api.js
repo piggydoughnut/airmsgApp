@@ -8,7 +8,8 @@ export function loadMessages(data) {
 }
 
 export function loadUserMessages(data){
-    return get(api.domain + '/messages/user/' + data.id, data.token);
+    var params = data.page ? '?page=' + data.page : '';
+    return get(api.domain + '/messages/user/' + data.id + params, data.token);
 }
 
 export function openMessage(data) {

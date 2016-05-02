@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Cell, Section, TableView} from "react-native-tableview-simple";
+var RefreshInfiniteListView = require('@remobile/react-native-refresh-infinite-listview');
 
 var Icon = require('react-native-vector-icons/Ionicons');
 var React = require('react-native');
@@ -10,6 +11,7 @@ var {
     StyleSheet,
     Text,
     ScrollView,
+    ListView,
     View,
     Navigator,
     TouchableOpacity
@@ -26,12 +28,49 @@ var styles = StyleSheet.create({
         borderBottomWidth: 5,
         borderBottomColor: 'black'
     },
+    separator: {
+        height: 1,
+        backgroundColor: '#CCC'
+    },
 });
 
 class MyMessages extends React.Component {
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     constructor(props) {
         super(props);
+        console.log(this.props.userMessages);
+        this.state = {
+            dataSource: this.ds.cloneWithRows(this.props.userMessages.docs),
+            userMessages: this.props.userMessages,
+            page: 1
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('component will receive props');
+        if (nextProps.userMessages !== undefined) {
+            this.setState({
+                dataSource: this.ds.cloneWithRows(nextProps.userMessages.docs),
+                loading: false
+            });
+        }
+    }
+
+    onRefresh() {
+        this.props.loadUserMessages(1);
+        this.list.hideHeader();
+        this.setState({page: 1});
+    }
+
+    onInfinite(page) {
+        this.props.loadUserMessages(this.state.page + 1);
+        this.list.hideFooter();
+        this.setState({page: this.state.page + 1});
+    }
+
+    loadedAllData() {
+      return (this.state.userMessages.docs.length == this.state.userMessages.total) || (this.state.userMessages.total <= 10 );
     }
 
     render() {
@@ -47,22 +86,35 @@ class MyMessages extends React.Component {
         );
     }
 
+    renderRow(message) {
+        return <MessageRow row={message} key={message._id}/>;
+    }
+
+    renderSeparator(sectionID, rowID) {
+        return (
+            <View style={styles.separator} key={sectionID+rowID}/>
+        );
+    }
+
     renderScene(route, navigator) {
         var sectionName = "Your messages";
         return (
             <View style={styles.container}>
                 <Section header={sectionName}>
-                    <ScrollView style={styles.scroll}>
-                        <TableView>
-                            {this.props.userMessages.docs.map((message, i) => {
-                                var style = '';
-                                if (i % 2 == 0) {
-                                    style = {backgroundColor: '#E3F4FA'}
-                                }
-                                return (<MessageRow row={message} rowStyle={style} key={i}/>);
-                            })}
-                        </TableView>
-                    </ScrollView>
+                    <RefreshInfiniteListView
+                        ref={(list) => {this.list = list}}
+                        dataSource={this.state.dataSource}
+                        renderRow={(message) => this.renderRow(message)}
+                        renderSeparator={(secId, rowId) => this.renderSeparator(secId, rowId)}
+                        loadedAllData={() => this.loadedAllData()}
+                        initialiListSize={10}
+                        scrollEventThrottle={10}
+                        style={{backgroundColor: 'transparent'}}
+                        onRefresh={() => this.onRefresh()}
+                        onInfinite={() => this.onInfinite()}
+                    >
+                    </RefreshInfiniteListView>
+
                 </Section>
             </View>
         );
@@ -78,10 +130,10 @@ class MessageRow extends React.Component {
 
     render() {
         var comments = '';
-        if(this.props.row.new_comments_count){
-            comments = '- new comments ('+ this.props.row.new_comments_count + ')';
+        if (this.props.row.new_comments_count) {
+            comments = '- new comments (' + this.props.row.new_comments_count + ')';
         }
-        var message = this.props.row.text.substring(0, 50) + '   ' + <Icon name="eye" size={30} color="#4F8EF7" /> + this.props.row.views_count + '  ' + comments;
+        var message = this.props.row.text.substring(0, 30) + '...   ' + <Icon name="eye" size={30} color="#4F8EF7"/> + this.props.row.views_count + '  ' + comments;
         return (
             <Cell cellstyle="Subtitle" title={message}
                   detail={this.props.row.loc.city}/>
