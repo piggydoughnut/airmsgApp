@@ -81,9 +81,21 @@ class MessageMapContainer extends React.Component {
         ) {
             this.setState({error: nextProps.messages.error});
         }
+        /**
+         * There are two states in which we show messageDetail -> mount a new view
+         * First: there was no previos messageDetail before but there is one now
+         * Second: there is already one messageDetail view in the state but we are opening a new one
+         *
+         **/
         if (this.props.messages !== undefined &&
-            !this.props.messages.hasOwnProperty('messageDetail') &&
-            nextProps.messages.hasOwnProperty('messageDetail')) {
+            (
+                (!this.props.messages.hasOwnProperty('messageDetail') && nextProps.messages.hasOwnProperty('messageDetail'))
+                ||
+                (nextProps.messages.messageDetail !== undefined && this.props.messages.messageDetail !== undefined &&
+                nextProps.messages.messageDetail.message !== undefined && this.props.messages.messageDetail.message !== undefined &&
+                this.props.messages.messageDetail.message._id !== nextProps.messages.messageDetail.message._id)
+            )
+        ) {
             this.setState({error: null});
             this.props.navigator.push({
                     id: Routes.messageDetail
