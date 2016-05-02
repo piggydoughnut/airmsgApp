@@ -4,7 +4,7 @@ import * as messagesActions from "../actions/messages.actions";
 var React = require('react-native');
 var MyMessages = require('../components/myMessages');
 var Loading = require('../components/loading');
-
+var Routes = require('../config/routes');
 
 class MyMessagesContainer extends React.Component {
 
@@ -19,16 +19,26 @@ class MyMessagesContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('container will receive props');
+        if (nextProps.detail != undefined) {
+            return this.props.navigator.push({
+                    id: Routes.messageDetail
+                }
+            );
+        }
         if (nextProps.userMessages !== undefined) {
-            this.setState({
+            return this.setState({
                 userMessages: nextProps.userMessages,
                 loading: false
             });
         }
     }
 
-    loadUserMessages(page){
-        if(page == undefined || page == 0){
+    openMessage(msg) {
+        this.props.openMessage(msg, this.props.token);
+    }
+
+    loadUserMessages(page) {
+        if (page == undefined || page == 0) {
             page = 1;
         }
         this.props.loadUserMessages(this.props.user._id, this.props.token, page);
@@ -43,6 +53,7 @@ class MyMessagesContainer extends React.Component {
                 userMessages={this.state.userMessages}
                 navigator={this.props.navigator}
                 loadUserMessages={(page) => this.loadUserMessages(page)}
+                showDetail={(msg) => this.openMessage(msg)}
             />
         );
     }
@@ -53,13 +64,15 @@ const mapStateToProps = (store) => {
     return {
         user: store.user.user,
         userMessages: store.user.messages,
+        detail: store.user.messageDetail,
         token: store.user.tokenInfo.access_token
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadUserMessages: bindActionCreators(messagesActions.loadUserMessages, dispatch)
+        loadUserMessages: bindActionCreators(messagesActions.loadUserMessages, dispatch),
+        openMessage: bindActionCreators(messagesActions.openMessagePersonal, dispatch),
     };
 };
 

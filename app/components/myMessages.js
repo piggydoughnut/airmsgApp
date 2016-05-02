@@ -70,7 +70,7 @@ class MyMessages extends React.Component {
     }
 
     loadedAllData() {
-      return (this.state.userMessages.docs.length == this.state.userMessages.total) || (this.state.userMessages.total <= 10 );
+        return (this.state.userMessages.docs.length == this.state.userMessages.total) || (this.state.userMessages.total <= 10 );
     }
 
     render() {
@@ -87,7 +87,11 @@ class MyMessages extends React.Component {
     }
 
     renderRow(message) {
-        return <MessageRow row={message} key={message._id}/>;
+        return <MessageRow
+            row={message}
+            key={message._id}
+            showDetail={(msg) => this.props.showDetail(msg)}
+        />;
     }
 
     renderSeparator(sectionID, rowID) {
@@ -133,10 +137,13 @@ class MessageRow extends React.Component {
         if (this.props.row.new_comments_count) {
             comments = '- new comments (' + this.props.row.new_comments_count + ')';
         }
-        var message = this.props.row.text.substring(0, 30) + '...   ' + <Icon name="eye" size={30} color="#4F8EF7"/> + this.props.row.views_count + '  ' + comments;
+        var message = this.props.row.text.substring(0, 30) + '...   ' +
+            <Icon name="eye" size={30} color="#4F8EF7"/> + this.props.row.views_count + '  ' + comments;
         return (
-            <Cell cellstyle="Subtitle" title={message}
-                  detail={this.props.row.loc.city}/>
+            <TouchableOpacity onPress={(msg) => this.props.showDetail(this.props.row)}>
+                <Cell cellstyle="Subtitle" title={message}
+                      detail={this.props.row.loc.city}/>
+            </TouchableOpacity>
         );
     }
 }

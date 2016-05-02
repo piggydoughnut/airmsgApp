@@ -6,6 +6,9 @@ import {
     MESSAGE_POST_FAILURE,
     MESSAGE_OPEN,
     MESSAGE_OPEN_FAILURE,
+    MESSAGE_OPEN_PERSONAL,
+    MESSAGE_OPEN_PERSONAL_SUCCESS,
+    MESSAGE_OPEN_PERSONAL_FAILURE,
     MESSAGES_LOAD,
     MESSAGES_LOAD_SUCCESS,
     MESSAGES_LOAD_FAILURE,
@@ -110,6 +113,15 @@ function* openMessage(data) {
         yield put(messageActions.failure(error, MESSAGE_OPEN_FAILURE));
     }
 }
+function* openMessagePersonal(data) {
+    try {
+        const response = yield call(messagesApi.openMessage, data.payload);
+        checkResponseStatus(response);
+        yield put(messageActions.openMessagePersonalSuccess(response));
+    } catch (error) {
+        yield put(messageActions.failure(error, MESSAGE_OPEN_PERSONAL_FAILURE));
+    }
+}
 
 /***** Galery *****/
 function* getGalleryUser(data) {
@@ -143,6 +155,9 @@ export function* watchMessageOpen() {
     yield* takeEvery(MESSAGE_OPEN, openMessage);
 }
 
+export function* watchMessagePersonalOpen() {
+    yield* takeEvery(MESSAGE_OPEN_PERSONAL, openMessagePersonal);
+}
 export function* watchCommentPost() {
     yield* takeEvery(COMMENT_POST, postComment);
 }

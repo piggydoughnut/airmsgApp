@@ -9,18 +9,24 @@ var CommentView = require('../components/commentView');
 class CommentViewContainer extends React.Component {
     constructor(props) {
         super(props);
+        var detail = this.props.messageDetail;
+        if(detail == undefined &&  this.props.messageDetailPersonal!== undefined ){
+            detail =  this.props.messageDetailPersonal;
+        }
         this.state = {
-            comments: this.props.messageDetail.comments,
-            error: null
+            comments: detail.comments,
+            error: null,
+            detail: detail
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.messageDetail.comments !== undefined &&
-            nextProps.messageDetail.comments.hasOwnProperty('docs') &&
-            nextProps.messageDetail.comments.docs.length != this.state.comments.length) {
+        if (this.state.detail !== undefined &&
+            this.state.detail.comments !== undefined &&
+            this.state.detail.comments.hasOwnProperty('docs') &&
+            this.state.detail.comments.docs.length != this.state.comments.length) {
             this.setState({
-                comments: nextProps.messageDetail.comments,
+                comments: this.state.detail.comments,
                 error: null
             });
         }
@@ -32,7 +38,7 @@ class CommentViewContainer extends React.Component {
 
     _onSendCommentPress(comment) {
         var data = {
-            parent: this.props.messageDetail.message._id,
+            parent: this.state.detail.message._id,
             user: {
                 id: this.props.user._id,
                 username: this.props.user.username
@@ -55,10 +61,10 @@ class CommentViewContainer extends React.Component {
         }
         return (
             <CommentView
-                comments={this.state.comments}
+                comments={this.state.detail.comments}
                 sendComment={ (comment) => this._onSendCommentPress(comment)}
                 // getComments={ (id) => this._getComments(id)}
-                msgId={this.props.messageDetail.message._id}
+                msgId={this.state.detail.message._id}
             />
         );
     }
@@ -66,6 +72,7 @@ class CommentViewContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messageDetail: store.messages.messageDetail,
+        messageDetailPersonal: store.user.messageDetail,
         comments: store.comments,
         token: store.user.tokenInfo.access_token,
         user: store.user.user

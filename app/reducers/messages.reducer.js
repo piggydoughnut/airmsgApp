@@ -4,7 +4,10 @@ import {
     MESSAGE_OPEN_FAILURE,
     MESSAGES_LOAD_SUCCESS,
     MESSAGES_LOAD_FAILURE,
-    MESSAGE_OPEN_SUCCESS
+    MESSAGE_OPEN_SUCCESS,
+    MESSAGES_USER_LOAD_SUCCESS,
+    MESSAGES_USER_LOAD_FAILURE,
+    MESSAGE_CLOSE
 } from "../actions/messages.actions";
 import {
     COMMENT_POST_SUCCESS
@@ -53,6 +56,10 @@ const messages = (state = [], action) => {
                         offset: state.messageDetail.comments.offset
                     }
                 }
+            };
+        case MESSAGE_CLOSE:
+            return {
+                messages: state.messages
             };
         default:
             return state;
