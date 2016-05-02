@@ -18,13 +18,15 @@ class MyMessagesContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('container will receive props');
-        if (nextProps.detail != undefined) {
+        if (nextProps.detail !== undefined &&
+            this.props.detail == undefined
+        ) {
             return this.props.navigator.push({
                     id: Routes.messageDetail
                 }
             );
         }
+
         if (nextProps.userMessages !== undefined) {
             return this.setState({
                 userMessages: nextProps.userMessages,

@@ -7,8 +7,10 @@ import {
     MESSAGES_LOAD_SUCCESS,
     MESSAGE_CLOSE_PERSONAL
 } from "../actions/messages.actions.js";
+import {
+    COMMENT_POST_SUCCESS
+} from "../actions/comments.actions";
 
-// initial state for login is empty user details
 const user = (state = [], action) => {
     switch (action.type) {
         case SET_TOKEN:
@@ -73,6 +75,25 @@ const user = (state = [], action) => {
             return {
                 user: state.user,
                 tokenInfo: state.tokenInfo
+            };
+        case COMMENT_POST_SUCCESS:
+            if(state.messageDetail === undefined){
+                return state;
+            }
+            state.messageDetail.comments.docs.push(action.payload.new_comment);
+            return {
+                tokenInfo: state.tokenInfo,
+                user: state.user,
+                messages: state.messages,
+                messageDetail: {
+                    message: state.messageDetail.message,
+                    comments: {
+                        docs: state.messageDetail.comments.docs,
+                        total: state.messageDetail.comments.total,
+                        limit: state.messageDetail.comments.limit,
+                        offset: state.messageDetail.comments.offset
+                    }
+                }
             };
         default:
             return state;

@@ -43,7 +43,9 @@ const messages = (state = [], action) => {
         case MESSAGES_LOAD_FAILURE:
             return action.payload;
         case COMMENT_POST_SUCCESS:
-            console.log(state.messageDetail);
+            if(state.messageDetail === undefined){
+                return state;
+            }
             state.messageDetail.comments.docs.push(action.payload.new_comment);
             return {
                 messages: state.messages,
