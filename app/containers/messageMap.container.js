@@ -131,7 +131,7 @@ class MessageMapContainer extends React.Component {
                 this.state.error
             );
         }
-        if (this.state.markers.length == 0) {
+        if (this.state.markers.length == 0 && this.state.messages == undefined ) {
             return ( <Loading />);
         }
         return (
