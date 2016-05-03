@@ -38,14 +38,11 @@
 {
   View *_view = [[View alloc] init];
   self.view = _view;
-  NSLog(@"load view");
 }
 
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  NSLog(@"%@", _objSrc);
-  NSLog(@"view did load");
   // Do any additional setup after loading the view, typically from a nib.
   
   /* It might be the case that the device which is running the application does not fulfil all Wikitude SDK hardware requirements.
@@ -75,8 +72,6 @@
     
     NSURL *baseURL = [NSURL URLWithString:(@"http://192.168.0.3:3000/ArchitectWorld/index.html")];
     self.architectWorldNavigation = [self.architectView loadArchitectWorldFromURL:baseURL withRequiredFeatures:WTFeature_Geo];
-    NSLog(@"url = %@", baseURL);
-    
     /* Because the WTArchitectView does some OpenGL rendering, frame updates have to be suspended and resumend when the application changes it's active state.
      Here, UIApplication notifications are used to respond to the active state changes.
      
@@ -117,27 +112,13 @@
 
 #pragma mark - View Lifecycle
 - (void)viewWillAppear:(BOOL)animated {
-  NSLog(@"%s", "will appear");
+  
   [super viewWillAppear:animated];
   View* test_view = [self view];
-  NSLog(@"%@", [test_view objSrc]);
-  NSString *src = [test_view objSrc];
-//  const char *src2 = [src UTF8String];
-//  [self.architectView callJavaScript:(
-//                                      @"World.('ffffuuuuck');"
-//                                      @"AR.logger.debug('native here');"
-//                                      )];
-//  std::string([foo UTF8String]);
-    NSLog(@"x(\'%@\')", src);
-//    [self.architectView callJavaScript:(@"x(\'%@\')", src)];
-//    const char *transformed = [src UTF8String];
+  NSString *src = [NSString stringWithFormat:@"%@%@%@%@%@", @"x(",@"\'" ,[test_view objSrc], @"\'", @");"];
+//  NSLog(src);
+  [self.architectView callJavaScript:(@"@a", src)];
   
-    [self.architectView callJavaScript:(@"AR.logger.debug('native here');")];
-//    [self.architectView callJavaScript:(@"x(@a)", src)];
-  
-    NSLog([NSString stringWithFormat:@"%@%@%@%@%@", @"x(",@"\'" ,src, @"\'", @");"]);
-//   [self.architectView callJavaScript:([NSString stringWithFormat:@"%@/%@/%@,%@,%@", @"x(",@"\'" ,src, @"\'", @");"])];
-   [self.architectView callJavaScript:([NSString stringWithFormat:@"%@%@%@%@%@", @"x(",@"\'" ,src, @"\'", @");"])];
   /* WTArchitectView rendering is started once the view controllers view will appear */
   [self startWikitudeSDKRendering];
 }
