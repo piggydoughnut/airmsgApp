@@ -1,23 +1,40 @@
+var x = function startArchitectWorld(src){
+    AR.logger.activateDebugMode();
+    AR.logger.debug('starting JS architect world');
+    AR.logger.debug('passed source ' + src);
+  
+    World.init(src);
+}
+
 var World = {
 	loaded: false,
 	rotating: false,
+  objSrc: 'initial-value',
 
-	init: function initFn() {
-		this.createModelAtLocation();
+	init: function initFn(src) {
+    this.setObjSrc(src);
+    AR.logger.debug('initiated world with source ' + this.objSrc);
+    AR.logger.activateDebugMode();
+    this.createModelAtLocation();
 	},
 
-	createModelAtLocation: function createModelAtLocationFn() {
+  setObjSrc: function setObjSrcFn(src){
+    AR.logger.debug(src);
+    this.objSrc = src;
+  },
 
+	createModelAtLocation: function createModelAtLocationFn() {
+//    AR.logger.activateDebugMode();
 		/*
-			First a location where the model should be displayed will be defined. This location will be relativ to the user.	
+			First a location where the model should be displayed will be defined. This location will be relative to the user.
 		*/
 		var location = new AR.RelativeLocation(null, 5, 0, 2);
-    AR.logger.debug('omg');
+    AR.logger.debug(objectSourceFromNative);
 
 		/*
 			Next the model object is loaded.
 		*/
-		var modelEarth = new AR.Model("assets/earth.wt3", {
+		var modelEarth = new AR.Model(objectSourceFromNative, {
 			onLoaded: this.worldLoaded,
 			scale: {
 				x: 1,
@@ -50,4 +67,3 @@ var World = {
 	}
 };
 
-World.init();

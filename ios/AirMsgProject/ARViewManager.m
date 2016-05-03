@@ -8,15 +8,19 @@
 
 #import "ARViewManager.h"
 #import "ViewController.h"
+#import "View.h"
 
 @implementation ARViewManager
 
 RCT_EXPORT_MODULE()
 
+RCT_EXPORT_VIEW_PROPERTY(objSrc, NSString);
+
 - (UIView *)view
 {
-    ViewController* controller = [[ViewController alloc] init];
-    return [controller start];
+  ViewController *_controller = [[ViewController alloc] init];
+  NSLog(@"call controller view");
+  return _controller.view;
 }
 
 @end

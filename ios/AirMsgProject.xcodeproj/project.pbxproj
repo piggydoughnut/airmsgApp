@@ -28,6 +28,8 @@
 		8FEB82044E4F4E319E737594 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB39EBD43F0944A188368AFB /* Foundation.ttf */; };
 		AF91D19215FD406FA692F582 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C399F4261E9B479C8779CF24 /* libRNVectorIcons.a */; };
 		BC5A8A956D354F9AA52994D9 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A61AE760D7404C99AA5566A7 /* libRNImagePicker.a */; };
+		C810B7761CC3E1C700C5959B /* jquery-1.12.3.js in Resources */ = {isa = PBXBuildFile; fileRef = C810B7751CC3E1C700C5959B /* jquery-1.12.3.js */; };
+		C84A7E841CC3C6DF00FB0F46 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = C84A7E831CC3C6DF00FB0F46 /* View.m */; };
 		C8508CEC1CC26594007398D2 /* earth.wt3 in Resources */ = {isa = PBXBuildFile; fileRef = C8508CE51CC26594007398D2 /* earth.wt3 */; };
 		C8508CED1CC26594007398D2 /* indi.png in Resources */ = {isa = PBXBuildFile; fileRef = C8508CE61CC26594007398D2 /* indi.png */; };
 		C8508CEE1CC26594007398D2 /* default.css in Resources */ = {isa = PBXBuildFile; fileRef = C8508CE81CC26594007398D2 /* default.css */; };
@@ -196,6 +198,10 @@
 		BB39EBD43F0944A188368AFB /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		BF61D66759134CE58FAB5876 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		C399F4261E9B479C8779CF24 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		C810B7751CC3E1C700C5959B /* jquery-1.12.3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.12.3.js"; sourceTree = "<group>"; };
+		C84A7E821CC3C6DF00FB0F46 /* View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		C84A7E831CC3C6DF00FB0F46 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = View.m; sourceTree = "<group>"; };
+		C84C678B1CD88E7800E093A6 /* dog.wt3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = dog.wt3; sourceTree = "<group>"; };
 		C8508CE51CC26594007398D2 /* earth.wt3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = earth.wt3; sourceTree = "<group>"; };
 		C8508CE61CC26594007398D2 /* indi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indi.png; sourceTree = "<group>"; };
 		C8508CE81CC26594007398D2 /* default.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = default.css; sourceTree = "<group>"; };
@@ -366,6 +372,8 @@
 				C870ED551CBFA27100917952 /* ViewController.m */,
 				C8B1E1671CC004D700791F35 /* ARViewManager.h */,
 				C8B1E1681CC004D700791F35 /* ARViewManager.m */,
+				C84A7E821CC3C6DF00FB0F46 /* View.h */,
+				C84A7E831CC3C6DF00FB0F46 /* View.m */,
 			);
 			name = AirMsgProject;
 			sourceTree = "<group>";
@@ -475,6 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				C8508CE51CC26594007398D2 /* earth.wt3 */,
+				C84C678B1CD88E7800E093A6 /* dog.wt3 */,
 				C8508CE61CC26594007398D2 /* indi.png */,
 			);
 			path = assets;
@@ -491,6 +500,8 @@
 		C8508CEA1CC26594007398D2 /* js */ = {
 			isa = PBXGroup;
 			children = (
+				C8508D001CC282D5007398D2 /* ade.js */,
+				C810B7751CC3E1C700C5959B /* jquery-1.12.3.js */,
 				C8508CEB1CC26594007398D2 /* 3dmodelatgeolocation.js */,
 			);
 			path = js;
@@ -499,7 +510,6 @@
 		C870ED571CBFA9E400917952 /* ArchitectWorld */ = {
 			isa = PBXGroup;
 			children = (
-				C8508D001CC282D5007398D2 /* ade.js */,
 				C8508CE41CC26594007398D2 /* assets */,
 				C8508CE71CC26594007398D2 /* css */,
 				C8508CE91CC26594007398D2 /* index.html */,
@@ -779,6 +789,7 @@
 				C8508CF01CC26594007398D2 /* 3dmodelatgeolocation.js in Resources */,
 				2771DC96F7934B9B8D62E2A1 /* MaterialIcons.ttf in Resources */,
 				594AF27FCA8C4921B43ABDEE /* Octicons.ttf in Resources */,
+				C810B7761CC3E1C700C5959B /* jquery-1.12.3.js in Resources */,
 				C8508CEE1CC26594007398D2 /* default.css in Resources */,
 				F8F9BBDC4DAA41859FC2DF34 /* Zocial.ttf in Resources */,
 				C8508CED1CC26594007398D2 /* indi.png in Resources */,
@@ -817,6 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C84A7E841CC3C6DF00FB0F46 /* View.m in Sources */,
 				C870ED561CBFA27100917952 /* ViewController.m in Sources */,
 				C8B1E1691CC004D700791F35 /* ARViewManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,

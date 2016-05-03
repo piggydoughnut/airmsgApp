@@ -10,6 +10,6 @@
 
 @interface ViewController : UIViewController
 
--(UIView*)start;
+@property (nonatomic, assign) NSString *objSrc;
 
 @end

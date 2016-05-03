@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+
+#import "View.h"
 #import <WikitudeSDK/WikitudeSDK.h>
 /* Wikitude SDK debugging */
 #import <WikitudeSDK/WTArchitectViewDebugDelegate.h>
@@ -32,24 +34,18 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-//- (UIView *)view
-//{
-//  UIView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"View" owner:self options:nil] lastObject];
-////  [self start];
-//  return containerView;
-//}
+- (void)loadView
+{
+  View *_view = [[View alloc] init];
+  self.view = _view;
+  NSLog(@"load view");
+}
 
-//-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-//  
-//  if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-//    NSLog(@"initWithNibName\n");
-//  }
-//  
-//  return self;
-//}
 
-- (UIView*)start {
-//  [super viewDidLoad];
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  NSLog(@"%@", _objSrc);
+  NSLog(@"view did load");
   // Do any additional setup after loading the view, typically from a nib.
   
   /* It might be the case that the device which is running the application does not fulfil all Wikitude SDK hardware requirements.
@@ -77,7 +73,7 @@
      NOTE: The architectWorldNavigation property is assigned at this point. The navigation object is valid until another Architect World is loaded.
      */
     
-    NSURL *baseURL = [NSURL URLWithString:(@"http://192.168.0.3:8081/ios/AirMsgProject/ArchitectWorld/index.html")];
+    NSURL *baseURL = [NSURL URLWithString:(@"http://192.168.0.3:3000/ArchitectWorld/index.html")];
     self.architectWorldNavigation = [self.architectView loadArchitectWorldFromURL:baseURL withRequiredFeatures:WTFeature_Geo];
     NSLog(@"url = %@", baseURL);
     
@@ -113,11 +109,9 @@
     NSDictionary *views = NSDictionaryOfVariableBindings(_architectView);
     [self.view addConstraints: [NSLayoutConstraint constraintsWithVisualFormat:@"|[_architectView]|" options:0 metrics:nil views:views] ];
     [self.view addConstraints: [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_architectView]|" options:0 metrics:nil views:views] ];
-    return self.view;
   }
   else {
     NSLog(@"This device is not supported. Show either an alert or use this class method even before presenting the view controller that manages the WTArchitectView. Error: %@", [deviceSupportError localizedDescription]);
-    return nil;
   }
 }
 
@@ -125,7 +119,25 @@
 - (void)viewWillAppear:(BOOL)animated {
   NSLog(@"%s", "will appear");
   [super viewWillAppear:animated];
+  View* test_view = [self view];
+  NSLog(@"%@", [test_view objSrc]);
+  NSString *src = [test_view objSrc];
+//  const char *src2 = [src UTF8String];
+//  [self.architectView callJavaScript:(
+//                                      @"World.('ffffuuuuck');"
+//                                      @"AR.logger.debug('native here');"
+//                                      )];
+//  std::string([foo UTF8String]);
+    NSLog(@"x(\'%@\')", src);
+//    [self.architectView callJavaScript:(@"x(\'%@\')", src)];
+//    const char *transformed = [src UTF8String];
   
+    [self.architectView callJavaScript:(@"AR.logger.debug('native here');")];
+//    [self.architectView callJavaScript:(@"x(@a)", src)];
+  
+    NSLog([NSString stringWithFormat:@"%@%@%@%@%@", @"x(",@"\'" ,src, @"\'", @");"]);
+//   [self.architectView callJavaScript:([NSString stringWithFormat:@"%@/%@/%@,%@,%@", @"x(",@"\'" ,src, @"\'", @");"])];
+   [self.architectView callJavaScript:([NSString stringWithFormat:@"%@%@%@%@%@", @"x(",@"\'" ,src, @"\'", @");"])];
   /* WTArchitectView rendering is started once the view controllers view will appear */
   [self startWikitudeSDKRendering];
 }
