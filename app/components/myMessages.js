@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
         flex: 1,
         padding: 0,
         marginTop: 65,
-        alignItems: 'stretch'
+        backgroundColor: 'transparent'
     },
     item: {
         borderBottomWidth: 5,
@@ -41,7 +41,8 @@ class MyMessages extends React.Component {
         this.state = {
             dataSource: this.ds.cloneWithRows(this.props.userMessages.docs),
             userMessages: this.props.userMessages,
-            page: 1
+            page: 1,
+            loadedAll: false
         };
     }
 
@@ -51,6 +52,11 @@ class MyMessages extends React.Component {
                 dataSource: this.ds.cloneWithRows(nextProps.userMessages.docs),
                 loading: false
             });
+        }
+        if ((nextProps.userMessages.docs.length == nextProps.userMessages.total) || (nextProps.userMessages.total <= 10 )) {
+            this.setState({
+                loadedAll: true
+            })
         }
     }
 
@@ -67,7 +73,7 @@ class MyMessages extends React.Component {
     }
 
     loadedAllData() {
-        return (this.state.userMessages.docs.length == this.state.userMessages.total) || (this.state.userMessages.total <= 10 );
+        return this.state.loadedAll;
     }
 
     render() {
@@ -98,26 +104,20 @@ class MyMessages extends React.Component {
     }
 
     renderScene(route, navigator) {
-        var sectionName = "Your messages";
         return (
-            <View style={styles.container}>
-                <Section header={sectionName}>
-                    <RefreshInfiniteListView
-                        ref={(list) => {this.list = list}}
-                        dataSource={this.state.dataSource}
-                        renderRow={(message) => this.renderRow(message)}
-                        renderSeparator={(secId, rowId) => this.renderSeparator(secId, rowId)}
-                        loadedAllData={() => this.loadedAllData()}
-                        initialiListSize={10}
-                        scrollEventThrottle={10}
-                        style={{backgroundColor: 'transparent'}}
-                        onRefresh={() => this.onRefresh()}
-                        onInfinite={() => this.onInfinite()}
-                    >
-                    </RefreshInfiniteListView>
-
-                </Section>
-            </View>
+            <RefreshInfiniteListView
+                ref={(list) => {this.list = list}}
+                dataSource={this.state.dataSource}
+                renderRow={(message) => this.renderRow(message)}
+                renderSeparator={(secId, rowId) => this.renderSeparator(secId, rowId)}
+                loadedAllData={() => this.loadedAllData()}
+                initialiListSize={100}
+                scrollEventThrottle={30}
+                style={styles.container}
+                onRefresh={() => this.onRefresh()}
+                onInfinite={() => this.onInfinite()}
+            >
+            </RefreshInfiniteListView>
         );
     }
 }
