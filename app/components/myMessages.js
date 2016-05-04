@@ -47,16 +47,20 @@ class MyMessages extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if ((nextProps.userMessages.docs.length == nextProps.userMessages.total) || (nextProps.userMessages.total <= 10 )) {
+            this.setState({
+                loadedAll: true
+            })
+        } else {
+            this.setState({
+                loadedAll: false
+            })
+        }
         if (nextProps.userMessages !== undefined) {
             this.setState({
                 dataSource: this.ds.cloneWithRows(nextProps.userMessages.docs),
                 loading: false
             });
-        }
-        if ((nextProps.userMessages.docs.length == nextProps.userMessages.total) || (nextProps.userMessages.total <= 10 )) {
-            this.setState({
-                loadedAll: true
-            })
         }
     }
 
