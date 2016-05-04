@@ -136,10 +136,9 @@ class MessageRow extends React.Component {
     render() {
         var comments = '';
         if (this.props.row.new_comments_count) {
-            comments = '- new comments (' + this.props.row.new_comments_count + ')';
+            comments =  ' / ' + this.props.row.new_comments_count;
         }
-        var message = this.props.row.text.substring(0, 30) + '...   ' +
-            <Icon name="eye" size={30} color="#4F8EF7"/> + this.props.row.views_count + '  ' + comments;
+        var message = this.props.row.text.substring(0, 30) + '...   ' + this.props.row.views_count + comments;
         return (
             <TouchableOpacity onPress={(msg) => this.props.showDetail(this.props.row)}>
                 <Cell cellstyle="Subtitle" title={message}
