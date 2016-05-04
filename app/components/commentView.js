@@ -84,7 +84,8 @@ class CommentView extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.comments.docs)
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.comments.docs),
+            total: nextProps.comments.docs.length
         });
     }
 
@@ -121,7 +122,7 @@ class CommentView extends React.Component {
         }
         return (
             <View>
-                <Text> {"\n"} Comments {this.props.comments.total}</Text>
+                <Text> {"\n"} Comments {this.state.total}</Text>
                 <Text>{"\n"}</Text>
                 <ListView
                     dataSource={this.state.dataSource}
