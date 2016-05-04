@@ -12,6 +12,7 @@ class ImageDetailContainer extends React.Component {
         return (
             <ImageDetail
                 image={this.props.image}
+                navigator={this.props.navigator}
             />
         );
     }
