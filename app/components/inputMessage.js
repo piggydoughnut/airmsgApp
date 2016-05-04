@@ -143,9 +143,9 @@ class InputMessage extends React.Component {
                 <TouchableOpacity onPress={ () => this.props.onImagePress(this.state.image.data)}>
                     { image }
                 </TouchableOpacity>
-                <Text> Validity of your message in hours: </Text>
+                <Text> Validity of your message in days: </Text>
                 <SliderIOS
-                    maximumValue={10}
+                    maximumValue={365}
                     step={1}
                     value={this.state.value}
                     onValueChange={(value) => this.setState({value: value})}/>
