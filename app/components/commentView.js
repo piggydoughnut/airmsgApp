@@ -121,6 +121,13 @@ class CommentView extends React.Component {
         }
         return (
             <View>
+                <Text> {"\n"} Comments {this.props.comments.total}</Text>
+                <Text>{"\n"}</Text>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow.bind(this)}
+                />
+                {loadMoreLink}
                 <TextInput
                     ref={component => this._textInput = component}
                     multiline={true}
@@ -128,20 +135,9 @@ class CommentView extends React.Component {
                     onChange={(event) => this.setState({comment: event.nativeEvent.text})}
                     style={styles.formInput}
                 />
-
-                <View style={styles.inline}>
-                    <Text> {"\n"} Comments {this.props.comments.total}</Text>
-
-                    <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
-                        <Text style={styles.buttonText}>Post</Text>
-                    </TouchableHighlight>
-                </View>
-                <Text>{"\n"}</Text>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)}
-                />
-                {loadMoreLink}
+                <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
+                    <Text style={styles.buttonText}>Post</Text>
+                </TouchableHighlight>
             </View>
         );
     }
