@@ -45,7 +45,7 @@ class Menu extends React.Component {
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.push({id: Routes.login})}>
+                    onPress={ ()=>this.props.navigator.popToTop()}>
                     Logout
                 </Text>
             </ScrollView>
