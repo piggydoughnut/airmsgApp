@@ -20,6 +20,9 @@ export function checkResponseStatus(response) {
     if (response.error !== undefined) {
         throw response.error;
     }
+    if (response.status == 400) {
+        throw response;
+    }
     if (response.status == 403) {
         throw 'Invalid credentials'
     }
@@ -28,15 +31,15 @@ export function checkResponseStatus(response) {
     }
 }
 
-export function get(url, token){
+export function get(url, token) {
     return request(url, 'GET', token);
 }
 
-export function post(url, token, data){
+export function post(url, token, data) {
     return request(url, 'POST', token, data);
 }
 
-export function request(url, method, token, data){
+export function request(url, method, token, data) {
     var request_body = {
         method: method,
         headers: {
@@ -44,16 +47,22 @@ export function request(url, method, token, data){
             'Authorization': 'Bearer ' + token
         }
     };
-    if(data && data !== undefined){
+    if (data && data !== undefined) {
         request_body.body = JSON.stringify(data);
     }
 
     return fetch(url, request_body)
         .then((response) => {
             console.log(response);
-            if (response.status >= 400) {
+            if (response.status > 400) {
                 return {
                     status: response.status
+                }
+            }
+            if (response.status == 400) {
+                return {
+                    status: response.status,
+                    errors: JSON.parse(response._bodyText).errors
                 }
             }
             return response.json();

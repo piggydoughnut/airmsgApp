@@ -1,13 +1,13 @@
 import {takeEvery, takeLatest} from "redux-saga";
 import {take, put, call, fork, select} from "redux-saga/effects";
 import {LOGIN_BASIC, LOGIN_FAILURE} from "../actions/auth.actions";
+import {REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE} from "../actions/user.actions";
 import {
     MESSAGE_POST,
     MESSAGE_POST_FAILURE,
     MESSAGE_OPEN,
     MESSAGE_OPEN_FAILURE,
     MESSAGE_OPEN_PERSONAL,
-    MESSAGE_OPEN_PERSONAL_SUCCESS,
     MESSAGE_OPEN_PERSONAL_FAILURE,
     MESSAGES_LOAD,
     MESSAGES_LOAD_SUCCESS,
@@ -52,10 +52,20 @@ function* auth(action) {
     }
 }
 
+function* registerUser(data) {
+    try {
+        const response = yield call(usersApi.registerUser, data.payload);
+        checkResponseStatus(response);
+        yield put(commonActions.success(response, REGISTER_USER_SUCCESS));
+    } catch (error) {
+        yield put(commonActions.failure(error, REGISTER_USER_FAILURE));
+    }
+}
+
 /***** Comments *****/
 function* loadComments(data) {
     try {
-        const response = yield call(messagesApi.loadComments, data.payload);
+        const response = yield call(usersApi.registerUser, data.payload);
         checkResponseStatus(response);
         yield put(commentActions.success({comments: response}, COMMENTS_LOAD_SUCCESS));
     } catch (error) {
@@ -168,4 +178,8 @@ export function* watchCommentsLoad() {
 
 export function* watchGetGalleryUser() {
     yield* takeEvery(GET_GALLERY_USER, getGalleryUser);
+}
+
+export function* watchRegister() {
+    yield* takeEvery(REGISTER_USER, registerUser);
 }

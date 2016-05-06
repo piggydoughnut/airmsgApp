@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import * as authActions from "../actions/auth.actions";
+import * as userActions from "../actions/user.actions";
+import {validateEmail, parseValidationErr} from "../util/validation";
 
 var Routes = require('../config/routes');
 var React = require('react-native');
@@ -61,34 +62,26 @@ var styles = StyleSheet.create({
     }
 });
 
-var CustomSceneConfig = Object.assign({},
-    Navigator.SceneConfigs.PushFromRight, {
-        gestures: {
-            pop: null
-        }
-    });
 
-class MainContainer extends React.Component {
+class RegisterContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: null,
             password: null,
+            email: null,
             error: ''
         };
     }
 
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
+        if (nextProps.register!==undefined && nextProps.register.error !== undefined ) {
+            this.setState({error:  parseValidationErr(nextProps.register.error)});
+            return;
+        }
         if (nextProps.hasOwnProperty('error') && nextProps.error !== undefined) {
             this.setState({error: nextProps.error});
-        }
-        if (nextProps.hasOwnProperty('tokenInfo') && nextProps.tokenInfo !== undefined) {
-            this.props.navigator.push({
-                id: Routes.messageMap,
-                title: 'Message Map',
-                sceneConfig: CustomSceneConfig
-            });
         }
     }
 
@@ -101,27 +94,34 @@ class MainContainer extends React.Component {
         );
     }
 
-    _onBasicLoginPressed() {
-        if (this.state.username && this.state.password) {
-            this.props.basicLogin({
-                username: this.state.username,
-                password: this.state.password
-            });
+    _onRegisterPress() {
+        this.setState({error: ''});
+        if (this.state.email) {
+            if (!validateEmail(this.state.email)) {
+                this.setState({error: 'Email is not valid'});
+                return;
+            }
         }
+        if (this.state.username === '' || this.state.username === null) {
+            this.setState({error: 'Please check your details'});
+            return;
+        }
+        if (this.state.password.length < 8) {
+            this.setState({error: 'Password should be at least 8 characters'});
+            return;
+        }
+        this.props.registerUser({
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email
+        })
     }
 
-    _onRegisterPress() {
-        this.props.navigator.push({id: Routes.register});
-    }
 
     renderScene(route, navigator) {
-
         return (
             <View style={styles.mainContainer}>
-                <Image
-                    style={styles.picture}
-                    source={require('../../public/img/bottle-message.png')}
-                />
+                <Text>Registration</Text>
                 <Text style={styles.error}> {this.state.error}</Text>
                 <TextInput
                     placeholder="Username"
@@ -129,21 +129,19 @@ class MainContainer extends React.Component {
                     style={styles.formInput}
                     value={this.state.username}/>
                 <TextInput
+                    placeholder="Email"
+                    onChange={(event) => this.setState({email: event.nativeEvent.text})}
+                    style={styles.formInput}
+                    value={this.state.email}/>
+                <TextInput
                     placeholder="Password"
                     secureTextEntry={true}
                     onChange={(event) => this.setState({password: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.password}/>
 
-                <TouchableHighlight onPress={(this._onBasicLoginPressed.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Enter</Text>
-                </TouchableHighlight>
-                <Text>
-                    {"\n"}
-                    or
-                </Text>
                 <TouchableHighlight onPress={(this._onRegisterPress.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Become a member</Text>
+                    <Text style={styles.buttonText}>Register</Text>
                 </TouchableHighlight>
             </View>
         );
@@ -153,16 +151,17 @@ class MainContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         tokenInfo: store.user.tokenInfo,
-        error: store.user.error
+        error: store.user.error,
+        register: store.user.register
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        basicLogin: bindActionCreators(authActions.basicLogin, dispatch)
+        registerUser: bindActionCreators(userActions.registerUser, dispatch)
     };
 };
 
-MainContainer = connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+RegisterContainer = connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);
 
-module.exports = MainContainer;
+module.exports = RegisterContainer;

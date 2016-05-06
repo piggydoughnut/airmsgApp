@@ -9,5 +9,6 @@ module.exports = {
     imageDetail: "ImageDetail",
     profile: "Profile",
     editProfile: "EditProfile",
-    objectGallery: "ObjectGallery"
+    objectGallery: "ObjectGallery",
+    register: "Register"
 };

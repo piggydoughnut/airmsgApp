@@ -1,3 +1,4 @@
+import {REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS} from '../actions/user.actions';
 import {LOGIN_SUCCESS, LOGIN_FAILURE, SET_TOKEN} from "../actions/auth.actions.js";
 import {
     MESSAGES_USER_LOAD_SUCCESS,
@@ -94,6 +95,16 @@ const user = (state = [], action) => {
                         offset: state.messageDetail.comments.offset
                     }
                 }
+            };
+        case REGISTER_USER_FAILURE:
+            return {
+                register: {
+                    error: action.payload.error.errors
+                }
+            };
+        case REGISTER_USER_SUCCESS:
+            return {
+                user: action.payload.user
             };
         default:
             return state;

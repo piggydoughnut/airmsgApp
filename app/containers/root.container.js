@@ -33,6 +33,7 @@ var MainContainer = require('./main.container');
 var ImageDetail = require('./imageDetail.container');
 
 var ObjectGallery = require('./objectGallery.container');
+var Register = require('./register.container');
 
 class Root extends Component {
 
@@ -57,6 +58,8 @@ class Root extends Component {
                 return (<MessageDetail navigator={navigator} route={route}/>);
             case Routes.objectGallery:
                 return (<ObjectGallery navigator={navigator}/>);
+            case Routes.register:
+                return (<Register navigator={navigator}/>);
         }
         return this.noRoute(navigator);
     }
