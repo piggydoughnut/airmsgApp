@@ -79,7 +79,7 @@ class MainContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+        this.setState({error: null});
         if (nextProps.hasOwnProperty('error') && nextProps.error !== undefined) {
             this.setState({error: nextProps.error});
         }

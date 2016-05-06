@@ -26,7 +26,7 @@ var MessageMap = require('./messageMap.container');
 var MessageDetail = require('./messageDetail.container');
 
 var Profile = require('./profile.container');
-var EditProfile = require('../pages/editProfile');
+var EditProfile = require('./editProfile.container');
 
 var MyMessages = require('./myMessages.container');
 var MainContainer = require('./main.container');

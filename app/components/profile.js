@@ -1,6 +1,5 @@
 var React = require('react-native');
-//var Icon = require('react-native-vector-icons/Ionicons');
-var DateFormatter = require('../util/dateFormatting')
+var DateFormatter = require('../util/dateFormatting');
 
 var {
     Appregistry,
@@ -30,13 +29,31 @@ var styles = StyleSheet.create({
     },
     rightIcon: {
         paddingRight: 10
-    }
+    },
+    button: {
+        height: 36,
+        width: 140,
+        backgroundColor: "#9090c4",
+        borderColor: "#9090c4",
+        borderWidth: 1,
+        borderRadius: 8,
+        marginTop: 10,
+        justifyContent: "center"
+    },
+    buttonText: {
+        fontSize: 18,
+        color: "#ffffff",
+        alignSelf: "center"
+    },
 });
 
 class Profile extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state= {
+            image: this.props.user.file
+        }
     }
 
     _renderLoadingView() {
@@ -66,13 +83,17 @@ class Profile extends React.Component {
         if (!this.props.user) {
             return this._renderLoadingView();
         }
+        var source = '';
+        if(this.state.image != undefined){
+            source = {uri: this.state.image.data};
+        } else {
+            source =require('../../public/user.png');
+        }
 
         return (
             <View style={styles.mainContainer}>
-                <Image
-                    style={styles.picture}
-                    source={require('../../public/img/profile.jpg')}
-                />
+
+                <Image style={styles.picture} source={source}/>
 
                 <Text style={styles.info}> { this.props.user.username } </Text>
                 <Text style={styles.info}> { DateFormatter.getFormattedDateYMD(this.props.user.birthday) } </Text>
