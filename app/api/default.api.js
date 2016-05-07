@@ -39,6 +39,10 @@ export function post(url, token, data) {
     return request(url, 'POST', token, data);
 }
 
+export function put(url, token, data) {
+    return request(url, 'PUT', token, data);
+}
+
 export function request(url, method, token, data) {
     var request_body = {
         method: method,
@@ -53,7 +57,6 @@ export function request(url, method, token, data) {
 
     return fetch(url, request_body)
         .then((response) => {
-            console.log(response);
             if (response.status > 400) {
                 return {
                     status: response.status

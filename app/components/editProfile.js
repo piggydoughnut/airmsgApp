@@ -101,7 +101,8 @@ class EditProfile extends React.Component {
             image: this.props.user.file,
             gender: this.props.user.gender,
             email: this.props.user.email,
-            password: '',
+            country: this.props.user.country,
+            password: this.props.user.password,
             data: []
         };
     }
@@ -134,7 +135,15 @@ class EditProfile extends React.Component {
     }
 
     _saveUser() {
-
+        this.props.saveUser({
+            _id: this.props.user._id,
+            username: this.state.username,
+            file: this.state.image,
+            gender: this.state.gender,
+            email: this.state.email,
+            password: this.state.password,
+            country: this.state.country
+        });
     }
 
     _addImage() {
@@ -195,7 +204,7 @@ class EditProfile extends React.Component {
 
                 <AutoComplete
                     onTyping={this.onTyping.bind(this)}
-
+                    onSelect={(e) => this.setState({country: e})}
                     suggestions={this.state.data}
 
                     placeholder='Select a country'

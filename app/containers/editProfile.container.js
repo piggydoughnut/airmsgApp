@@ -1,7 +1,7 @@
 var React = require('react-native');
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-
+import * as userActions from "../actions/user.actions";
 var EditProfile = require('../components/editProfile');
 
 class EditProfileContainer extends React.Component {
@@ -11,32 +11,15 @@ class EditProfileContainer extends React.Component {
         this.state = {};
     }
 
-    _saveUser() {
-        try {
-            fetch("http://localhost:3000/users/56ebe2c5871fc6eb9cd08bcc", {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: this.state.username
-                })
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    console.log(responseData);
-                })
-                .done();
-            this.props.navigator.pop();
-        } catch (e) {
-            console.error(e.message);
-        }
+    _saveUser(user) {
+        this.props.editUser(user, this.props.token.access_token);
     }
 
     render() {
         return (
             <EditProfile
                 user={this.props.user}
+                saveUser={(user) => {this._saveUser(user)}}
                 navigator={this.props.navigator}
             />
 
@@ -47,12 +30,15 @@ class EditProfileContainer extends React.Component {
 
 const mapStateToProps = (store) => {
     return {
-        user: store.user.user
+        user: store.user.user,
+        token: store.user.tokenInfo
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        editUser: bindActionCreators(userActions.editUser, dispatch)
+    };
 };
 
 EditProfileContainer = connect(mapStateToProps, mapDispatchToProps)(EditProfileContainer);

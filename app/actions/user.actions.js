@@ -5,6 +5,9 @@ export const USER_LOAD_FAILURE = 'USER LOAD FAILURE';
 export const REGISTER_USER = 'REGISTER USER';
 export const REGISTER_USER_SUCCESS = 'REGISTER USER SUCCESS';
 export const REGISTER_USER_FAILURE = 'REGISTER USER FAILURE';
+export const EDIT_USER = 'EDIT USER';
+export const EDIT_USER_SUCCESS = 'EDIT USER SUCCESS';
+export const EDIT_USER_FAILURE = 'EDIT USER FAILURE';
 
 /** Action creators */
 
@@ -35,5 +38,15 @@ export function registerUser(info) {
     return {
         type: REGISTER_USER,
         payload: info
+    }
+}
+
+export function editUser(user, token) {
+    return {
+        type: EDIT_USER,
+        payload: {
+            user,
+            token
+        }
     }
 }

@@ -1,5 +1,5 @@
 var api = require('../config/api');
-import {get, post} from "./default.api";
+import {get, post, put} from "./default.api";
 
 export function getAccess(data) {
     return getToken(data.user.username, data.user.password);
@@ -45,6 +45,10 @@ export function getUserInfo(access_token) {
 
 export function registerUser(data) {
     return post(api.domain + '/api/users', data.access_token, data);
+}
+
+export function editUser(data) {
+    return put(api.domain + '/api/users/'+data.user._id, data.token, data.user);
 }
 
 export function getTokenAfterExpired(refreshToken) {

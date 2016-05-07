@@ -1,4 +1,4 @@
-import {REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS} from '../actions/user.actions';
+import {REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, EDIT_USER_SUCCESS, EDIT_USER_FAILURE} from "../actions/user.actions";
 import {LOGIN_SUCCESS, LOGIN_FAILURE, SET_TOKEN} from "../actions/auth.actions.js";
 import {
     MESSAGES_USER_LOAD_SUCCESS,
@@ -8,9 +8,7 @@ import {
     MESSAGES_LOAD_SUCCESS,
     MESSAGE_CLOSE_PERSONAL
 } from "../actions/messages.actions.js";
-import {
-    COMMENT_POST_SUCCESS
-} from "../actions/comments.actions";
+import {COMMENT_POST_SUCCESS} from "../actions/comments.actions";
 
 const user = (state = [], action) => {
     switch (action.type) {
@@ -78,7 +76,7 @@ const user = (state = [], action) => {
                 tokenInfo: state.tokenInfo
             };
         case COMMENT_POST_SUCCESS:
-            if(state.messageDetail === undefined){
+            if (state.messageDetail === undefined) {
                 return state;
             }
             state.messageDetail.comments.docs.push(action.payload.new_comment);
@@ -106,6 +104,13 @@ const user = (state = [], action) => {
             return {
                 user: action.payload.user
             };
+        case EDIT_USER_SUCCESS:
+            return {
+                user: action.payload,
+                tokenInfo: state.tokenInfo
+            };
+        case EDIT_USER_FAILURE:
+            return state;
         default:
             return state;
     }

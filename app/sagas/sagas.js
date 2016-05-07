@@ -1,7 +1,7 @@
 import {takeEvery, takeLatest} from "redux-saga";
 import {take, put, call, fork, select} from "redux-saga/effects";
 import {LOGIN_BASIC, LOGIN_FAILURE} from "../actions/auth.actions";
-import {REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE} from "../actions/user.actions";
+import {REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, EDIT_USER, EDIT_USER_FAILURE, EDIT_USER_SUCCESS} from "../actions/user.actions";
 import {
     MESSAGE_POST,
     MESSAGE_POST_FAILURE,
@@ -59,6 +59,16 @@ function* registerUser(data) {
         yield put(commonActions.success(response, REGISTER_USER_SUCCESS));
     } catch (error) {
         yield put(commonActions.failure(error, REGISTER_USER_FAILURE));
+    }
+}
+
+function* editUser(data) {
+    try {
+        const response = yield call(usersApi.editUser, data.payload);
+        checkResponseStatus(response);
+        yield put(commonActions.success(response, EDIT_USER_SUCCESS));
+    } catch (error) {
+        yield put(commonActions.failure(error, EDIT_USER_FAILURE));
     }
 }
 
@@ -182,4 +192,8 @@ export function* watchGetGalleryUser() {
 
 export function* watchRegister() {
     yield* takeEvery(REGISTER_USER, registerUser);
+}
+
+export function* watchEditUser() {
+    yield* takeEvery(EDIT_USER, editUser);
 }
