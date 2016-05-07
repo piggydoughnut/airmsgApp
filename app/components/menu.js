@@ -1,10 +1,11 @@
 var React = require('react-native');
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as authActions from "../actions/auth.actions";
+
 var {
-    Appregistry,
     StyleSheet,
     Text,
-    View,
-    Navigator,
     ScrollView
     } = React;
 var Routes = require('../config/routes');
@@ -45,12 +46,26 @@ class Menu extends React.Component {
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.popToTop()}>
+                    onPress={ ()=>{
+                        this.props.logout();
+                        this.props.navigator.popToTop()
+                    }}>
                     Logout
                 </Text>
             </ScrollView>
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: bindActionCreators(authActions.logout, dispatch)
+    };
+};
+
+Menu = connect(mapStateToProps, mapDispatchToProps)(Menu);
 
 module.exports = Menu;

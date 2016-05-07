@@ -1,5 +1,5 @@
 import {REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, EDIT_USER_SUCCESS, EDIT_USER_FAILURE} from "../actions/user.actions";
-import {LOGIN_SUCCESS, LOGIN_FAILURE, SET_TOKEN} from "../actions/auth.actions.js";
+import {LOGIN_SUCCESS, LOGIN_FAILURE, SET_TOKEN, LOGOUT} from "../actions/auth.actions.js";
 import {
     MESSAGES_USER_LOAD_SUCCESS,
     MESSAGES_USER_LOAD_FAILURE,
@@ -111,6 +111,8 @@ const user = (state = [], action) => {
             };
         case EDIT_USER_FAILURE:
             return state;
+        case LOGOUT:
+            return {};
         default:
             return state;
     }
