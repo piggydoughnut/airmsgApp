@@ -1,5 +1,7 @@
 var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
+var AutoComplete = require('react-native-autocomplete');
+var Countries = require('../../public/countries.json');
 
 var {
     StyleSheet,
@@ -10,7 +12,8 @@ var {
     TouchableHighlight,
     Image,
     TextInput,
-    } = React;
+    AlertIOS
+} = React;
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -41,7 +44,8 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#555555",
         borderRadius: 8,
-        color: "#555555"
+        color: "#555555",
+        alignSelf: 'stretch'
     },
     buttonText: {
         fontSize: 18,
@@ -58,8 +62,16 @@ var styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 10,
         justifyContent: "center"
+    },
+    autocomplete: {
+        alignSelf: 'stretch',
+        height: 50,
+        backgroundColor: '#FFF',
+        borderColor: 'lightblue',
+        borderWidth: 1
     }
 });
+
 var ImagePickerManager = require('NativeModules').ImagePickerManager;
 var options = {
     title: null, // specify null or empty string to remove the title
@@ -89,8 +101,22 @@ class EditProfile extends React.Component {
             image: this.props.user.file,
             gender: this.props.user.gender,
             email: this.props.user.email,
-            password: ''
+            password: '',
+            data: []
         };
+    }
+
+    onTyping(text) {
+
+        var countries = Countries.filter(function (country) {
+            return country.name.toLowerCase().startsWith(text.toLowerCase())
+        }).map(function (country) {
+            return country.name;
+        });
+
+        this.setState({
+            data: countries
+        });
     }
 
     render() {
@@ -106,9 +132,11 @@ class EditProfile extends React.Component {
 
         );
     }
-    _saveUser(){
+
+    _saveUser() {
 
     }
+
     _addImage() {
         ImagePickerManager.showImagePicker(options, (response) => {
             console.log('Response = ', response);
@@ -132,20 +160,21 @@ class EditProfile extends React.Component {
             }
         });
     }
+
     renderScene(route, navigator) {
         var source = '';
-        if(this.state.image != undefined){
+        if (this.state.image != undefined) {
             source = {uri: this.state.image.data};
         } else {
-            source =require('../../public/user.png');
+            source = require('../../public/user.png');
         }
         return (
             <View style={styles.mainContainer}>
 
-                <Image style={styles.picture} source={source}/>
-                <TouchableHighlight onPress={() => this._addImage()} style={styles.button}>
-                    <Text style={styles.buttonText}>Add Image</Text>
-                </TouchableHighlight>
+
+                <TouchableOpacity onPress={() => this._addImage()}>
+                    <Image style={styles.picture} source={source}/>
+                </TouchableOpacity>
 
                 <TextInput
                     style={styles.formInput}
@@ -159,10 +188,42 @@ class EditProfile extends React.Component {
                 />
                 <TextInput
                     style={styles.formInput}
+                    placeholder={"***************"}
                     secureTextEntry={true}
-                    value={'your password'}
                     onChange={(event) => this.setState({password: event.nativeEvent.text})}
                 />
+
+                <AutoComplete
+                    onTyping={this.onTyping.bind(this)}
+
+                    suggestions={this.state.data}
+
+                    placeholder='Select a country'
+                    style={styles.formInput}
+                    clearButtonMode='always'
+                    returnKeyType='go'
+                    textAlign='center'
+                    clearTextOnFocus={true}
+
+                    maximumNumberOfAutoCompleteRows={3}
+                    applyBoldEffectToAutoCompleteSuggestions={true}
+                    reverseAutoCompleteSuggestionsBoldEffect={true}
+                    showTextFieldDropShadowWhenAutoCompleteTableIsOpen={false}
+                    autoCompleteTableViewHidden={false}
+
+                    autoCompleteTableBorderColor='lightblue'
+                    autoCompleteTableBackgroundColor='azure'
+                    autoCompleteTableCornerRadius={10}
+                    autoCompleteTableBorderWidth={1}
+
+                    autoCompleteRowHeight={35}
+
+                    autoCompleteFontSize={15}
+                    autoCompleteRegularFontName='Helvetica Neue'
+                    autoCompleteBoldFontName='Helvetica Bold'
+                    autoCompleteTableCellTextColor={'gray'}
+                />
+
                 <TouchableHighlight onPress={(this._saveUser.bind(this))} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
@@ -175,7 +236,7 @@ var NavigationBarRouteMapper = {
     LeftButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
+                              onPress={() => navigator.parentNavigator.pop()}>
                 <Text style={{color: 'white', margin: 10}}>
                     Cancel
                 </Text>
@@ -185,7 +246,7 @@ var NavigationBarRouteMapper = {
     RightButton(route, navigator, index, navState) {
         return (
             <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
+                              onPress={() => navigator.parentNavigator.pop()}>
             </TouchableOpacity>
         );
     },

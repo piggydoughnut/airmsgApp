@@ -96,7 +96,8 @@ class Profile extends React.Component {
                 <Image style={styles.picture} source={source}/>
 
                 <Text style={styles.info}> { this.props.user.username } </Text>
-                <Text style={styles.info}> { DateFormatter.getFormattedDateYMD(this.props.user.birthday) } </Text>
+                <Text style={styles.info}> { this.props.user.email } </Text>
+                <Text style={styles.info}> { this.props.user.country } </Text>
 
             </View>
         );
