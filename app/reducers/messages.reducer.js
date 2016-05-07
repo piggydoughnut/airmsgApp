@@ -12,6 +12,9 @@ import {
 import {
     COMMENT_POST_SUCCESS
 } from "../actions/comments.actions";
+import {
+    LOGOUT
+} from "../actions/auth.actions";
 
 // initial state for messages is an empty array
 const messages = (state = [], action) => {
@@ -63,6 +66,8 @@ const messages = (state = [], action) => {
             return {
                 messages: state.messages
             };
+        case LOGOUT:
+            return [];
         default:
             return state;
     }

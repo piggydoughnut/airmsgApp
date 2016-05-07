@@ -1,4 +1,7 @@
 import {COMMENTS_LOAD_SUCCESS, COMMENT_POST_SUCCESS, COMMENT_POST_FAILURE} from "../actions/comments.actions";
+import {
+    LOGOUT
+} from "../actions/auth.actions";
 
 const comments = (state = [], action) => {
     switch (action.type) {
@@ -12,6 +15,8 @@ const comments = (state = [], action) => {
             };
         case COMMENTS_LOAD_SUCCESS:
             return action.payload.comments;
+        case LOGOUT:
+            return [];
         default:
             return state;
     }
