@@ -75,7 +75,7 @@ function* editUser(data) {
 /***** Comments *****/
 function* loadComments(data) {
     try {
-        const response = yield call(usersApi.registerUser, data.payload);
+        const response = yield call(messagesApi.loadComments, data.payload);
         checkResponseStatus(response);
         yield put(commentActions.success({comments: response}, COMMENTS_LOAD_SUCCESS));
     } catch (error) {

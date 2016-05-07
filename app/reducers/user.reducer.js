@@ -32,9 +32,6 @@ const user = (state = [], action) => {
             };
         case MESSAGES_USER_LOAD_SUCCESS:
             var messagesDocs = [];
-            console.log(state.messages === undefined);
-            console.log(state.messages === []);
-            console.log(action.payload.messages.offset === 0);
             if (state.messages === undefined || state.messages === [] || action.payload.messages.offset === 0) {
                 messagesDocs = action.payload.messages.docs;
             } else {
@@ -43,7 +40,6 @@ const user = (state = [], action) => {
                 });
                 messagesDocs = state.messages.docs;
             }
-            console.log(messagesDocs);
             return {
                 tokenInfo: state.tokenInfo,
                 user: state.user,

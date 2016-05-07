@@ -66,7 +66,7 @@ var styles = StyleSheet.create({
     inline: {
         flexWrap: 'wrap',
         alignItems: 'flex-start',
-        flexDirection:'row'
+        flexDirection: 'row'
     }
 });
 
@@ -77,7 +77,9 @@ class CommentView extends React.Component {
             rowHasChanged: (r1, r2) => r1 != r2
         });
         this.state = {
+            page: 1,
             total: this.props.comments.total,
+            comments: this.props.comments,
             dataSource: ds.cloneWithRows(this.props.comments.docs)
         };
     }
@@ -109,11 +111,16 @@ class CommentView extends React.Component {
         );
     }
 
+    _getComments() {
+        this.setState({page: this.state.page + 1});
+        this.props.getComments(this.state.page)
+    }
+
     render() {
         var loadMoreLink = null;
-        if(this.props.comments.total > 10){
+        if (this.state.total > 10 && this.state.comments.docs.length !== this.state.total) {
             loadMoreLink =
-                <TouchableOpacity style={styles.loadMore} onPress={ () => this.props.getComments()}>
+                <TouchableOpacity style={styles.loadMore} onPress={ () => this._getComments()}>
                     <Text style={styles.seeMore}>
                         {"\n"}
                         load more

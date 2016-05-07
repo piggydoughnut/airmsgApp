@@ -10,7 +10,9 @@ import {
     MESSAGE_CLOSE
 } from "../actions/messages.actions";
 import {
-    COMMENT_POST_SUCCESS
+    COMMENT_POST_SUCCESS,
+    COMMENTS_LOAD_SUCCESS,
+    COMMENTS_LOAD_FAILURE
 } from "../actions/comments.actions";
 import {
     LOGOUT
@@ -66,6 +68,31 @@ const messages = (state = [], action) => {
             return {
                 messages: state.messages
             };
+        case COMMENTS_LOAD_SUCCESS:
+            var commentsDocs = [];
+            if (state.messageDetail === undefined || state.messageDetail === [] || action.payload.comments.offset === 0) {
+                commentsDocs = action.payload.comments.docs;
+            } else {
+                action.payload.comments.docs.forEach(function (val) {
+                    console.log('push');
+                    state.messageDetail.comments.docs.push(val);
+                });
+                commentsDocs = state.messageDetail.comments.docs;
+            }
+            return {
+                messages: state.messages,
+                messageDetail: {
+                    comments: {
+                        docs: commentsDocs,
+                        total: action.payload.comments.total,
+                        offset: action.payload.comments.offset,
+                        limit: action.payload.comments.limit
+                    },
+                    message: state.messageDetail.message
+
+                }
+            };
+
         case LOGOUT:
             return [];
         default:

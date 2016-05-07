@@ -10,7 +10,11 @@ export const COMMENTS_LOAD_FAILURE = 'COMMENTS LOAD FAILURE';
 export function getComments(id, token, page) {
     return {
         type: COMMENTS_LOAD,
-        payload: id, token, page
+        payload: {
+            id: id,
+            token: token,
+            page: page
+        }
     }
 }
 

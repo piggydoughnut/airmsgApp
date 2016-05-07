@@ -21,7 +21,8 @@ export function postMessage(data) {
 }
 
 export function loadComments(data) {
-    return get(api.domain + "/messages/" + data.id + '/comments', data.token);
+    var params = data.page ? '?page=' + data.page : '';
+    return get(api.domain + "/messages/" + data.id + '/comments'+params, data.token);
 }
 
 export function postComment(data) {
