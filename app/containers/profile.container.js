@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 var React = require('react-native');
 var Profile = require('../components/profile');
 var Navigation = require('../components/navigation');
+var Routes = require('../config/routes');
 
 class ProfileContainer extends React.Component {
 
@@ -18,7 +19,7 @@ class ProfileContainer extends React.Component {
             />;
 
         var right = {
-            fn: ()=>{this.props.navigator.push({id: 'EditProfile'})},
+            fn: ()=>{this.props.navigator.push({id: Routes.editProfile})},
             text: 'Edit'
         };
         var conf = {right: right, component: component};
