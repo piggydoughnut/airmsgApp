@@ -1,16 +1,14 @@
 var React = require('react-native');
-var DateFormatter = require('../util/dateFormatting');
+var Loading = require('./loading');
 
-var {
-    Appregistry,
+import {
     StyleSheet,
     Text,
     View,
     Navigator,
     TouchableOpacity,
-    TouchableHighlight,
     Image,
-} = React;
+} from 'react-native';
 
 var styles = StyleSheet.create({
     mainContainer: {
@@ -56,35 +54,14 @@ class Profile extends React.Component {
         }
     }
 
-    _renderLoadingView() {
-        return (
-            <View style={styles.mainContainer}>
-                <Text>
-                    Loading user...
-                </Text>
-            </View>
-        );
-    }
 
     render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-        );
-    }
-
-    renderScene(route, navigator) {
         if (!this.props.user) {
-            return this._renderLoadingView();
+            return <Loading />;
         }
+
         var source = '';
-        if(this.state.image != undefined){
+        if(this.state.image != undefined) {
             source = {uri: this.state.image.data};
         } else {
             source =require('../../public/user.png');
@@ -92,10 +69,8 @@ class Profile extends React.Component {
 
         return (
             <View style={styles.mainContainer}>
-
                 <Image style={styles.picture} source={source}/>
-
-                <Text style={styles.info}> { this.props.user.username } </Text>
+                <Text style={styles.info}>{ this.props.user.username }</Text>
                 <Text style={styles.info}> { this.props.user.email } </Text>
                 <Text style={styles.info}> { this.props.user.country } </Text>
 
@@ -104,31 +79,4 @@ class Profile extends React.Component {
     }
 
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.push({id: 'EditProfile'})}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Edit
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    Title(route, navigator, index, navState) {
-        return null;
-    }
-};
-
 module.exports = Profile;

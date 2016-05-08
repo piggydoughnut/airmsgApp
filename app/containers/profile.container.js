@@ -1,8 +1,9 @@
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 var React = require('react-native');
-//var Icon = require('react-native-vector-icons/Ionicons');
 var Profile = require('../components/profile');
+var Navigation = require('../components/navigation');
+
 class ProfileContainer extends React.Component {
 
     constructor(props) {
@@ -10,11 +11,24 @@ class ProfileContainer extends React.Component {
     }
 
     render() {
-        return (
+        var component =
             <Profile
-                user = {this.props.user}
-                navigator = {this.props.navigator}
+                user={this.props.user}
+                navigator={this.props.navigator}
+            />;
+
+        var right = {
+            fn: ()=>{this.props.navigator.push({id: 'EditProfile'})},
+            text: 'Edit'
+        };
+        var conf = {right: right, component: component};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
             />
+
         );
     }
 
