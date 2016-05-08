@@ -15,11 +15,9 @@ describe('<Profile />', () => {
 
         };
         const wrapper = shallow(<Profile user={user} />);
-        // console.log(wrapper.debug());
         expect(wrapper.find('Text')).to.length(3);  // 3 Text fields are rendered
         expect(wrapper.find(".username").node.props.children).to.equal(user.username);
         expect(wrapper.find(".country").node.props.children).to.equal(user.country);
         expect(wrapper.find(".email").node.props.children).to.equal(user.email);
-        // expect(wrapper.prop('children')[1].text()).to.equal(user.username);
     });
 });
