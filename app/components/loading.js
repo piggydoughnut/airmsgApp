@@ -1,11 +1,8 @@
 var React = require('react-native');
 var {
-    Appregistry,
     StyleSheet,
     Text,
     View,
-    Navigator,
-    ScrollView
     } = React;
 
 var styles = StyleSheet.create({
