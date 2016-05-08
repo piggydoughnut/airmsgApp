@@ -69,10 +69,10 @@ class Profile extends React.Component {
 
         return (
             <View style={styles.mainContainer}>
-                <Image style={styles.picture} source={source}/>
-                <Text style={styles.info}>{ this.props.user.username }</Text>
-                <Text style={styles.info}> { this.props.user.email } </Text>
-                <Text style={styles.info}> { this.props.user.country } </Text>
+                <Image style={styles.picture} className="image" source={source}/>
+                <Text style={styles.info} className="username">{ this.props.user.username }</Text>
+                <Text style={styles.info} className="email">{ this.props.user.email }</Text>
+                <Text style={styles.info} className="country">{ this.props.user.country }</Text>
 
             </View>
         );
