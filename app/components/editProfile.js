@@ -184,6 +184,7 @@ class EditProfile extends React.Component {
                     onSelect={(e) => this.setState({country: e})}
                     suggestions={this.state.data}
 
+                    value={this.state.country}
                     placeholder='Select a country'
                     style={s.formInput}
                     clearButtonMode='always'

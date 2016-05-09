@@ -8,7 +8,6 @@ module.exports = {
     messageDetail: "MessageDetail",
     imageDetail: "ImageDetail",
     profile: "Profile",
-    editProfile: "EditProfile",
     objectGallery: "ObjectGallery",
     register: "Register"
 };
