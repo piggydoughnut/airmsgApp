@@ -13,7 +13,8 @@ var {
     Navigator,
     TouchableOpacity,
     TouchableHighlight,
-    Image
+    Image,
+    View
 } = React;
 
 
@@ -23,8 +24,8 @@ var styles = StyleSheet.create({
         marginTop: 65,
     },
     message: {
-        fontSize: 14,
-        color: 'green'
+        fontSize: 16,
+        color: 'black'
     },
     image: {
         width: 250,
@@ -36,18 +37,8 @@ var styles = StyleSheet.create({
         color: "#ffffff",
         alignSelf: "center"
     },
-    button: {
-        height: 36,
-        backgroundColor: "#555555",
-        borderColor: "#555555",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 10,
-        justifyContent: "center"
-    },
     objectButton: {
         height: 36,
-        width: 120,
         backgroundColor: "#02a3ae",
         borderColor: "#02a3ae",
         borderWidth: 1,
@@ -56,6 +47,16 @@ var styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: "center"
     },
+    inline: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row'
+    },
+    signature:{
+        alignSelf: "center",
+        justifyContent: "center",
+        fontWeight: 'bold'
+    }
 });
 
 class MessageDetail extends React.Component {
@@ -104,10 +105,13 @@ class MessageDetail extends React.Component {
                 <TouchableOpacity onPress={ () => this.props.onImagePress(msg.file.data)}>
                     { image }
                 </TouchableOpacity>
+                <Text style={styles.signature}> {msg.user.username} on {getFormattedDateYMD(msg.created_at)} {"\n"}</Text>
+
                 <Text style={styles.message}>{msg.text}{"\n"}</Text>
+
+
                 { objectButton }
-                <Text> Views: {msg.views_count} </Text>
-                <Text> by {msg.user.username} on {getFormattedDateYMD(msg.created_at)}</Text>
+
                 <CommentView />
 
             </ScrollView>

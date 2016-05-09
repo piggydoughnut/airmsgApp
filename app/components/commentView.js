@@ -36,7 +36,6 @@ var styles = StyleSheet.create({
         color: "#555555"
     },
     button: {
-        width: 100,
         height: 36,
         flex: 1,
         backgroundColor: "#555555",
@@ -67,6 +66,10 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems: 'flex-start',
         flexDirection: 'row'
+    },
+    center: {
+        alignSelf: "center",
+        justifyContent: "center",
     }
 });
 
@@ -129,8 +132,6 @@ class CommentView extends React.Component {
         }
         return (
             <View>
-                <Text> {"\n"} Comments {this.state.total}</Text>
-                <Text>{"\n"}</Text>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow.bind(this)}
