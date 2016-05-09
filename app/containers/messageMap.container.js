@@ -9,22 +9,10 @@ var MessageMap = require('../components/messageMap');
 var Error = require('../components/error');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
-var MessageDetail = require('../components/messageDetail');
 var Config = require('../config/api');
+var Navigation = require('../components/navigation');
 
 var geolib = require('geolib/dist/geolib');
-
-var {
-    StyleSheet,
-} = React;
-
-
-var styles = StyleSheet.create({
-    picture: {
-        width: 20,
-        height: 50
-    },
-});
 
 class MessageMapContainer extends React.Component {
 
@@ -38,7 +26,8 @@ class MessageMapContainer extends React.Component {
             markers: [],
             position: 'unknown',
             lastPosition: 'unknown',
-            error: null
+            error: null,
+            open: false
         };
         // the functions need to be bound to the component instance before being passed as prop
         // otherwise this variable in the body of the function will not refer to the component instance but to window
@@ -85,8 +74,7 @@ class MessageMapContainer extends React.Component {
          * There are is one state in which we show messageDetail -> mount a new view
          * There was no previous messageDetail before but there is one now
          **/
-        if (this.props.messages !== undefined &&
-            !this.props.messages.hasOwnProperty('messageDetail') &&
+        if (this.props.messages !== undefined && !this.props.messages.hasOwnProperty('messageDetail') &&
             nextProps.messages.hasOwnProperty('messageDetail')
         ) {
             this.setState({error: null});
@@ -131,17 +119,43 @@ class MessageMapContainer extends React.Component {
                 this.state.error
             );
         }
-        if (this.state.markers.length == 0 && this.state.messages == undefined ) {
+        if (this.state.markers.length == 0 && this.state.messages == undefined) {
             return ( <Loading />);
         }
-        return (
+
+        var left = {
+            fn: () => {
+                this.setState({open: !this.state.open});
+
+            },
+            text: 'Menu'
+        };
+        var right = {
+            fn: () => {
+                this.props.navigator.push({
+                    id: Routes.createMsg
+                });
+            },
+            text: 'Add message'
+        };
+        var component =
             <MessageMap
+                openMenu={this.state.open}
                 markers={this.state.markers}
                 updateMarkers={ () => this._getMarkers}
                 detailPage={(msg) => this._openMessage(msg)}
                 navigator={this.props.navigator}
                 error={this.props.messages.error}
             />
+
+        var conf = {right: right, left: left, component: component};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
+            />
+
         );
     }
 }

@@ -8,11 +8,8 @@ var s = require('../styles/style');
 
 var {
     View,
-    Text,
     StyleSheet,
-    TouchableOpacity,
     PropTypes,
-    Navigator,
 } = React;
 
 var styles = StyleSheet.create({
@@ -68,7 +65,7 @@ class MessageMap extends React.Component {
         this.state = {
             region: undefined,
             annotations: [],
-            position: {}
+            position: {},
         };
         this._onRegionChange = this._onRegionChange.bind(this);
     }
@@ -78,23 +75,9 @@ class MessageMap extends React.Component {
     }
 
     render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper}
-                    />
-                    }
-            />
-        );
-    }
-
-    renderScene(route, navigator) {
         const menu = <Menu navigator={this.props.navigator}/>;
         return (
-            <SideMenu menu={menu}>
+            <SideMenu menu={menu} isOpen={this.props.openMenu}>
                 <View style={styles.container}>
                     <MapView
                         style={styles.map}
@@ -127,29 +110,6 @@ class MessageMap extends React.Component {
         );
     }
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return null;
-    },
-    RightButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => {
-                              navigator.parentNavigator.push({
-                                id: Routes.createMsg,
-                              });
-                }}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Add Message
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    Title(route, navigator, index, navState) {
-        return null;
-    }
-};
 
 MessageMap.propTypes = {
     markers: PropTypes.array.isRequired,
