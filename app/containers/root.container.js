@@ -76,6 +76,7 @@ class Root extends Component {
     }
 
     render() {
+        StatusBarIOS.setStyle('light-content', true);
         return (
             <Navigator
                 initialRoute={{id: Routes.mainContainer }}
