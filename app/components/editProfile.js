@@ -23,7 +23,8 @@ var styles = StyleSheet.create({
     },
     picture: {
         width: 250,
-        height: 250
+        height: 250,
+        marginBottom: 20
     },
     info: {
         fontSize: 20,
@@ -54,13 +55,13 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        width: 100,
+        width: 200,
         flex: 1,
         backgroundColor: "#555555",
         borderColor: "#555555",
         borderWidth: 1,
         borderRadius: 8,
-        marginTop: 10,
+        marginTop: 20,
         justifyContent: "center"
     },
     autocomplete: {
