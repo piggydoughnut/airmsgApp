@@ -37,13 +37,13 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        width: 140,
         backgroundColor: "#9090c4",
         borderColor: "#9090c4",
         borderWidth: 1,
         borderRadius: 8,
         marginTop: 10,
         justifyContent: "center"
+
     },
     image: {
         width: 200,
@@ -52,6 +52,14 @@ var styles = StyleSheet.create({
     },
     error: {
         color: 'red'
+    },
+    picture: {
+        width: 200,
+        height: 180
+    },
+    camera: {
+        margin: 20,
+        alignItems: 'center'
     }
 });
 var ImagePickerManager = require('NativeModules').ImagePickerManager;
@@ -114,7 +122,7 @@ class InputMessage extends React.Component {
     }
 
     _onPress() {
-        if(this.state.message===''){
+        if (this.state.message === '') {
             this.setState({textValidation: 'Did you forget to write a message?'});
             return;
         }
@@ -129,7 +137,7 @@ class InputMessage extends React.Component {
     }
 
     render() {
-        var image = (this.state.image != '') ? <Image source={{uri: this.state.image.data}} style={styles.image}/> : null;
+        var source = (this.state.image != '') ? {uri: this.state.image.data} : require('../../public/camera.png');
         return (
             <ScrollView style={styles.messageContainer}>
                 <Text style={styles.error}>{ this.state.textValidation }</Text>
@@ -140,9 +148,11 @@ class InputMessage extends React.Component {
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.message}/>
-                <TouchableOpacity onPress={ () => this.props.onImagePress(this.state.image.data)}>
-                    { image }
+
+                <TouchableOpacity onPress={() => this._addImage()} style={styles.camera}>
+                    <Image style={styles.picture} className="image" source={source}/>
                 </TouchableOpacity>
+
                 <Text> Validity of your message in days: </Text>
                 <SliderIOS
                     maximumValue={365}
@@ -150,13 +160,9 @@ class InputMessage extends React.Component {
                     value={this.state.value}
                     onValueChange={(value) => this.setState({value: value})}/>
                 <Text> {this.state.value} </Text>
-                <TouchableHighlight onPress={() => this._addImage()} style={styles.button}>
-                    <Text style={styles.buttonText}>Add Image</Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableHighlight>
+                    <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
+                        <Text style={styles.buttonText}>Save</Text>
+                    </TouchableHighlight>
             </ScrollView>
         );
     }

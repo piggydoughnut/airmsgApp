@@ -38,7 +38,6 @@ var styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        width: 140,
         backgroundColor: "#9090c4",
         borderColor: "#9090c4",
         borderWidth: 1,
@@ -46,14 +45,13 @@ var styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: "center"
     },
-    imageContainer: {
-        alignItems: 'center',
-        margin: 10,
-    },
-    image: {
-        height: 200,
+    picture: {
         width: 200,
-        margin: 10
+        height: 180
+    },
+    camera: {
+        margin: 20,
+        alignItems: 'center'
     }
 });
 
@@ -84,16 +82,8 @@ class InputObject extends React.Component {
     }
 
     render() {
-        var buttonText = 'Choose 3D';
-        var chosen = null;
-        if (this.props.chosenObject) {
-            buttonText = 'Chose another';
-            chosen =
-                <View style={styles.imageContainer}>
-                    <Image style={styles.image} source={{uri: api.domain + this.props.chosenObject.thumb_file_path}}/>
-                </View>
-
-        }
+        console.log(this.props);
+        var source = (this.props.chosenObject !== undefined && this.props.chosenObject !== null) ? {uri: api.domain + this.props.chosenObject.thumb_file_path} : require('../../public/cube.png');
         return (
             <ScrollView style={styles.messageContainer}>
                 <Text style={styles.error}>{ this.state.validation }</Text>
@@ -104,17 +94,20 @@ class InputObject extends React.Component {
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.message}/>
-                { chosen }
+
+                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.camera}>
+                    <Image style={styles.picture} source={source}/>
+                </TouchableHighlight>
+
                 <Text> Validity of your message in hours: </Text>
                 <SliderIOS
-                    maximumValue={10}
+                    maximumValue={365}
                     step={1}
                     value={this.state.value}
                     onValueChange={(value) => this.setState({value: value})}/>
                 <Text> {this.state.value} </Text>
-                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.button}>
-                    <Text style={styles.buttonText}> {buttonText} </Text>
-                </TouchableHighlight>
+
+
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>

@@ -48,7 +48,7 @@ var styles = StyleSheet.create({
         borderColor: "#9090c4",
         borderWidth: 1,
         borderRadius: 8,
-        marginTop: 10,
+        marginTop: 40,
         justifyContent: "center"
     },
     logo: {
@@ -59,6 +59,9 @@ var styles = StyleSheet.create({
     error: {
         fontSize: 16,
         color: 'red'
+    },
+    welcome: {
+        fontSize: 22
     }
 });
 
@@ -121,7 +124,7 @@ class RegisterContainer extends React.Component {
     renderScene(route, navigator) {
         return (
             <View style={styles.mainContainer}>
-                <Text>Registration</Text>
+                <Text style={styles.welcome}>Registration</Text>
                 <Text style={styles.error}> {this.state.error}</Text>
                 <TextInput
                     placeholder="Username"
@@ -139,9 +142,15 @@ class RegisterContainer extends React.Component {
                     onChange={(event) => this.setState({password: event.nativeEvent.text})}
                     style={styles.formInput}
                     value={this.state.password}/>
+                <TextInput
+                    placeholder="Confirm password"
+                    secureTextEntry={true}
+                    onChange={(event) => this.setState({password: event.nativeEvent.text})}
+                    style={styles.formInput}
+                    value={this.state.password}/>
 
                 <TouchableHighlight onPress={(this._onRegisterPress.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Register</Text>
+                    <Text style={styles.buttonText}>REGISTER</Text>
                 </TouchableHighlight>
             </View>
         );

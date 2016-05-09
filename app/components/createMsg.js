@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 30,
-        marginTop: 65,
+        marginTop: 45,
         alignItems: 'stretch'
     },
     error: {
