@@ -164,7 +164,7 @@ var NavigationBarRouteMapper = {
         return null;
     },
     Title(route, navigator, index, navState) {
-        return <Text style={{color: 'white', margin: 10}}>My messages</Text>;
+        return <Text style={s.title}>My messages</Text>;
     }
 };
 

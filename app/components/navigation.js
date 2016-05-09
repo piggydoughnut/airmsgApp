@@ -79,7 +79,7 @@ var NavigationBarRouteMapper = conf => ({
         if (conf == undefined || conf.title === undefined || conf.title === null) {
             conf.title = '';
         }
-        return <Text style={{color:'white'}} >{conf.title}</Text>;
+        return <Text style={s.title} >{conf.title}</Text>;
     }
 });
 

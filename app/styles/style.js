@@ -49,4 +49,8 @@ module.exports = StyleSheet.create({
         fontSize: 16,
         color: 'red'
     },
+    title: {
+        color:'white',
+        margin: 13
+    }
 });

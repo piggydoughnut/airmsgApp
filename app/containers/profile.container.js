@@ -48,7 +48,7 @@ class ProfileContainer extends React.Component {
 
         }
 
-        var conf = {right: right, left:left, component: component};
+        var conf = {right: right, left:left, component: component, title: 'Profile'};
         return (
             <Navigation
                 component={component}

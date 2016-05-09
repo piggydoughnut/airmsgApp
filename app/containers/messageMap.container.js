@@ -148,7 +148,7 @@ class MessageMapContainer extends React.Component {
                 error={this.props.messages.error}
             />
 
-        var conf = {right: right, left: left, component: component};
+        var conf = {right: right, left: left, component: component, title: 'The map'};
         return (
             <Navigation
                 component={component}

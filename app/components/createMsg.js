@@ -105,7 +105,7 @@ var NavigationBarRouteMapper = {
         return null;
     },
     Title(route, navigator, index, navState) {
-        return null;
+        return <Text style={s.title} >New message</Text>;
     }
 };
 

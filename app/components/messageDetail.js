@@ -135,7 +135,7 @@ var NavigationBarRouteMapper = {
         return null;
     },
     Title(route, navigator, index, navState) {
-        return null;
+        return <Text style={{color:'white', margin: 10}} >Detail</Text>;
     }
 };
 module.exports = MessageDetail;
