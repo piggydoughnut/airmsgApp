@@ -82,7 +82,6 @@ class InputObject extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         var source = (this.props.chosenObject !== undefined && this.props.chosenObject !== null) ? {uri: api.domain + this.props.chosenObject.thumb_file_path} : require('../../public/cube.png');
         return (
             <ScrollView style={styles.messageContainer}>
@@ -99,7 +98,7 @@ class InputObject extends React.Component {
                     <Image style={styles.picture} source={source}/>
                 </TouchableHighlight>
 
-                <Text> Validity of your message in hours: </Text>
+                <Text> Validity of your message in days: </Text>
                 <SliderIOS
                     maximumValue={365}
                     step={1}
