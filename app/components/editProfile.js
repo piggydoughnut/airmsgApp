@@ -2,6 +2,8 @@ var React = require('react-native');
 var Icon = require('react-native-vector-icons/Ionicons');
 var AutoComplete = require('react-native-autocomplete');
 var Countries = require('../../public/countries.json');
+import {validateEmail, parseValidationErr} from "../util/validation";
+var s = require('../styles/style');
 
 var {
     StyleSheet,
@@ -9,10 +11,8 @@ var {
     View,
     Navigator,
     TouchableOpacity,
-    TouchableHighlight,
     Image,
     TextInput,
-    AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -33,36 +33,6 @@ var styles = StyleSheet.create({
     },
     rightIcon: {
         paddingRight: 10
-    },
-    formInput: {
-        height: 36,
-        padding: 10,
-        marginRight: 5,
-        marginBottom: 5,
-        marginTop: 5,
-        flex: 1,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: "#555555",
-        borderRadius: 8,
-        color: "#555555",
-        alignSelf: 'stretch'
-    },
-    buttonText: {
-        fontSize: 18,
-        color: "#ffffff",
-        alignSelf: "center"
-    },
-    button: {
-        height: 36,
-        width: 200,
-        flex: 1,
-        backgroundColor: "#555555",
-        borderColor: "#555555",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 20,
-        justifyContent: "center"
     },
     autocomplete: {
         alignSelf: 'stretch',
@@ -136,6 +106,18 @@ class EditProfile extends React.Component {
     }
 
     _saveUser() {
+        this.setState({error: ''});
+        if (this.state.email) {
+            if (!validateEmail(this.state.email)) {
+                this.setState({error: 'Email is not valid'});
+                return;
+            }
+        }
+        if (this.state.password== '' || this.state.password == null || this.state.password.length < 8) {
+            this.setState({error: 'Password should be at least 8 characters'});
+            return;
+        }
+
         this.props.saveUser({
             _id: this.props.user._id,
             username: this.state.username,
@@ -146,6 +128,7 @@ class EditProfile extends React.Component {
             country: this.state.country
         });
     }
+
 
     _addImage() {
         ImagePickerManager.showImagePicker(options, (response) => {
@@ -161,9 +144,6 @@ class EditProfile extends React.Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                // uri (on iOS)
-                // const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-
                 this.setState({
                     image: {data: 'data:image/jpeg;base64,' + response.data}
                 });
@@ -186,18 +166,14 @@ class EditProfile extends React.Component {
                     <Image style={styles.picture} source={source}/>
                 </TouchableOpacity>
 
+                <Text style={s.error}>{this.state.error}</Text>
                 <TextInput
-                    style={styles.formInput}
-                    value={this.state.username}
-                    onChange={(event) => this.setState({username: event.nativeEvent.text})}
-                />
-                <TextInput
-                    style={styles.formInput}
+                    style={s.formInput}
                     value={this.state.email}
                     onChange={(event) => this.setState({email: event.nativeEvent.text})}
                 />
                 <TextInput
-                    style={styles.formInput}
+                    style={s.formInput}
                     placeholder={"***************"}
                     secureTextEntry={true}
                     onChange={(event) => this.setState({password: event.nativeEvent.text})}
@@ -209,7 +185,7 @@ class EditProfile extends React.Component {
                     suggestions={this.state.data}
 
                     placeholder='Select a country'
-                    style={styles.formInput}
+                    style={s.formInput}
                     clearButtonMode='always'
                     returnKeyType='go'
                     textAlign='center'
@@ -222,8 +198,8 @@ class EditProfile extends React.Component {
                     autoCompleteTableViewHidden={false}
 
                     autoCompleteTableBorderColor='lightblue'
-                    autoCompleteTableBackgroundColor='azure'
-                    autoCompleteTableCornerRadius={10}
+                    autoCompleteTableBackgroundColor='white'
+                    autoCompleteTableCornerRadius={3}
                     autoCompleteTableBorderWidth={1}
 
                     autoCompleteRowHeight={35}
@@ -234,9 +210,9 @@ class EditProfile extends React.Component {
                     autoCompleteTableCellTextColor={'gray'}
                 />
 
-                <TouchableHighlight onPress={(this._saveUser.bind(this))} style={styles.button}>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableHighlight>
+                <TouchableOpacity onPress={(this._saveUser.bind(this))} style={s.simpleButton}>
+                    <Text style={s.buttonText}>Save</Text>
+                </TouchableOpacity>
             </View>
         );
     }

@@ -40,5 +40,13 @@ module.exports = StyleSheet.create({
         borderRadius: 8,
         marginTop: 40,
         justifyContent: "center"
-    }
+    },
+    header:{
+        fontSize: 18,
+        alignSelf: "center"
+    },
+    error: {
+        fontSize: 16,
+        color: 'red'
+    },
 });

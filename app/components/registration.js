@@ -17,10 +17,6 @@ var styles = StyleSheet.create({
         marginTop: 65,
         alignItems: 'center',
     },
-    error: {
-        fontSize: 16,
-        color: 'red'
-    },
     welcome: {
         fontSize: 22
     }
@@ -91,7 +87,7 @@ class Registration extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Text style={styles.welcome}>Registration</Text>
-                <Text style={styles.error}> {this.state.error}</Text>
+                <Text style={s.error}> {this.state.error}</Text>
                 <TextInput
                     placeholder="Username"
                     onChange={(event) => this.setState({username: event.nativeEvent.text})}

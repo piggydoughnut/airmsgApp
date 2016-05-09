@@ -41,8 +41,8 @@ class Navigation extends React.Component {
 
 var NavigationBarRouteMapper = conf => ({
     LeftButton(route, navigator, index, navState) {
-        if(conf==undefined){
-            conf={};
+        if (conf == undefined) {
+            conf = {};
         }
         if (conf.left === undefined) {
             conf.left = {
@@ -57,8 +57,8 @@ var NavigationBarRouteMapper = conf => ({
         );
     },
     RightButton(route, navigator, index, navState) {
-        if(conf==undefined){
-            conf={};
+        if (conf == undefined) {
+            conf = {};
         }
         if (conf.right === undefined) {
             conf.right = {
@@ -73,7 +73,10 @@ var NavigationBarRouteMapper = conf => ({
         );
     },
     Title(route, navigator, index, navState) {
-        return null;
+        if (conf == undefined || conf.title === undefined || conf.title === null) {
+            conf.title = '';
+        }
+        return <Text style={{color:'white'}} >{conf.title}</Text>;
     }
 });
 
