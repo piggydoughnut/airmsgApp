@@ -73,6 +73,9 @@ var NavigationBarRouteMapper = conf => ({
         );
     },
     Title(route, navigator, index, navState) {
+        if (conf == undefined) {
+            conf = {};
+        }
         if (conf == undefined || conf.title === undefined || conf.title === null) {
             conf.title = '';
         }
