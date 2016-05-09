@@ -1,12 +1,12 @@
 var React = require('react-native');
-var Routes = require('../config/routes');
 var api = require('../config/api');
+var s = require('../styles/style');
 var {
-    View,
     ScrollView,
     Text,
     StyleSheet,
     TouchableHighlight,
+    TouchableOpacity,
     TextInput,
     SliderIOS,
     Image
@@ -66,8 +66,13 @@ class InputObject extends React.Component {
     }
 
     _onPress(){
+        this.setState({validation: null});
         if(!this.props.chosenObject){
             this.setState({validation: 'You forgot to choose a 3d object'});
+            return;
+        }
+        if(this.state.message==null || this.state.message == '' || this.state.message == undefined){
+            this.setState({validation: 'Did you forget to write a message?'});
             return;
         }
         var data = {
@@ -85,7 +90,7 @@ class InputObject extends React.Component {
         var source = (this.props.chosenObject !== undefined && this.props.chosenObject !== null) ? {uri: api.domain + this.props.chosenObject.thumb_file_path} : require('../../public/cube.png');
         return (
             <ScrollView style={styles.messageContainer}>
-                <Text style={styles.error}>{ this.state.validation }</Text>
+                <Text style={s.error}>{ this.state.validation }</Text>
                 <TextInput
                     multiline={true}
                     required={true}
@@ -94,9 +99,9 @@ class InputObject extends React.Component {
                     style={styles.formInput}
                     value={this.state.message}/>
 
-                <TouchableHighlight onPress={() => this.props.onAddObject()} style={styles.camera}>
+                <TouchableOpacity onPress={() => this.props.onAddObject()} style={styles.camera}>
                     <Image style={styles.picture} source={source}/>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
                 <Text> Validity of your message in days: </Text>
                 <SliderIOS
@@ -108,7 +113,7 @@ class InputObject extends React.Component {
 
 
                 <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
-                    <Text style={styles.buttonText}>Save</Text>
+                    <Text style={s.buttonText}>Save</Text>
                 </TouchableHighlight>
             </ScrollView>
         );
