@@ -31,6 +31,7 @@ var styles = StyleSheet.create({
         width: 250,
         height: 250,
         margin: 10,
+        alignSelf: "center",
     },
     buttonText: {
         fontSize: 18,

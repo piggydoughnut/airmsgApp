@@ -136,7 +136,7 @@ class MessageRow extends React.Component {
     render() {
         var comments = '';
         if (this.props.row.new_comments_count) {
-            comments =  ' / ' + this.props.row.new_comments_count;
+            comments = '/ ' + this.props.row.new_comments_count + ' new';
         }
         var message = this.props.row.text.substring(0, 30) + '...   ' + this.props.row.views_count + comments;
         return (
@@ -164,7 +164,7 @@ var NavigationBarRouteMapper = {
         return null;
     },
     Title(route, navigator, index, navState) {
-        return null;
+        return <Text style={{color: 'white', margin: 10}}>My messages</Text>;
     }
 };
 

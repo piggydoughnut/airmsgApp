@@ -41,11 +41,6 @@ class Menu extends React.Component {
                 </Text>
                 <Text
                     style={styles.menu_item}
-                    onPress={ ()=>this.props.navigator.push({id: Routes.settings})}>
-                    Settings
-                </Text>
-                <Text
-                    style={styles.menu_item}
                     onPress={ ()=>{
                         this.props.logout();
                         this.props.navigator.popToTop()
