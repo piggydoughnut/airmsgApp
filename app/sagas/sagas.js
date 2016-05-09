@@ -57,6 +57,13 @@ function* registerUser(data) {
         const response = yield call(usersApi.registerUser, data.payload);
         checkResponseStatus(response);
         yield put(commonActions.success(response, REGISTER_USER_SUCCESS));
+
+        const r = yield call(usersApi.getAccess, {user: data.payload});
+        checkResponseStatus(r);
+        yield put(authActions.setToken(r));
+        const user = yield call(usersApi.getUserInfo, r.access_token);
+        checkResponseStatus(user);
+        yield put(authActions.loginSuccess(user));
     } catch (error) {
         yield put(commonActions.failure(error, REGISTER_USER_FAILURE));
     }
