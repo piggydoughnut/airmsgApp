@@ -41,6 +41,9 @@ class Navigation extends React.Component {
 
 var NavigationBarRouteMapper = conf => ({
     LeftButton(route, navigator, index, navState) {
+        if(conf==undefined){
+            conf={};
+        }
         if (conf.left === undefined) {
             conf.left = {
                 text: 'Back',
@@ -54,6 +57,15 @@ var NavigationBarRouteMapper = conf => ({
         );
     },
     RightButton(route, navigator, index, navState) {
+        if(conf==undefined){
+            conf={};
+        }
+        if (conf.right === undefined) {
+            conf.right = {
+                text: '',
+                fn: () => null
+            }
+        }
         return (
             <TouchableOpacity style={styles.button} onPress={() => conf.right.fn() }>
                 <Text style={styles.rightText}>{conf.right.text}</Text>
