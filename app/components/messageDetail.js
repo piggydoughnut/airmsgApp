@@ -31,18 +31,6 @@ var styles = StyleSheet.create({
         height: 250,
         margin: 10,
     },
-    formInput: {
-        height: 150,
-        padding: 10,
-        marginRight: 5,
-        marginBottom: 5,
-        marginTop: 15,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: "#555555",
-        borderRadius: 8,
-        color: "#555555"
-    },
     buttonText: {
         fontSize: 18,
         color: "#ffffff",
@@ -85,7 +73,7 @@ class MessageDetail extends React.Component {
 
     render() {
         if (this.state.ar == 'on') {
-            return (<ARView />);
+            return (<ARView objSrc={this.props.messageDetail.message.obj.obj_file_path} />);
         }
         return (
             <Navigator

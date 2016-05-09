@@ -15,10 +15,9 @@ var styles = StyleSheet.create({
 });
 class ARView extends React.Component {
     render() {
-        console.log('AR AR AR AR render');
         return (
             <AR
-                objSrc={"assets/B275xn7S8w0M.wt3"}
+                objSrc={this.props.objSrc}
                 style={styles.mainContainer}
             />
         );
