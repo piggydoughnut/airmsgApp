@@ -13,7 +13,12 @@ export function loadUserMessages(data){
 }
 
 export function openMessage(data) {
-    return get(api.domain + "/messages/" + data.id + "?lng=" + data.location.longitude + '&lat=' + data.location.latitude, data.token);
+    console.log(data);
+    var params = '';
+    if(data.location !== undefined ){
+        params = "?lng=" + data.location.longitude + '&lat=' + data.location.latitude;
+    }
+    return get(api.domain + "/messages/" + data.id + params, data.token);
 }
 
 export function postMessage(data) {

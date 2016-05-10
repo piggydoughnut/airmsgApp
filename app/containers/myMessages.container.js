@@ -36,7 +36,7 @@ class MyMessagesContainer extends React.Component {
     }
 
     openMessage(msg) {
-        this.props.openMessage(msg, this.props.token);
+        this.props.openMessage(msg, this.props.token, null);
     }
 
     loadUserMessages(page) {
