@@ -5,6 +5,7 @@ import {bindActionCreators} from "redux";
 
 var React = require('react-native');
 var CreateMsg = require('../components/createMsg');
+var Navigation = require('../components/navigation');
 var Routes = require('../config/routes');
 var {Navigator} = React;
 
@@ -57,7 +58,7 @@ class CreateMsgContainer extends React.Component {
     }
 
     render() {
-        return (
+        var component =
             <CreateMsg
                 post={ (data) => this._postMessage(data)}
                 onImagePress={ (data) => this._onImagePress(data)}
@@ -65,6 +66,13 @@ class CreateMsgContainer extends React.Component {
                 chosen_object={this.state.chosen_object}
                 navigator={this.props.navigator}
                 error={this.state.error}
+            />;
+        var conf = {title: 'New message'};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
             />
         );
     }

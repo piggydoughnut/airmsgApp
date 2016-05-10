@@ -10,7 +10,6 @@ var {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
     Navigator,
     } = React;
 
@@ -41,20 +40,6 @@ class CreateMsg extends React.Component {
     }
 
     render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-
-        );
-    }
-
-    renderScene(route, navigator) {
         const options = [
             MESSAGE,
             OBJECT
@@ -89,24 +74,5 @@ class CreateMsg extends React.Component {
         );
     }
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Cancel
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return null;
-    },
-    Title(route, navigator, index, navState) {
-        return <Text style={s.title} >New message</Text>;
-    }
-};
 
 module.exports = CreateMsg;
