@@ -1,17 +1,9 @@
 var React = require('react-native');
+var s = require("../styles/style");
 var {
-    StyleSheet,
     Text,
     View,
     } = React;
-
-var styles = StyleSheet.create({
-    mainContainer: {
-        padding: 30,
-        marginTop: 65,
-        alignItems: 'center'
-    },
-});
 
 class Loading extends React.Component {
     constructor(props) {
@@ -20,7 +12,7 @@ class Loading extends React.Component {
 
     render() {
         return (
-            <View style={styles.mainContainer}>
+            <View style={s.mainContainer}>
                 <Text>
                     Loading...
                 </Text>
