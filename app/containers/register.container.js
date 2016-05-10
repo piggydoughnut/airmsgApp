@@ -13,6 +13,7 @@ class RegisterContainer extends React.Component {
         var c =
             <Registration
                 registerUser={(user) => this.props.registerUser(user)}
+                register={this.props.register}
             />;
         return (
             <Navigation
