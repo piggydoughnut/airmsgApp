@@ -5,9 +5,7 @@ import * as galleryActions from "../actions/gallery.actions";
 var React = require('react-native');
 var Loading = require('../components/loading');
 var ObjectGallery = require('../components/objectGallery');
-var {
-    Text
-} = React;
+var Navigation = require('../components/navigation');
 
 class ObjectGalleryContainer extends React.Component {
 
@@ -20,21 +18,35 @@ class ObjectGalleryContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.gallery.hasOwnProperty('gallery')){
+        if (nextProps.gallery.hasOwnProperty('gallery')) {
             this.setState({data: nextProps.gallery.gallery});
         }
     }
 
     render() {
-        if(!this.state.data){
+        if (!this.state.data) {
             return (<Loading />)
         }
-        return (
+        var left = {
+            fn: () => {
+                this.props.navigator.pop()
+            },
+            text: 'Back'
+        };
+        var component =
             <ObjectGallery
                 data={this.state.data}
                 chooseGalleryObject={(path) => this.props.chooseGalleryObject(path)}
                 navigator={this.props.navigator}
             />
+        var conf = {left: left, title: 'Gallery'};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
+            />
+
         );
     }
 

@@ -8,9 +8,7 @@ var {
     ListView,
     Text,
     Image,
-    Navigator,
     TouchableOpacity,
-    TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -45,21 +43,6 @@ var styles = StyleSheet.create({
         marginTop: 5,
         fontWeight: 'bold'
     },
-    button: {
-        width: 80,
-        height: 36,
-        flex: 1,
-        backgroundColor: "#90C3D4",
-        borderColor: "#555555",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 10,
-        justifyContent: "center"
-    },
-    buttonText: {
-        color: "#ffffff",
-        alignSelf: "center"
-    },
     message: {
         alignItems: 'center',
         margin: 65,
@@ -80,7 +63,7 @@ class ObjectGallery extends React.Component {
 
     }
 
-    pressedThumb(obj){
+    pressedThumb(obj) {
         this.props.chooseGalleryObject(obj);
         this.props.navigator.pop();
     }
@@ -96,21 +79,7 @@ class ObjectGallery extends React.Component {
     }
 
     render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-
-        );
-    }
-
-    renderScene() {
-        if(this.props.data.total == 0) {
+        if (this.props.data.total == 0) {
             return (
                 <Text style={styles.message}> You have no objects in your object gallery. Please visit http://airWeb.com
                     for more info.</Text>
@@ -146,31 +115,9 @@ class Thumb extends React.Component {
                         <Text>{this.props.data.filename}</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableHighlight style={styles.button}>
-                    <Text style={styles.buttonText}>Preview</Text>
-                </TouchableHighlight>
             </View>
         );
     }
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return null;
-    },
-    Title(route, navigator, index, navState) {
-        return null;
-    }
-};
 
 module.exports = ObjectGallery;
