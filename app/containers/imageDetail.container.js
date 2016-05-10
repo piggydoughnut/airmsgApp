@@ -1,6 +1,7 @@
-var React = require('react-native');
 import {connect} from "react-redux";
 
+var React = require('react-native');
+var Navigation = require('../components/navigation');
 var ImageDetail = require('../components/imageDetail');
 
 class ImageDetailContainer extends React.Component {
@@ -9,10 +10,17 @@ class ImageDetailContainer extends React.Component {
     }
     
     render() {
-        return (
+        var component =
             <ImageDetail
                 image={this.props.image}
                 navigator={this.props.navigator}
+            />;
+        var conf = {title: 'Detail'};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
             />
         );
     }

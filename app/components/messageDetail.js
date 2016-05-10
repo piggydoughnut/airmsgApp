@@ -88,10 +88,10 @@ class MessageDetail extends React.Component {
 
         return (
             <ScrollView style={styles.mainContainer}>
+                <Text style={styles.signature}> {msg.user.username} on {getFormattedDateYMD(msg.created_at)} {"\n"}</Text>
                 <TouchableOpacity onPress={ () => this.props.onImagePress(msg.file.data)}>
                     { image }
                 </TouchableOpacity>
-                <Text style={styles.signature}> {msg.user.username} on {getFormattedDateYMD(msg.created_at)} {"\n"}</Text>
 
                 <Text style={styles.message}>{msg.text}{"\n"}</Text>
 
