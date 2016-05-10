@@ -27,26 +27,19 @@ class ObjectGalleryContainer extends React.Component {
         if (!this.state.data) {
             return (<Loading />)
         }
-        var left = {
-            fn: () => {
-                this.props.navigator.pop()
-            },
-            text: 'Back'
-        };
         var component =
             <ObjectGallery
                 data={this.state.data}
                 chooseGalleryObject={(path) => this.props.chooseGalleryObject(path)}
                 navigator={this.props.navigator}
             />
-        var conf = {left: left, title: 'Gallery'};
+        var conf = {title: 'Gallery'};
         return (
             <Navigation
                 component={component}
                 navigator={this.props.navigator}
                 conf={conf}
             />
-
         );
     }
 

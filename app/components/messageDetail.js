@@ -10,11 +10,9 @@ var {
     ScrollView,
     Text,
     StyleSheet,
-    Navigator,
     TouchableOpacity,
     TouchableHighlight,
     Image,
-    View
 } = React;
 
 
@@ -77,19 +75,6 @@ class MessageDetail extends React.Component {
         if (this.state.ar == 'on') {
             return (<ARView objSrc={this.props.messageDetail.message.obj.obj_file_path} />);
         }
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-        );
-    }
-
-    renderScene(route, navigator) {
         var msg = this.props.messageDetail.message;
         var objectButton = null;
         if (msg.object) {
@@ -119,23 +104,4 @@ class MessageDetail extends React.Component {
         );
     }
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return null;
-    },
-    Title(route, navigator, index, navState) {
-        return <Text style={{color:'white', margin: 10}} >Detail</Text>;
-    }
-};
 module.exports = MessageDetail;

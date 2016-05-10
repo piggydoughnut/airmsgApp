@@ -51,12 +51,6 @@ class MyMessagesContainer extends React.Component {
         if (this.state.loading) {
             return <Loading />;
         }
-        var left = {
-            fn: () => {
-                this.props.navigator.pop()
-            },
-            text: 'Back'
-        };
         var component =
             <MyMessages
                 userMessages={this.state.userMessages}
@@ -64,7 +58,7 @@ class MyMessagesContainer extends React.Component {
                 loadUserMessages={(page) => this.loadUserMessages(page)}
                 showDetail={(msg) => this.openMessage(msg)}
             />
-        var conf = {left: left, title: 'My messages'};
+        var conf = {title: 'My messages'};
         return (
             <Navigation
                 component={component}

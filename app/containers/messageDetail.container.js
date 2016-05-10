@@ -5,7 +5,8 @@ import * as messageActions from "../actions/messages.actions";
 
 var React = require('react-native');
 var MessageDetail = require('../components/messageDetail');
-var Routes = require('../config/routes');
+var Routes = require('../config/routes');;
+var Navigation = require('../components/navigation');
 
 class MessageDetailContainer extends React.Component {
     constructor(props) {
@@ -33,12 +34,18 @@ class MessageDetailContainer extends React.Component {
         if (detail === undefined) {
             detail = this.props.messageDetail;
         }
-        console.log(detail);
-        return (
+        var component =
             <MessageDetail
                 messageDetail={detail}
                 navigator={this.props.navigator}
                 onImagePress={ (img) => this._onImagePress(img)}
+            />;
+        var conf = {title: 'Detail'};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
             />
         );
     }
