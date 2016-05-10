@@ -9,10 +9,8 @@ var s = require('../styles/style');
 
 var {
     StyleSheet,
-    Text,
     ListView,
     View,
-    Navigator,
     TouchableOpacity
 } = React;
 
@@ -80,19 +78,6 @@ class MyMessages extends React.Component {
         return this.state.loadedAll;
     }
 
-    render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={s.navigator}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-        );
-    }
-
     renderRow(message) {
         return <MessageRow
             row={message}
@@ -107,7 +92,7 @@ class MyMessages extends React.Component {
         );
     }
 
-    renderScene(route, navigator) {
+    render() {
         return (
             <RefreshInfiniteListView
                 ref={(list) => {this.list = list}}
@@ -148,24 +133,5 @@ class MessageRow extends React.Component {
     }
 }
 
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Back
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return null;
-    },
-    Title(route, navigator, index, navState) {
-        return <Text style={s.title}>My messages</Text>;
-    }
-};
 
 module.exports = MyMessages;

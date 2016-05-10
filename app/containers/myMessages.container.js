@@ -5,6 +5,7 @@ var React = require('react-native');
 var MyMessages = require('../components/myMessages');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
+var Navigation = require('../components/navigation');
 
 class MyMessagesContainer extends React.Component {
 
@@ -50,12 +51,25 @@ class MyMessagesContainer extends React.Component {
         if (this.state.loading) {
             return <Loading />;
         }
-        return (
+        var left = {
+            fn: () => {
+                this.props.navigator.pop()
+            },
+            text: 'Back'
+        };
+        var component =
             <MyMessages
                 userMessages={this.state.userMessages}
                 navigator={this.props.navigator}
                 loadUserMessages={(page) => this.loadUserMessages(page)}
                 showDetail={(msg) => this.openMessage(msg)}
+            />
+        var conf = {left: left, title: 'My messages'};
+        return (
+            <Navigation
+                component={component}
+                navigator={this.props.navigator}
+                conf={conf}
             />
         );
     }
