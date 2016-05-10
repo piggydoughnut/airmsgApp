@@ -101,7 +101,7 @@ class MainContainer extends React.Component {
                     style={styles.picture}
                     source={require('../../public/img/bottle-message.png')}
                 />
-                <Text style={styles.error}> {this.state.error}</Text>
+                <Text style={styles.error}> {this.props.error}</Text>
                 <TextInput
                     placeholder="Username"
                     onChange={(event) => this.setState({username: event.nativeEvent.text})}
