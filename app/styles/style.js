@@ -8,8 +8,10 @@ var {
 
 module.exports = StyleSheet.create({
 
-    container: {
-
+    mainContainerCenter: {
+        padding: 30,
+        marginTop: 65,
+        alignItems: 'center'
     },
     navigator: {
         backgroundColor: '#484691'
@@ -35,6 +37,18 @@ module.exports = StyleSheet.create({
     },
     textInput: {
         height: 70,
+        padding: 10,
+        marginRight: 5,
+        marginBottom: 5,
+        marginTop: 15,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: "#555555",
+        borderRadius: 8,
+        color: "#555555"
+    },    
+    postInput: {
+        height: 100,
         padding: 10,
         marginRight: 5,
         marginBottom: 5,
@@ -77,5 +91,14 @@ module.exports = StyleSheet.create({
     title: {
         color:'white',
         margin: 13
+    },
+    inline: {
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        flexDirection: 'row'
+    },
+    center: {
+        alignSelf: "center",
+        justifyContent: "center",
     }
 });

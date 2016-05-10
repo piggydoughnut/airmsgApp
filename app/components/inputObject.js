@@ -13,38 +13,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-    mainContainer: {
-        padding: 0,
-        marginTop: 30,
-        alignItems: 'center'
-    },
-    formInput: {
-        height: 100,
-        padding: 10,
-        marginRight: 5,
-        marginBottom: 5,
-        marginTop: 15,
-        flex: 1,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: "#555555",
-        borderRadius: 8,
-        color: "#555555"
-    },
-    buttonText: {
-        fontSize: 18,
-        color: "#ffffff",
-        alignSelf: "center"
-    },
-    button: {
-        height: 36,
-        backgroundColor: "#9090c4",
-        borderColor: "#9090c4",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 10,
-        justifyContent: "center"
-    },
     picture: {
         width: 200,
         height: 180
@@ -89,14 +57,14 @@ class InputObject extends React.Component {
     render() {
         var source = (this.props.chosenObject !== undefined && this.props.chosenObject !== null) ? {uri: api.domain + this.props.chosenObject.thumb_file_path} : require('../../public/cube.png');
         return (
-            <ScrollView style={styles.messageContainer}>
+            <ScrollView>
                 <Text style={s.error}>{ this.state.validation }</Text>
                 <TextInput
                     multiline={true}
                     required={true}
                     placeholder="your message..."
                     onChange={(event) => this.setState({message: event.nativeEvent.text})}
-                    style={styles.formInput}
+                    style={s.postInput}
                     value={this.state.message}/>
 
                 <TouchableOpacity onPress={() => this.props.onAddObject()} style={styles.camera}>
@@ -112,7 +80,7 @@ class InputObject extends React.Component {
                 <Text> {this.state.value} </Text>
 
 
-                <TouchableHighlight onPress={() => this._onPress()} style={styles.button}>
+                <TouchableHighlight onPress={() => this._onPress()} style={s.simpleButtonStretch}>
                     <Text style={s.buttonText}>Save</Text>
                 </TouchableHighlight>
             </ScrollView>

@@ -16,11 +16,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-    mainContainer: {
-        padding: 30,
-        marginTop: 65,
-        alignItems: 'center'
-    },
     picture: {
         width: 250,
         height: 250,
@@ -159,7 +154,7 @@ class EditProfile extends React.Component {
             source = require('../../public/user.png');
         }
         return (
-            <View style={styles.mainContainer}>
+            <View style={s.mainContainerCenter}>
 
 
                 <TouchableOpacity onPress={() => this._addImage()}>

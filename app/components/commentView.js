@@ -35,15 +35,6 @@ var styles = StyleSheet.create({
     },
     loadMore: {
         alignSelf: "center"
-    },
-    inline: {
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        flexDirection: 'row'
-    },
-    center: {
-        alignSelf: "center",
-        justifyContent: "center",
     }
 });
 
