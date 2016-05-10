@@ -11,6 +11,7 @@ var Loading = require('../components/loading');
 var Routes = require('../config/routes');
 var Config = require('../config/api');
 var Navigation = require('../components/navigation');
+var Errors = require('../config/errors');
 
 var geolib = require('geolib/dist/geolib');
 
@@ -57,10 +58,11 @@ class MessageMapContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        this.setState({error: null});
         if (typeof nextProps.messages.messages != 'undefined' &&
             nextProps.messages.messages.hasOwnProperty('docs') &&
             nextProps.messages.messages.docs.length != this.state.markers.length) {
-            this.setState({
+            return this.setState({
                 markers: nextProps.messages.messages.docs,
                 error: null
             });
@@ -68,7 +70,11 @@ class MessageMapContainer extends React.Component {
         if (nextProps.messages !== undefined &&
             nextProps.messages.hasOwnProperty('error')
         ) {
-            this.setState({error: nextProps.messages.error});
+            var errText = Error.unknownErr;
+            if(nextProps.messages.error.hasOwnProperty('errors') && nextProps.messages.error.errors !== undefined) {
+                errText = nextProps.messages.error.errors;
+            }
+            return this.setState({error: errText});
         }
         /**
          * There are is one state in which we show messageDetail -> mount a new view
@@ -104,7 +110,7 @@ class MessageMapContainer extends React.Component {
                 this.props.updateLocation(position.coords);
                 this.props.loadMessages(position.coords, this.props.token.access_token);
             },
-            (error) => alert(error.message),
+            (error) => console.log(error),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
         );
         this.watchID = navigator.geolocation.watchPosition((position) => {
@@ -113,19 +119,16 @@ class MessageMapContainer extends React.Component {
     }
 
     render() {
-        if (this.state.error) {
-            React.AlertIOS.alert(
-                'Error',
-                this.state.error
-            );
-        }
         if (this.state.markers.length == 0 && this.state.messages == undefined) {
             return ( <Loading />);
         }
 
         var left = {
             fn: () => {
-                this.setState({open: !this.state.open});
+                this.setState({
+                    error: null,
+                    open: !this.state.open
+                });
 
             },
             text: 'Menu'
@@ -145,7 +148,7 @@ class MessageMapContainer extends React.Component {
                 updateMarkers={ () => this._getMarkers}
                 detailPage={(msg) => this._openMessage(msg)}
                 navigator={this.props.navigator}
-                error={this.props.messages.error}
+                error={this.state.error}
             />
 
         var conf = {right: right, left: left, component: component, title: 'The map'};

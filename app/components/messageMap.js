@@ -10,6 +10,7 @@ var {
     View,
     StyleSheet,
     PropTypes,
+    AlertIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -75,6 +76,12 @@ class MessageMap extends React.Component {
     }
 
     render() {
+        if (this.props.error) {
+            React.AlertIOS.alert(
+                'Error',
+                this.props.error
+            );
+        }
         const menu = <Menu navigator={this.props.navigator}/>;
         return (
             <SideMenu menu={menu} isOpen={this.props.openMenu}>

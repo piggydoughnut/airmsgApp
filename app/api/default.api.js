@@ -43,6 +43,23 @@ export function put(url, token, data) {
     return request(url, 'PUT', token, data);
 }
 
+export function process400Errors(response) {
+    var bodyText = JSON.parse(response._bodyText);
+    // validation errors from mongo
+    if (bodyText.errors !== undefined) {
+        return {
+            status: 400,
+            errors: bodyText.errors
+        }
+    }
+    if (bodyText === "Far") {
+        return {
+            status: 400,
+            errors: "You must be maximum 2 meters away from the message to read it."
+
+        }
+    }
+}
 export function request(url, method, token, data) {
     var request_body = {
         method: method,
@@ -63,10 +80,7 @@ export function request(url, method, token, data) {
                 }
             }
             if (response.status == 400) {
-                return {
-                    status: response.status,
-                    errors: JSON.parse(response._bodyText).errors
-                }
+                return process400Errors(response);
             }
             return response.json();
         })
