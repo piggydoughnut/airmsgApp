@@ -45,12 +45,13 @@ export function loadUserMessages(id, token, page = 1) {
     }
 }
 
-export function openMessage(msg, token) {
+export function openMessage(msg, token, location) {
     return {
         type: MESSAGE_OPEN,
         payload: {
             id: msg._id,
-            token: token
+            token: token,
+            location: location
         }
     }
 }

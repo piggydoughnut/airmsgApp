@@ -86,7 +86,7 @@ class MessageMapContainer extends React.Component {
     }
 
     _openMessage(msg) {
-        this.props.openMessage(msg, this.props.token.access_token);
+        this.props.openMessage(msg, this.props.token.access_token, this.props.location);
     }
 
     _getMarkers() {
@@ -163,7 +163,8 @@ class MessageMapContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messages: store.messages,
-        token: store.user.tokenInfo
+        token: store.user.tokenInfo,
+        location: store.location,
     };
 };
 

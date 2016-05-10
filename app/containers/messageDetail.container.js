@@ -46,7 +46,8 @@ class MessageDetailContainer extends React.Component {
 const mapStateToProps = (store) => {
     return {
         messageDetail: store.messages.messageDetail,
-        messageDetailPersonal: store.user.messageDetail
+        messageDetailPersonal: store.user.messageDetail,
+        location: store.location
     };
 };
 
