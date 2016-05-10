@@ -14,7 +14,7 @@ class MyMessagesContainer extends React.Component {
         this.state = {
             userMessages: [],
             loading: true
-        }
+        };
         this.props.loadUserMessages(this.props.user._id, this.props.token);
     }
 

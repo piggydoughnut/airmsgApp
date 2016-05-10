@@ -38,7 +38,7 @@ class ProfileContainer extends React.Component {
             left = {
                 fn: () => { this.setState({edit:false}) },
                 text: 'Cancel'
-            }
+            };
             component =
                 <ProfileEdit
                     user={this.props.user}

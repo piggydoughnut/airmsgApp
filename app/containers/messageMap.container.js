@@ -6,7 +6,6 @@ import * as locationActions from "../actions/location.actions";
 
 var React = require('react-native');
 var MessageMap = require('../components/messageMap');
-var Error = require('../components/error');
 var Loading = require('../components/loading');
 var Routes = require('../config/routes');
 var Config = require('../config/api');
@@ -70,7 +69,7 @@ class MessageMapContainer extends React.Component {
         if (nextProps.messages !== undefined &&
             nextProps.messages.hasOwnProperty('error')
         ) {
-            var errText = Error.unknownErr;
+            var errText = Errors.unknownErr;
             if(nextProps.messages.error.hasOwnProperty('errors') && nextProps.messages.error.errors !== undefined) {
                 errText = nextProps.messages.error.errors;
             }

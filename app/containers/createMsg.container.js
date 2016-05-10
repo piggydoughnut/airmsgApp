@@ -7,7 +7,6 @@ var React = require('react-native');
 var CreateMsg = require('../components/createMsg');
 var Navigation = require('../components/navigation');
 var Routes = require('../config/routes');
-var {Navigator} = React;
 
 class CreateMsgContainer extends React.Component {
     constructor(props) {

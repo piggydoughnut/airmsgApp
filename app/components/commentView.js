@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getFormattedDateYMDHM} from "../util/dateFormatting";
 
+var s = require("../styles/style");
 var React = require('react-native');
 var {
     View,
@@ -22,33 +23,6 @@ var styles = StyleSheet.create({
     message: {
         fontSize: 14,
         color: 'green'
-    },
-    formInput: {
-        height: 70,
-        padding: 10,
-        marginRight: 5,
-        marginBottom: 5,
-        marginTop: 15,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: "#555555",
-        borderRadius: 8,
-        color: "#555555"
-    },
-    button: {
-        height: 36,
-        flex: 1,
-        backgroundColor: "#555555",
-        borderColor: "#555555",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 10,
-        justifyContent: "center",
-    },
-    buttonText: {
-        fontSize: 18,
-        color: "#ffffff",
-        alignSelf: "center"
     },
     comment: {
         paddingTop: 20
@@ -142,10 +116,10 @@ class CommentView extends React.Component {
                     multiline={true}
                     placeholder="Write a comment"
                     onChange={(event) => this.setState({comment: event.nativeEvent.text})}
-                    style={styles.formInput}
+                    style={s.textInput}
                 />
-                <TouchableHighlight style={styles.button} onPress={() => this._sendComment()}>
-                    <Text style={styles.buttonText}>Post</Text>
+                <TouchableHighlight style={s.simpleButtonStretch} onPress={() => this._sendComment()}>
+                    <Text style={s.buttonText}>Post</Text>
                 </TouchableHighlight>
             </View>
         );
