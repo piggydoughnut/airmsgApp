@@ -1,8 +1,7 @@
 var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
 var AutoComplete = require('react-native-autocomplete');
 var Countries = require('../../public/countries.json');
-import {validateEmail, parseValidationErr} from "../util/validation";
+import {validateEmail} from "../util/validation";
 var s = require('../styles/style');
 
 var {
@@ -86,20 +85,6 @@ class EditProfile extends React.Component {
         });
     }
 
-    render() {
-        return (
-            <Navigator
-                renderScene={this.renderScene.bind(this)}
-                navigator={this.props.navigator}
-                navigationBar={
-                    <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
-                        routeMapper={NavigationBarRouteMapper} />
-                    }
-            />
-
-        );
-    }
-
     _saveUser() {
         this.setState({error: ''});
         if (this.state.email) {
@@ -146,7 +131,7 @@ class EditProfile extends React.Component {
         });
     }
 
-    renderScene(route, navigator) {
+    render(route, navigator) {
         var source = '';
         if (this.state.image != undefined) {
             source = {uri: this.state.image.data};
@@ -163,11 +148,13 @@ class EditProfile extends React.Component {
 
                 <Text style={s.error}>{this.state.error}</Text>
                 <TextInput
+                    className="email"
                     style={s.formInput}
                     value={this.state.email}
                     onChange={(event) => this.setState({email: event.nativeEvent.text})}
                 />
                 <TextInput
+                    className="password"
                     style={s.formInput}
                     placeholder={"***************"}
                     secureTextEntry={true}
@@ -175,6 +162,7 @@ class EditProfile extends React.Component {
                 />
 
                 <AutoComplete
+                    className="country"
                     onTyping={this.onTyping.bind(this)}
                     onSelect={(e) => this.setState({country: e})}
                     suggestions={this.state.data}
@@ -213,28 +201,5 @@ class EditProfile extends React.Component {
         );
     }
 }
-
-var NavigationBarRouteMapper = {
-    LeftButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-                <Text style={{color: 'white', margin: 10}}>
-                    Cancel
-                </Text>
-            </TouchableOpacity>
-        );
-    },
-    RightButton(route, navigator, index, navState) {
-        return (
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-                              onPress={() => navigator.parentNavigator.pop()}>
-            </TouchableOpacity>
-        );
-    },
-    Title(route, navigator, index, navState) {
-        return null;
-    }
-};
 
 module.exports = EditProfile;
