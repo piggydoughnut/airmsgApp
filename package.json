@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js"
+    "test": "mocha --require react-native-mock/mock.js test/setup/mock.js --compilers js:babel-core/register test/setup/compiler.js --recursive test/*.js"
   },
   "dependencies": {
     "@remobile/react-native-refresh-infinite-listview": "^1.0.3",
     "babel-core": "^6.8.0",
+    "babel-preset-react-native": "^1.8.0",
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "geolib": "^2.0.20",
     "react-native": "^0.20.0",
     "react-native-autocomplete": "^0.1.3",

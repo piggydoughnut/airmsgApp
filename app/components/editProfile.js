@@ -12,6 +12,7 @@ var {
     TouchableOpacity,
     Image,
     TextInput,
+    NativeModules
 } = React;
 
 var styles = StyleSheet.create({
@@ -37,7 +38,7 @@ var styles = StyleSheet.create({
     }
 });
 
-var ImagePickerManager = require('NativeModules').ImagePickerManager;
+var ImagePickerManager = NativeModules.ImagePickerManager;
 var options = {
     title: null, // specify null or empty string to remove the title
     cancelButtonTitle: 'Cancel',
@@ -151,14 +152,14 @@ class EditProfile extends React.Component {
                     className="email"
                     style={s.formInput}
                     value={this.state.email}
-                    onChange={(event) => this.setState({email: event.nativeEvent.text})}
+                    onChangeText={(text) => this.setState({email: text})}
                 />
                 <TextInput
                     className="password"
                     style={s.formInput}
                     placeholder={"***************"}
                     secureTextEntry={true}
-                    onChange={(event) => this.setState({password: event.nativeEvent.text})}
+                    onChangeText={(text) => this.setState({password: text})}
                 />
 
                 <AutoComplete
@@ -194,7 +195,7 @@ class EditProfile extends React.Component {
                     autoCompleteTableCellTextColor={'gray'}
                 />
 
-                <TouchableOpacity onPress={(this._saveUser.bind(this))} style={s.simpleButton}>
+                <TouchableOpacity className="button" onPress={(this._saveUser.bind(this))} style={s.simpleButton}>
                     <Text style={s.buttonText}>Save</Text>
                 </TouchableOpacity>
             </View>
