@@ -1,6 +1,6 @@
 # GPS pinned messaging application
 
-Heavily in development. 
+Deprecated. Stopped dev.
 
 With this IOS application you can leave text messages or 3D objects pinned to your current location.
 
